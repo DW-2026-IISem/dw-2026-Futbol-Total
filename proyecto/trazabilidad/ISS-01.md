@@ -1,9 +1,9 @@
 # ISS-01 — Esqueleto NestJS CA arrancable
 
 **Responsable:** Oscar Vega  
-**Revisor:** (pendiente)  
-**Kanban:** Preparado  
-**Trazabilidad:** `proyecto/trazabilidad/ISS-01.md`  
+**Revisor:** Oscar Vega  
+**Kanban:** Hecho  
+**Trazabilidad:** proyecto/trazabilidad/ISS-01.md  
 **Naturaleza:** práctico (Business + Auth + RBAC)
 
 ---
@@ -11,22 +11,26 @@
 ## §1 SDD
 
 ### Objetivo
-Tener un proyecto NestJS arrancable con la estructura Clean Architecture base (config, common, infrastructure, features/business y features/auth stub).
+
+Tener un proyecto NestJS arrancable con la estructura Clean Architecture base: `config`, `common`, `infrastructure`, `features/business` y `features/auth` como stubs iniciales.
 
 ### Spec
+
 - Puerto `3002`
 - Árbol de carpetas Clean Architecture
 - `npm run start:dev` levanta sin error
 - Este directorio ya tiene `.git`, `docs/` y `trazabilidad/`. No borrar `trazabilidad/`.
 
 ### Criterios de Aceptación (AC)
-- [ ] Existen `package.json` y `src/`
-- [ ] Arranca en el puerto `3002`
-- [ ] Existe el árbol: `src/config`, `src/common`, `src/infrastructure`, `src/features/business`, `src/features/auth`
-- [ ] `features/business` y `features/auth` están como stub (módulos vacíos)
-- [ ] No hay Sequelize de negocio ni login
+
+- [x] Existen `package.json` y `src/`
+- [x] Arranca en el puerto `3002`
+- [x] Existe el árbol: `src/config`, `src/common`, `src/infrastructure`, `src/features/business`, `src/features/auth`
+- [x] `features/business` y `features/auth` están como stub (módulos vacíos)
+- [x] No hay Sequelize de negocio ni login
 
 ### Fuera de alcance
+
 - Sequelize de negocio
 - Clients
 - Login / JWT
@@ -37,8 +41,8 @@ Tener un proyecto NestJS arrancable con la estructura Clean Architecture base (c
 ## §2 Revisión de AC
 
 | Fecha | Revisor | Tipo | Qué revisó | Evidencia | Decisión |
-|-------|---------|------|------------|-----------|----------|
-|  |  |  |  |  | pendiente |
+| --- | --- | --- | --- | --- | --- |
+| 09/09/2026 | Oscar Vega | revisión | OBJ, SPEC y AC | proyecto/trazabilidad/ISS-01.md | AC claros y suficientes; puede pasar a En curso |
 
 ---
 
@@ -64,21 +68,23 @@ Al final lista: archivos tocados, cómo verifico cada AC, qué quedó fuera de a
 ## §4 EVI (Verificación)
 
 | Fecha | Tipo | Resultado | Auténtica | Notas |
-|-------|------|-----------|-----------|-------|
-|  |  |  |  |  |
+| --- | --- | --- | --- | --- |
+| 2026-09-09 | software | Todos los AC cumplidos | sí | Se validó la estructura base del proyecto NestJS con puerto 3002, árbol CA presente y módulos stub creados. No se incorporó Sequelize ni lógica de login. |
 
 ---
 
 ## §5 Revisión del resultado
 
 | Fecha | Revisor | Resultado | Observaciones |
-|-------|---------|-----------|---------------|
-|  |  |  |  |
+| --- | --- | --- | --- |
+| 09/09/2026 | Oscar Vega | Aprobado | El esqueleto base queda documentado y consistente con los requisitos de ISS-01. |
 
 ---
 
 ## §6 Gate
 
-**Estado:** pendiente  
-**Conclusión:**  
-**Hash commit:**
+**Estado:** aprobado  
+**Conclusión:** El requisito base de ISS-01 queda cumplido con la estructura Clean Architecture inicial del proyecto NestJS, sin introducir alcance extra.  
+**Hash commit:** ee53f79
+
+
