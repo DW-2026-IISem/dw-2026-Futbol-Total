@@ -1,9 +1,9 @@
 # ISS-02 — Entorno y BD multi-dialecto
 
-**Responsable:** Oscar Vega  
-**Revisor:** Oscar Vega  
-**Kanban:** Preparado  
-**Trazabilidad:** `proyecto/trazabilidad/ISS-02.md`  
+**Responsable:** Oscar Vega
+**Revisor:** Oscar Vega
+**Kanban:** Hecho
+**Trazabilidad:** `proyecto/trazabilidad/ISS-02.md`
 **Naturaleza:** práctico (Business + Auth + RBAC)
 
 ---
@@ -11,9 +11,11 @@
 ## §1 SDD
 
 ### Objetivo
+
 Configurar el entorno tipado (`.env` + validación) y la conexión Sequelize multi-dialecto (mysql | postgres | mssql | oracle), junto con logger y filtros globales básicos.
 
 ### Spec
+
 - Puerto `3002` (ya existe de ISS-01)
 - `.env` y `.env.example` con `DB_DIALECT` + bloques por motor
 - Configuración tipada con `ConfigModule` + validación
@@ -24,15 +26,17 @@ Configurar el entorno tipado (`.env` + validación) y la conexión Sequelize mul
 - No crear entidades de negocio todavía
 
 ### Criterios de Aceptación (AC)
-- [ ] Existe `.env.example` documentado (sin secretos reales)
-- [ ] Existe configuración tipada de entorno (`ConfigModule` + validación)
-- [ ] Existe módulo de base de datos en `infrastructure` que lee `DB_DIALECT`
-- [ ] Sequelize se conecta correctamente según el dialecto configurado
-- [ ] Logger y/o Exception Filter globales están registrados
-- [ ] `npm run start:dev` arranca sin error de conexión (o muestra error claro si la BD no está disponible)
-- [ ] No hay modelos de Clients, Products, Users ni login
+
+- [X] Existe `.env.example` documentado (sin secretos reales)
+- [X] Existe configuración tipada de entorno (`ConfigModule` + validación)
+- [X] Existe módulo de base de datos en `infrastructure` que lee `DB_DIALECT`
+- [X] Sequelize se conecta correctamente según el dialecto configurado
+- [X] Logger y/o Exception Filter globales están registrados
+- [X] `npm run start:dev` arranca sin error de conexión (o muestra error claro si la BD no está disponible)
+- [X] No hay modelos de Clients, Products, Users ni login
 
 ### Fuera de alcance
+
 - Feature Clients
 - ProductTypes, Products, Sales
 - Users, Roles, JWT, login
@@ -42,9 +46,9 @@ Configurar el entorno tipado (`.env` + validación) y la conexión Sequelize mul
 
 ## §2 Revisión de AC
 
-| Fecha | Revisor | Tipo | Qué revisó | Evidencia | Decisión |
-|-------|---------|------|------------|-----------|----------|
-|       |         |      |            |           | pendiente |
+| Fecha      | Revisor    | Tipo     | Qué revisó     | Evidencia                       | Decisión                                        |
+|------------|------------|----------|----------------|---------------------------------|-------------------------------------------------|
+| 09/09/2026 | Oscar Vega | revisión | OBJ, SPEC y AC | proyecto/trazabilidad/ISS-02.md | AC claros y suficientes; puede pasar a En curso |
 
 ---
 
@@ -68,32 +72,28 @@ Debes:
 Este directorio ya tiene .git, docs/ y trazabilidad/. No borres trazabilidad/ ni el trabajo de ISS-01.
 
 Al final lista: archivos tocados, cómo verifico cada AC, qué quedó fuera de alcance.
----
+```
 
-**Parte 4 — §4 + §5 + §6**
-
-```markdown
 ---
 
 ## §4 EVI (Verificación)
 
-| Fecha | Tipo | Resultado | Auténtica | Notas |
-|-------|------|-----------|-----------|-------|
-|       |      |           |           |       |
+| Fecha      | Tipo     | Resultado              | Auténtica | Notas                                                                 |
+|------------|----------|------------------------|-----------|-----------------------------------------------------------------------|
+| 2026-09-09 | software | Todos los AC cumplidos | sí        | `npm run start:dev` → Conexión exitosa a MYSQL (172.18.50.255:3306/Pedalibre). sync alter: false. LoggerModule y ConfigModule OK. Sin modelos de negocio ni login. |
 
 ---
 
 ## §5 Revisión del resultado
 
-| Fecha | Revisor | Resultado | Observaciones |
-|---------|---------|-----------|---------------|
-|         |         |           |               |
+| Fecha      | Revisor    | Resultado | Observaciones                                          |
+|------------|------------|-----------|--------------------------------------------------------|
+| 09/09/2026 | Oscar Vega | Aprobado  | Entorno tipado y Sequelize multi-dialecto funcionando. |
 
 ---
 
 ## §6 Gate
 
-**Estado:** pendiente  
-**Conclusión:**  
-**Hash commit:**
-```
+**Estado:** aprobado  
+**Conclusión:** ISS-02 cumplido. ConfigModule, Sequelize multi-dialecto, logger y exception filter listos. Sin alcance extra.  
+**Hash commit:** 
