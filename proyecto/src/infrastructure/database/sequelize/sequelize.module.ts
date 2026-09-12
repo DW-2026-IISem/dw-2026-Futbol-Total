@@ -8,10 +8,12 @@ import {
   type EnvironmentConfig,
 } from '../../../config/environment/env.interface.js';
 import { createSequelizeInstance } from './sequelize.factory.js';
+import { DatabaseSeederService } from '../seeders/database-seeder.service.js';
 
 @Global()
 @Module({
   providers: [
+    DatabaseSeederService,
     {
       provide: SEQUELIZE_TOKEN,
       useFactory: async (

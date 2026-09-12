@@ -25,15 +25,19 @@ Configurar el entorno tipado (`.env` + validación) y la conexión Sequelize mul
 - `sync({ alter: false })` — nunca `force: true`
 - No crear entidades de negocio todavía
 
+
+
 ### Criterios de Aceptación (AC)
 
-- [X] Existe `.env.example` documentado (sin secretos reales)
-- [X] Existe configuración tipada de entorno (`ConfigModule` + validación)
-- [X] Existe módulo de base de datos en `infrastructure` que lee `DB_DIALECT`
-- [X] Sequelize se conecta correctamente según el dialecto configurado
-- [X] Logger y/o Exception Filter globales están registrados
-- [X] `npm run start:dev` arranca sin error de conexión (o muestra error claro si la BD no está disponible)
-- [X] No hay modelos de Clients, Products, Users ni login
+- [x] Existe `.env.example` documentado (sin secretos reales)
+- [x] Existe configuración tipada de entorno (`ConfigModule` + validación)
+- [x] Existe módulo de base de datos en `infrastructure` que lee `DB_DIALECT`
+- [x] Sequelize se conecta correctamente según el dialecto configurado
+- [x] Logger y/o Exception Filter globales están registrados
+- [x] `npm run start:dev` arranca sin error de conexión (o muestra error claro si la BD no está disponible)
+- [x] No hay modelos de Clients, Products, Users ni login
+
+
 
 ### Fuera de alcance
 
@@ -44,13 +48,19 @@ Configurar el entorno tipado (`.env` + validación) y la conexión Sequelize mul
 
 ---
 
+
+
 ## §2 Revisión de AC
 
+
 | Fecha      | Revisor    | Tipo     | Qué revisó     | Evidencia                       | Decisión                                        |
-|------------|------------|----------|----------------|---------------------------------|-------------------------------------------------|
+| ---------- | ---------- | -------- | -------------- | ------------------------------- | ----------------------------------------------- |
 | 09/09/2026 | Oscar Vega | revisión | OBJ, SPEC y AC | proyecto/trazabilidad/ISS-02.md | AC claros y suficientes; puede pasar a En curso |
 
+
 ---
+
+
 
 ## §3 IA usada
 
@@ -76,24 +86,34 @@ Al final lista: archivos tocados, cómo verifico cada AC, qué quedó fuera de a
 
 ---
 
+
+
 ## §4 EVI (Verificación)
 
-| Fecha      | Tipo     | Resultado              | Auténtica | Notas                                                                 |
-|------------|----------|------------------------|-----------|-----------------------------------------------------------------------|
+
+| Fecha      | Tipo     | Resultado              | Auténtica | Notas                                                                                                                                                              |
+| ---------- | -------- | ---------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 2026-09-09 | software | Todos los AC cumplidos | sí        | `npm run start:dev` → Conexión exitosa a MYSQL (172.18.50.255:3306/Pedalibre). sync alter: false. LoggerModule y ConfigModule OK. Sin modelos de negocio ni login. |
 
+
 ---
+
+
 
 ## §5 Revisión del resultado
 
+
 | Fecha      | Revisor    | Resultado | Observaciones                                          |
-|------------|------------|-----------|--------------------------------------------------------|
+| ---------- | ---------- | --------- | ------------------------------------------------------ |
 | 09/09/2026 | Oscar Vega | Aprobado  | Entorno tipado y Sequelize multi-dialecto funcionando. |
 
+
 ---
+
+
 
 ## §6 Gate
 
 **Estado:** aprobado  
 **Conclusión:** ISS-02 cumplido. ConfigModule, Sequelize multi-dialecto, logger y exception filter listos. Sin alcance extra.  
-**Hash commit:** 
+**Hash commit:** b958a54

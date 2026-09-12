@@ -2,6 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { getLoggerConfig } from './common/logger/logger.config.js';
+import { ValidationPipe } from '@nestjs/common';
 import { ENV_CONFIG_NAME } from './config/environment/env.config.js';
 import type { EnvironmentConfig } from './config/environment/env.interface.js';
 
@@ -9,6 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: getLoggerConfig().logLevels,
   });
+
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const configService = app.get(ConfigService);
   const env = configService.get<EnvironmentConfig>(ENV_CONFIG_NAME);

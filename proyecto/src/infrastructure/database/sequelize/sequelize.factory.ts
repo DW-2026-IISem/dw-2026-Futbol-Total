@@ -7,12 +7,12 @@ import {
   type DatabaseConfig,
 } from '../../../config/environment/env.interface.js';
 import { getSequelizeOptions } from './sequelize.options.js';
+import { ClientModel } from '../../../features/business/clients/infrastructure/persistence/models/client.model.js';
 
 const require = createRequire(import.meta.url);
 const logger = new Logger('Sequelize');
 
-/** Vacío a propósito: los modelos de negocio llegan en issues posteriores. */
-export const ALL_MODELS: [] = [];
+export const ALL_MODELS = [ClientModel];
 
 function loadDialectModule(dialect: DatabaseDialect): object {
   try {
