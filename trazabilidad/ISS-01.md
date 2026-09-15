@@ -2,7 +2,12 @@
 
 # ISS-01 — Esqueleto NestJS CA arrancable
 
-**Naturaleza:** práctico (desarrollo de software backend)**Issue GitHub:** `backend-nest-ia #__` (número que asigna GitHub al crear el Issue; anótalo aquí y en el cuerpo del Issue)**Responsable (desarrollador):****Revisor humano:****Dependencias:** ninguna (primer issue del proyecto)**Commit esperado:** `feat(iss-01): esqueleto NestJS CA arrancable` con `Refs #__`
+**Naturaleza:** práctico (desarrollo de software backend)  
+**Issue GitHub:** `dw-2026-Futbol-Total #1`  
+**Responsable (desarrollador):** Oscar Vega  
+**Revisor humano:** Oscar Vega  
+**Dependencias:** ninguna (primer issue del proyecto)  
+**Commit esperado:** `feat(iss-01): esqueleto NestJS CA arrancable` con `Refs #1`
 
 > El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 
@@ -29,19 +34,19 @@
 
 **AC (Dado → Cuando → Entonces; deciden el Gate):**
 
-- [X] **AC-1** Dado el workspace con `.git/`, `docs/` y `trazabilidad/`; cuando la IA termina; entonces existen `package.json` y `src/main.ts`, y `docs/` y `trazabilidad/` siguen intactos (`git status` no muestra borrados en esas carpetas).
-- [ ] **AC-2** Dado el proyecto con dependencias instaladas; cuando **el desarrollador** ejecuta `npm run start:dev`; entonces la app levanta sin error y el log muestra `Nest application successfully started` en el puerto `3002`.
-- [ ] **AC-3** Dado la app arriba; cuando se hace `GET http://localhost:3002/api/health`; entonces responde `200` con `{ "status": "ok" }`.
-- [ ] **AC-4** Dado `src/`; cuando se listan sus carpetas; entonces existen `config/`, `common/`, `infrastructure/database/`, `features/business/` y **no** existe `features/auth/`.
+- [x] **AC-1** Dado el workspace con `.git/`, `docs/` y `trazabilidad/`; cuando la IA termina; entonces existen `package.json` y `src/main.ts`, y `docs/` y `trazabilidad/` siguen intactos (`git status` no muestra borrados en esas carpetas).
+- [x] **AC-2** Dado el proyecto con dependencias instaladas; cuando **el desarrollador** ejecuta `npm run start:dev`; entonces la app levanta sin error y el log muestra `Nest application successfully started` en el puerto `3002`.
+- [x] **AC-3** Dado la app arriba; cuando se hace `GET http://localhost:3002/api/health`; entonces responde `200` con `{ "status": "ok" }`.
+- [x] **AC-4** Dado `src/`; cuando se listan sus carpetas; entonces existen `config/`, `common/`, `infrastructure/database/`, `features/business/` y **no** existe `features/auth/`.
 
 **Checklist interno (lo ejecuta la IA en En curso; no sale al tablero):**
 
-- [ ] Generar Nest sin borrar `.git`, `docs/`, `trazabilidad/`
-- [ ] Árbol CA de la pista
-- [ ] `main.ts`: prefijo `/api`, CORS, `ValidationPipe`, puerto
-- [ ] `GET /api/health`
-- [ ] `scripts/free-port.js` + scripts npm
-- [ ] `.gitignore`
+- [x] Generar Nest sin borrar `.git`, `docs/` ni `trazabilidad/`
+- [x] Árbol CA de la pista
+- [x] `main.ts`: prefijo `/api`, CORS, `ValidationPipe`, puerto
+- [x] `GET /api/health`
+- [x] `scripts/free-port.js` + scripts npm
+- [x] `.gitignore`
 
 ---
 
@@ -49,7 +54,7 @@
 
 | Fecha | Revisor | Actuación | AC revisados       | Evidencia consultada | Hallazgo | Decisión |
 | ----- | ------- | ---------- | ------------------ | -------------------- | -------- | --------- |
-|       |         |            | OBJ, SPEC, REQ, AC | este archivo         |          | pendiente |
+| 2026-09-15 | Oscar Vega | aporte | OBJ, SPEC, REQ, AC | trazabilidad/ISS-01.md | Criterios verificables; alcance limitado a NestJS base, sin BD ni Auth. | AC aprobados — puede En curso |
 
 Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cuál y por qué).
 
@@ -57,28 +62,46 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 ## 3. IA usada — se diligencia en **En curso**, después de enviar el prompt
 
-**Herramienta / modelo:** (pendiente — p. ej. Cursor + modelo usado)
-**Fecha:** (pendiente)
-**Prompt enviado** (copiado **tal cual** del **Paso 6 de la Parte A** del Guion):
+**Herramienta / modelo:** Cursor  
+**Fecha:** 2026-09-15  
+
+**Prompt enviado:**
 
 ```text
-(pendiente — pegar aquí el prompt exacto)
+Naturaleza: PRÁCTICO. Eres asistente SOLO de ISS-01, no del backend entero.
+
+Implementa los AC de trazabilidad/ISS-01.md siguiendo docs/Prompt.md (Clean Architecture, solo Business).
+
+Contexto del directorio: ya tiene .git/, docs/ y trazabilidad/. NO los borres ni los modifiques.
+Genera el proyecto NestJS con npm en un directorio temporal
+(nest new backend-nest-ia --skip-git --package-manager npm) y mueve su contenido a la raíz del workspace,
+fusionando .gitignore (debe incluir node_modules/, dist/, .env).
+
+Crea el árbol src/config, src/common, src/infrastructure/database, src/features/business (con business.module.ts stub).
+En main.ts: setGlobalPrefix('api'), enableCors({ origin: 'http://localhost:4200', credentials: true }), ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+listen(process.env.PORT ?? 3002). Endpoint GET /api/health → 200 { "status": "ok" }.
+Crea scripts/free-port.js y los scripts npm free:port y start:dev (free:port && nest start --watch).
+
+Prohibido: Sequelize, base de datos, .env de BD, Auth, Users, JWT Token, login. NO adelantes ISS-02.
+
+Al final entrega tres listas: archivos tocados; cómo verifico cada AC (comandos exactos); qué quedó fuera de alcance.
 ```
 
-**Ajustes o correcciones que hiciste a lo generado:** (pendiente — p. ej. «la IA usó `ng`; le pedí `nest`»)
+**Ajustes o correcciones que hiciste a lo generado:** Se generó NestJS en un directorio temporal y se trasladó al workspace. Se desactivó la observabilidad automática. Se instalaron `class-validator` y `class-transformer`; se corrigieron saltos CRLF en `scripts/free-port.js`; se añadieron `.gitkeep` para conservar carpetas vacías.
 
 ---
 
 ## 4. EVI — se diligencia en **Verificación** (después de ejecutar tú mismo)
 
-| Fecha | Tipo            | AC que demuestra | Enlace o ruta                                 | Cómo reproducir                             |
-| ----- | --------------- | ---------------- | --------------------------------------------- | -------------------------------------------- |
-|       | log de arranque | AC-2             | (pegar 3–5 líneas del log o ruta a captura) | `npm run start:dev`                        |
-|       | respuesta HTTP  | AC-3             | (pegar respuesta)                             | `curl -i http://localhost:3002/api/health` |
-|       | árbol          | AC-1, AC-4       | (salida de`ls src src/features`)            | `ls src src/features`                      |
+| Fecha | Tipo | AC que demuestra | Enlace o ruta | Cómo reproducir |
+|---|---|---|---|---|
+| 2026-09-15 | log de arranque | AC-2 | `evidencias/07-servidor-nestjs-iniciado.png` | `npm run start:dev` |
+| 2026-09-15 | respuesta HTTP | AC-3 | `evidencias/08-endpoint-health-200.png` | `curl -i http://localhost:3002/api/health` |
+| 2026-09-15 | árbol de carpetas | AC-1, AC-4 | Salida de `find src -type d \| sort`; `evidencias/06-estructura-clean-architecture.png` | `find src -type d \| sort` y `test ! -d src/features/auth && echo "OK: no existe src/features/auth"` |
 
-**Commit (hash):** pendiente — `feat(iss-01): esqueleto NestJS CA arrancable` · `Refs #__` · hecho `git push`
-**Autoevaluación de AC:** pendiente (AC-1: sí/no · AC-2: sí/no · AC-3: sí/no · AC-4: sí/no)
+**Commit (hash):** `959a4c4` — `feat(iss-01): esqueleto NestJS CA arrancable` · `Refs #1` · `git push` realizado.
+
+**Autoevaluación de AC:** AC-1: sí · AC-2: sí · AC-3: sí · AC-4: sí.
 
 ---
 
