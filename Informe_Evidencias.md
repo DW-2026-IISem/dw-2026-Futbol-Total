@@ -121,3 +121,17 @@ La primera ejecución de `git diff --cached --check` detectó saltos de línea C
 Después de convertir el script a formato LF, `git diff --cached --check` terminó sin mensajes, confirmando que no hay errores de espacios finales.
 
 Para conservar en Git las carpetas vacías de la estructura base (`src/config`, `src/common` y `src/infrastructure/database`), se añadirán archivos `.gitkeep`.
+
+## Commit técnico — ISS-01
+
+Se consolidó el esqueleto NestJS, la configuración de la API y las evidencias de verificación en el commit:
+
+```text
+959a4c4 feat(iss-01): esqueleto NestJS CA arrancable
+```
+
+El commit se envió correctamente a la rama remota `main`.
+
+### Evidencia 12 — Commit y push de ISS-01
+
+![Terminal: commit técnico ISS-01 y push exitoso](evidencias/12-commit-iss-01-push.png)
