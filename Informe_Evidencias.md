@@ -145,3 +145,29 @@ La tarjeta `ISS-01 — Esqueleto NestJS CA arrancable` se encuentra en **Revisi�
 ### Evidencia 13 — ISS-01 en revisión humana
 
 ![GitHub Project: ISS-01 en la columna revisión humana](evidencias/13-kanban-iss-01-revision-humana.png)
+
+## Cierre documental de ISS-01
+
+Se completaron los criterios de aceptación, el registro de uso de Cursor, las evidencias reproducibles y la autoevaluación en `trazabilidad/ISS-01.md`. El ajuste fue confirmado mediante un commit referenciado al Issue GitHub `#1`.
+
+### Evidencia 14 — Trazabilidad ISS-01 completada y enviada
+
+![Terminal: commit de trazabilidad ISS-01 y push exitoso](evidencias/14-trazabilidad-iss-01-completa.png)
+
+Commit: `6320a46 docs(iss-01): completar AC y evidencias` con `Refs #1`.
+
+## Verificación funcional de ISS-02
+
+Se comprobó que, después de configurar la infraestructura de entorno, base de datos y respuestas globales, el endpoint de salud continúa disponible y usa el envelope de respuesta definido para la API.
+
+### Evidencia 15 — Envelope de respuesta operativo
+
+![Terminal: endpoint health con envelope de respuesta](evidencias/15-health-envelope-iss-02.png)
+
+`GET /api/health` respondió `HTTP/1.1 200 OK` con `statusCode`, `message`, `data` y `timestamp`; el valor de salud se encuentra en `data.status`.
+
+### Evidencia 16 — Restricciones de sincronización y entorno
+
+![Terminal: validación de sync, .env ignorado y contrato multi-motor](evidencias/16-verificacion-sequelize-segura.png)
+
+La inspección confirmó una sola llamada `sync({ alter: false })`, ausencia de `force: true` y `alter: true`, exclusión de `.env` por Git y presencia de `DB_DIALECT` más los cuatro bloques de conexión en `.env.example`.
