@@ -255,3 +255,19 @@ El Issue GitHub `#5` se creó como tarea real y se ubicó en **Preparado**, desp
 ### Evidencia 26 — ISS-04 en Preparado
 
 ![GitHub Project: ISS-04 preparada](evidencias/26-kanban-iss-04-preparado.png)
+
+## Verificación funcional de ISS-04
+
+La feature ProductTypes se comprobó contra la base de datos con rutas HTTP, seeder idempotente y entidad de dominio pura.
+
+### Evidencia 27 — Arranque y rutas de ProductTypes
+
+![VS Code: Nest inicia y registra rutas ProductTypes](evidencias/27-iss-04-arranque-rutas-product-types.png)
+
+El servidor registra las rutas `GET /api/product-types`, `GET /api/product-types/:id` y `POST /api/product-types`, junto con la conexión y sincronización segura.
+
+### Evidencia 28 — Idempotencia y entidad ProductType pura
+
+![Terminal: conteo estable y entidad ProductType pura](evidencias/28-iss-04-idempotencia-y-entidad-pura.png)
+
+El conteo de `product_types` se mantuvo en `2` antes y después del reinicio; la búsqueda no encontró dependencias de NestJS/Sequelize ni `extends Model` en la entidad de dominio.
