@@ -235,3 +235,15 @@ El commit técnico fue enviado a `origin/main` con referencia al Issue `#4`.
 ![GitHub Project: ISS-03 en revisión humana](evidencias/23-kanban-iss-03-revision-humana.png)
 
 La tarjeta pasó a **Revisión humana** después de ejecutar los criterios de aceptación, registrar las EVI y hacer el push del commit técnico.
+
+### Evidencia 24 — Gate de ISS-03 registrado y enviado
+
+![Terminal: commit documental y push del Gate de ISS-03](evidencias/24-gate-iss-03-push.png)
+
+El Gate aprobado, la revisión humana y sus evidencias se registraron en el commit `7782b67` con `Refs #4`.
+
+### Evidencia 25 — ISS-03 cerrada en Kanban
+
+![GitHub Project: ISS-01, ISS-02 e ISS-03 en hecho](evidencias/25-kanban-iss-03-hecho.png)
+
+El tablero confirma que ISS-01, ISS-02 e ISS-03 están en **Hecho**, sin tarjetas pendientes en los estados intermedios.
