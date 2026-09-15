@@ -2,12 +2,7 @@
 
 # ISS-03 — Feature clients CA
 
-**Naturaleza:** práctico (desarrollo de software backend)
-**Issue GitHub:** `dw-2026-Futbol-Total #4`
-**Responsable (desarrollador):** Oscar Vega
-**Revisor humano:** Oscar Vega
-**Dependencias:** ISS-02 en **Hecho**
-**Commit esperado:** `feat(iss-03): feature clients CA` con `Refs #4`
+**Naturaleza:** práctico (desarrollo de software backend)**Issue GitHub:** `dw-2026-Futbol-Total #4`**Responsable (desarrollador):** Oscar Vega**Revisor humano:** Oscar Vega**Dependencias:** ISS-02 en **Hecho****Commit esperado:** `feat(iss-03): feature clients CA` con `Refs #4`
 
 > El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 > Este es el issue **lento**: aquí se aprende el patrón de una feature completa. Los tres siguientes lo repiten.
@@ -19,6 +14,7 @@
 **OBJ:** Al finalizar, cualquier consumidor HTTP podrá registrar y consultar clientes persistidos en `Pedalibre`, con validación de entrada, para contar con la primera feature completa que sirve de patrón a las siguientes.
 
 **SPEC (qué debe quedar):**
+
 - Feature `src/features/business/clients/` con las cuatro capas de `docs/Prompt.md` §2.
 - **Dominio:** entidad `Client` pura con los campos de `docs/Prompt.md` §4 (`id`, `name`, `address?`, `phone?`, `email?`, `status`); interfaz `IClientRepository`; excepciones `ClientNotFoundException`, `ClientEmailAlreadyExistsException`.
 - **Aplicación:** `CreateClientDto` (`name` requerido; `email` opcional con formato; `phone`, `address` opcionales), mapper, use-cases `CreateClient`, `ListClients`, `GetClientById`.
@@ -27,32 +23,35 @@
 - `ClientsModule` registrado en `BusinessModule`.
 
 **REQ (restricciones):**
+
 - La entidad de dominio **no** extiende `Model` ni importa `sequelize`/`sequelize-typescript`/`@nestjs/*`.
 - Códigos HTTP según `docs/Prompt.md` §5.
 - Sin JWT Token, Auth ni guards. No adelantar ISS-04 (ProductTypes).
 
 **AC (Dado → Cuando → Entonces; deciden el Gate):**
-- [ ] **AC-1** Dado la app arrancada y la tabla `clients` vacía; cuando corre el seeder al arrancar; entonces `GET /api/clients` responde `200` con al menos 1 cliente en `data.items` (`data.meta.total` ≥ 1), y **arrancar de nuevo no duplica** filas (mismo conteo) en la base `Pedalibre`.
-- [ ] **AC-2** Dado un payload válido `{ "name": "...", "email": "...", "phone": "...", "address": "..." }`; cuando `POST /api/clients`; entonces responde `201` con el cliente creado en `data` (con `id`) y la fila existe en la tabla `clients`.
-- [ ] **AC-3** Dado un payload sin `name` (o con un campo no permitido); cuando `POST /api/clients`; entonces responde `400` y el conteo de filas **no cambia**.
-- [ ] **AC-4** Dado un `email` ya registrado; cuando `POST /api/clients` con ese email; entonces responde `409` y no crea fila.
-- [ ] **AC-5** Dado un `id` inexistente; cuando `GET /api/clients/999999`; entonces responde `404`.
-- [ ] **AC-6** Dado `domain/entities/client.entity.ts`; cuando se inspecciona; entonces es TypeScript puro: sin decoradores de Sequelize, sin `extends Model`, sin imports de NestJS.
+
+- [X] **AC-1** Dado la app arrancada y la tabla `clients` vacía; cuando corre el seeder al arrancar; entonces `GET /api/clients` responde `200` con al menos 1 cliente en `data.items` (`data.meta.total` ≥ 1), y **arrancar de nuevo no duplica** filas (mismo conteo) en la base `Pedalibre`.
+- [X] **AC-2** Dado un payload válido `{ "name": "...", "email": "...", "phone": "...", "address": "..." }`; cuando `POST /api/clients`; entonces responde `201` con el cliente creado en `data` (con `id`) y la fila existe en la tabla `clients`.
+- [X] **AC-3** Dado un payload sin `name` (o con un campo no permitido); cuando `POST /api/clients`; entonces responde `400` y el conteo de filas **no cambia**.
+- [X] **AC-4** Dado un `email` ya registrado; cuando `POST /api/clients` con ese email; entonces responde `409` y no crea fila.
+- [X] **AC-5** Dado un `id` inexistente; cuando `GET /api/clients/999999`; entonces responde `404`.
+- [X] **AC-6** Dado `domain/entities/client.entity.ts`; cuando se inspecciona; entonces es TypeScript puro: sin decoradores de Sequelize, sin `extends Model`, sin imports de NestJS.
 
 **Checklist interno (IA, En curso):**
-- [ ] Entidad, interface, excepciones (domain)
-- [ ] DTO, mapper, use-cases (application)
-- [ ] Model, repositorio, seeder (infrastructure) + `ALL_MODELS`
-- [ ] Controller + Swagger (presentation)
-- [ ] Módulo registrado en `BusinessModule`
+
+- [X] Entidad, interface, excepciones (domain)
+- [X] DTO, mapper, use-cases (application)
+- [X] Model, repositorio, seeder (infrastructure) + `ALL_MODELS`
+- [X] Controller + Swagger (presentation)
+- [X] Módulo registrado en `BusinessModule`
 
 ---
 
 ## 2. Revisión de AC — autoriza **En curso** (la escribe el revisor al final de Preparado)
 
-| Fecha | Revisor | Actuación | AC revisados | Evidencia consultada | Hallazgo | Decisión |
-|-------|---------|-----------|--------------|----------------------|----------|----------|
-| 2026-09-15 | Oscar Vega | aporte | OBJ, SPEC, REQ, AC | trazabilidad/ISS-03.md | Se definió la primera feature completa con las capas CA, seeder idempotente y seis criterios verificables; sin Auth ni ProductTypes. | AC aprobados — puede En curso |
+| Fecha      | Revisor    | Actuación | AC revisados       | Evidencia consultada   | Hallazgo                                                                                                                              | Decisión                      |
+| ---------- | ---------- | ---------- | ------------------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+ | 2026-09-15 | Oscar Vega | aporte | OBJ, SPEC, REQ, AC | trazabilidad/ISS-03.md | Se definió la primera feature completa con las capas CA, seeder idempotente y seis criterios verificables; sin Auth ni ProductTypes. | AC aprobados — puede En curso |
 
 Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cuál y por qué).
 
@@ -98,7 +97,7 @@ Al final entrega tres listas: archivos tocados; cómo verifico cada AC (comandos
 | 2026-09-15 | respuesta HTTP 404 | AC-5 | `GET /api/clients/999999` devolvió 404 | `curl -i http://localhost:3002/api/clients/999999` |
 | 2026-09-15 | inspección de código | AC-6 | Evidencia 20: entidad sin dependencias de framework u ORM | Buscar `sequelize`, `sequelize-typescript`, `@nestjs` y `extends Model` en la entidad; sin resultados |
 
-**Commit (hash):** pendiente — `feat(iss-03): feature clients CA` · `Refs #4` · hecho `git push`
+**Commit (hash):** `0b2faad feat(iss-03): feature clients CA` con `Refs #4` y `git push` realizado.
 **Autoevaluación de AC:** AC-1: sí; AC-2: sí; AC-3: sí; AC-4: sí; AC-5: sí; AC-6: sí
 
 ---
@@ -108,15 +107,15 @@ Al final entrega tres listas: archivos tocados; cómo verifico cada AC (comandos
 Revisión **estricta** (es el patrón): el desarrollador debe **señalar y explicar** entidad, interfaz, model, use-case y controller, y decir por qué el use-case recibe `IClientRepository` y no `ClientRepository` (Sequelize). Si no puede explicarlo → **devolución**.
 
 | Fecha | Revisor | Actuación (aporte · revisión conforme · devolución) | AC revisados | Evidencia consultada | Hallazgo | Decisión |
-|-------|---------|-----------------------------------------------------|--------------|----------------------|----------|----------|
-|       |         |           |              |                      |          |          |
+| ----- | ------- | -------------------------------------------------------- | ------------ | -------------------- | -------- | --------- |
+| 2026-09-15 | Oscar Vega | revisión conforme | AC-1, AC-2, AC-3, AC-4, AC-5, AC-6 | Evidencias 20, 21, 22 y 23; build exitoso; pruebas HTTP y conteos SQL | Se inspeccionaron entidad, contrato, modelo, repositorio, casos de uso y controller. El caso de uso depende de `IClientRepository`, no de Sequelize, para conservar independencia de infraestructura. | Aprobado — puede Hecho |
 
-**Respuesta del autor (ajuste o justificación):**
+**Respuesta del autor (ajuste o justificación):** La entidad representa el dominio sin imports del ORM o framework. `IClientRepository` permite que los casos de uso dependan de una abstracción y no de `ClientRepository`/Sequelize; el modelo y repositorio son adaptadores de infraestructura, mientras el controller traduce HTTP hacia los casos de uso.
 
 ---
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
-**Conclusión:**
-**Trazabilidad final:** (hash del commit definitivo + enlace al Issue)
+**Estado:** aprobado
+**Conclusión:** ISS-03 cumple los seis criterios de aceptación. La feature Clients está separada en dominio, aplicación, infraestructura y presentación; persiste clientes con seeder idempotente y responde 200, 201, 400, 409 y 404 según el contrato.
+**Trazabilidad final:** `0b2faad feat(iss-03): feature clients CA` con `Refs #4` · Issue: `dw-2026-Futbol-Total #4`.

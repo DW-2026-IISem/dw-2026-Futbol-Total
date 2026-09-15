@@ -215,3 +215,23 @@ El conteo de `clients` se conservó en `8` antes y después del reinicio. La ins
 ![VS Code: Nest inicia y registra rutas Clients](evidencias/21-iss-03-arranque-rutas-clients.png)
 
 El servidor inicia con la conexión de datos, sincronización segura y las rutas `GET /api/clients`, `GET /api/clients/:id` y `POST /api/clients` registradas.
+
+## Commit técnico — ISS-03
+
+La feature Clients se consolidó con sus cuatro capas, el seeder idempotente y las validaciones HTTP requeridas.
+
+```text
+0b2faad feat(iss-03): feature clients CA
+```
+
+### Evidencia 22 — Commit y push de ISS-03
+
+![Terminal: commit técnico ISS-03 y push exitoso](evidencias/22-commit-iss-03-push.png)
+
+El commit técnico fue enviado a `origin/main` con referencia al Issue `#4`.
+
+### Evidencia 23 — ISS-03 en revisión humana
+
+![GitHub Project: ISS-03 en revisión humana](evidencias/23-kanban-iss-03-revision-humana.png)
+
+La tarjeta pasó a **Revisión humana** después de ejecutar los criterios de aceptación, registrar las EVI y hacer el push del commit técnico.
