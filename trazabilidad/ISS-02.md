@@ -96,7 +96,7 @@ Al final entrega tres listas: archivos tocados; cómo verifico cada AC (comandos
 | 2026-09-15 | búsqueda en código | AC-3 | `src/infrastructure/database/sequelize/sequelize.factory.ts:67` contiene `sync({ alter: false })`; no existe `force: true` ni `alter: true` | `grep -RIn "sync(" src` y búsqueda de valores prohibidos |
 | 2026-09-15 | estado de Git y contrato | AC-4 | `.gitignore:5:.env .env`; validación sin variables faltantes y `DB_DIALECT` presente en `.env.example` | `git check-ignore -v .env` y verificación de los cuatro bloques |
 
-**Commit (hash):** pendiente — se registrará después de terminar la verificación.
+**Commit (hash):** `8781fb5 feat(iss-02): entorno Sequelize y common` con `Refs #3`.
 
 **Autoevaluación de AC:** AC-1: sí · AC-2: sí · AC-3: sí · AC-4: sí.
 
@@ -108,14 +108,14 @@ Preguntas guía del revisor: abrir el factory y pedir «muéstrame dónde se eli
 
 | Fecha | Revisor | Actuación (aporte · revisión conforme · devolución) | AC revisados | Evidencia consultada | Hallazgo | Decisión |
 |-------|---------|-----------------------------------------------------|--------------|----------------------|----------|----------|
-|       |         |           |              |                      |          |          |
+| 2026-09-15 | Oscar Vega | revisión conforme | AC-1, AC-2, AC-3, AC-4 | Evidencias 15, 16 y 17; build exitoso; inspección de `sequelize.factory.ts` | Se confirmó conexión segura, fallo temprano por variable faltante, `sync({ alter: false })`, exclusión de `.env` y ausencia de funcionalidades fuera de alcance. | Aprobado — puede Hecho |
 
-**Respuesta del autor (ajuste o justificación):**
+**Respuesta del autor (ajuste o justificación):** No se requirieron ajustes posteriores a la revisión humana.
 
 ---
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
-**Conclusión:**
-**Trazabilidad final:** (hash del commit definitivo + enlace al Issue)
+**Estado:** aprobado
+**Conclusión:** ISS-02 cumple los cuatro criterios de aceptación. La configuración se valida antes de conectar, Sequelize usa el dialecto activo y sincroniza exclusivamente con `alter: false`; `.env` permanece local y el contrato multi-motor está documentado en `.env.example`.
+**Trazabilidad final:** `8781fb5 feat(iss-02): entorno Sequelize y common` con `Refs #3` · Issue: `dw-2026-Futbol-Total #3`.

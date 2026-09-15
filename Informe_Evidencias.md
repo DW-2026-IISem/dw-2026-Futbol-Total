@@ -140,7 +140,7 @@ El commit se envió correctamente a la rama remota `main`.
 
 Se configuró el tablero `SDD Kanban — dw-2026-Futbol-Total` con los estados: `Preparado`, `En curso`, `Verificación`, `Revisión humana` y `Hecho`.
 
-La tarjeta `ISS-01 — Esqueleto NestJS CA arrancable` se encuentra en **Revisión humana**, porque el desarrollo y las pruebas están completos, pero falta el Gate del revisor.
+La tarjeta `ISS-01 — Esqueleto NestJS CA arrancable` superó la revisión humana y se encuentra en **Hecho**.
 
 ### Evidencia 13 — ISS-01 en revisión humana
 
@@ -171,3 +171,17 @@ Se comprobó que, después de configurar la infraestructura de entorno, base de 
 ![Terminal: validación de sync, .env ignorado y contrato multi-motor](evidencias/16-verificacion-sequelize-segura.png)
 
 La inspección confirmó una sola llamada `sync({ alter: false })`, ausencia de `force: true` y `alter: true`, exclusión de `.env` por Git y presencia de `DB_DIALECT` más los cuatro bloques de conexión en `.env.example`.
+
+## Commit técnico — ISS-02
+
+La configuración de entorno por motor, la infraestructura Sequelize y los componentes comunes se consolidaron y enviaron al remoto.
+
+```text
+8781fb5 feat(iss-02): entorno Sequelize y common
+```
+
+### Evidencia 17 — Commit y push de ISS-02
+
+![Terminal: commit técnico ISS-02 y push exitoso](evidencias/17-commit-iss-02-push.png)
+
+El commit fue enviado correctamente a `origin/main` con la referencia al Issue `#3`.
