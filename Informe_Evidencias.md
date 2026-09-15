@@ -135,3 +135,13 @@ El commit se envió correctamente a la rama remota `main`.
 ### Evidencia 12 — Commit y push de ISS-01
 
 ![Terminal: commit técnico ISS-01 y push exitoso](evidencias/12-commit-iss-01-push.png)
+
+## Tablero Kanban
+
+Se configuró el tablero `SDD Kanban — dw-2026-Futbol-Total` con los estados: `Preparado`, `En curso`, `Verificación`, `Revisión humana` y `Hecho`.
+
+La tarjeta `ISS-01 — Esqueleto NestJS CA arrancable` se encuentra en **Revisión humana**, porque el desarrollo y las pruebas están completos, pero falta el Gate del revisor.
+
+### Evidencia 13 — ISS-01 en revisión humana
+
+![GitHub Project: ISS-01 en la columna revisión humana](evidencias/13-kanban-iss-01-revision-humana.png)
