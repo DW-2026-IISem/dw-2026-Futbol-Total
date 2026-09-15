@@ -3,11 +3,11 @@
 # ISS-03 — Feature clients CA
 
 **Naturaleza:** práctico (desarrollo de software backend)
-**Issue GitHub:** `dw-2026-Futbol-Total #NÚMERO_REAL`
+**Issue GitHub:** `dw-2026-Futbol-Total #4`
 **Responsable (desarrollador):** Oscar Vega
 **Revisor humano:** Oscar Vega
 **Dependencias:** ISS-02 en **Hecho**
-**Commit esperado:** `feat(iss-03): feature clients CA` con `Refs #NÚMERO_REAL`
+**Commit esperado:** `feat(iss-03): feature clients CA` con `Refs #4`
 
 > El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 > Este es el issue **lento**: aquí se aprende el patrón de una feature completa. Los tres siguientes lo repiten.
@@ -60,15 +60,30 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 ## 3. IA usada — se diligencia en **En curso**, después de enviar el prompt
 
-**Herramienta / modelo:** (pendiente)
-**Fecha:** (pendiente)
+**Herramienta / modelo:** Cursor
+**Fecha:** 2026-09-15
 **Prompt enviado** (copiado **tal cual** de la ficha ISS-03 del Guion, sección «Prompt por issue»):
 
 ```text
-(pendiente — pegar aquí el prompt exacto)
+Naturaleza: PRÁCTICO. Eres asistente SOLO de ISS-03, no del backend entero.
+
+Implementa los AC de trazabilidad/ISS-03.md siguiendo docs/Prompt.md (arquitectura §2, campos §4, HTTP §5).
+
+Feature src/features/business/clients con las cuatro capas. Entidad Client PURA (sin Sequelize ni NestJS).
+IClientRepository en domain/interfaces; ClientRepository (Sequelize) y ClientModel (tabla clients) en infrastructure;
+registra ClientModel en ALL_MODELS. Use-cases CreateClient, ListClients, GetClientById.
+CreateClientDto: name requerido; email opcional con formato; phone y address opcionales.
+Controller: GET /api/clients, GET /api/clients/:id, POST /api/clients. Swagger.
+Errores: DTO inválido → 400 (ValidationPipe); id inexistente → 404; email duplicado → 409 (excepción de dominio mapeada por el filtro).
+Seeder idempotente (findOrCreate por email) con al menos un cliente, ejecutado al arrancar. ClientsModule en BusinessModule.
+
+Prohibido: Auth, Users, JWT Token, guards; entidad que extienda Model; force: true. NO adelantes ISS-04 (ProductTypes).
+NO toques docs/ ni trazabilidad/.
+
+Al final entrega tres listas: archivos tocados; cómo verifico cada AC (comandos curl exactos y SQL de conteo); qué quedó fuera de alcance.
 ```
 
-**Ajustes o correcciones que hiciste a lo generado:** (pendiente)
+**Ajustes o correcciones que hiciste a lo generado:** Se corrigió `client.model.ts` de `timestamps: false` a `timestamps: true`, porque la tabla existente exige `createdAt` y `updatedAt`. También se instaló `@nestjs/swagger@^12.0.1`, compatible con NestJS 12; la versión 11 generaba un conflicto de dependencias.
 
 ---
 
@@ -76,15 +91,15 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 | Fecha | Tipo | AC que demuestra | Enlace o ruta | Cómo reproducir |
 |-------|------|------------------|---------------|-----------------|
-|       | log de arranque + conteo | AC-1 | (log del seeder + `SELECT COUNT(*) FROM clients` antes/después de 2 arranques) | `npm run start:dev` ×2 |
-|       | respuesta HTTP 201 | AC-2 | (pegar respuesta) | `curl -i -X POST localhost:3002/api/clients -H 'Content-Type: application/json' -d '{"name":"Ana","email":"ana@demo.com"}'` |
-|       | respuesta HTTP 400 | AC-3 | (pegar respuesta + conteo) | `curl -i -X POST localhost:3002/api/clients -H 'Content-Type: application/json' -d '{"email":"x@demo.com"}'` |
-|       | respuesta HTTP 409 | AC-4 | (pegar respuesta) | repetir el POST de AC-2 |
-|       | respuesta HTTP 404 | AC-5 | (pegar respuesta) | `curl -i localhost:3002/api/clients/999999` |
-|       | archivo fuente | AC-6 | `src/features/business/clients/domain/entities/client.entity.ts` | `rg -n "sequelize|@nestjs|extends Model" <ruta>` → sin resultados |
+| 2026-09-15 | arranque, conteo SQL y GET 200 | AC-1 | Evidencias 20 y 21; conteo `8` antes/después del reinicio | `npm run start:dev` y `SELECT COUNT(*) AS total_clients FROM clients;` |
+| 2026-09-15 | respuesta HTTP 201 | AC-2 | POST válido creó `Ana ISS03` con `id: 8` | POST válido a `/api/clients` con nombre, email, teléfono y dirección |
+| 2026-09-15 | respuestas HTTP 400 y listado | AC-3 | POST sin `name` y con campo no permitido devolvieron 400; listado conservó total `8` | Ejecutar ambos POST inválidos y `GET /api/clients` |
+| 2026-09-15 | respuesta HTTP 409 | AC-4 | Email `ana.iss03@pedalibre.test` repetido devolvió 409 | Repetir POST con el mismo email |
+| 2026-09-15 | respuesta HTTP 404 | AC-5 | `GET /api/clients/999999` devolvió 404 | `curl -i http://localhost:3002/api/clients/999999` |
+| 2026-09-15 | inspección de código | AC-6 | Evidencia 20: entidad sin dependencias de framework u ORM | Buscar `sequelize`, `sequelize-typescript`, `@nestjs` y `extends Model` en la entidad; sin resultados |
 
-**Commit (hash):** pendiente — `feat(iss-03): feature clients CA` · `Refs #__` · hecho `git push`
-**Autoevaluación de AC:** pendiente (AC-1 … AC-6: sí/no)
+**Commit (hash):** pendiente — `feat(iss-03): feature clients CA` · `Refs #4` · hecho `git push`
+**Autoevaluación de AC:** AC-1: sí; AC-2: sí; AC-3: sí; AC-4: sí; AC-5: sí; AC-6: sí
 
 ---
 

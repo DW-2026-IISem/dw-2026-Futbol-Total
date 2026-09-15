@@ -199,3 +199,19 @@ El Issue GitHub `#4` se creó como una tarea real y se ubicó en **Preparado**, 
 ### Evidencia 19 — ISS-03 en Preparado
 
 ![GitHub Project: ISS-03 preparada](evidencias/19-kanban-iss-03-preparado.png)
+
+## Verificación funcional de ISS-03
+
+La primera feature de negocio se validó contra la base de datos. El seeder no duplicó registros entre reinicios y la entidad de dominio se mantuvo libre de dependencias del framework y del ORM.
+
+### Evidencia 20 — Idempotencia y entidad Client pura
+
+![Terminal: conteo estable y entidad Client pura](evidencias/20-iss-03-idempotencia-y-entidad-pura.png)
+
+El conteo de `clients` se conservó en `8` antes y después del reinicio. La inspección de la entidad no devolvió imports de NestJS/Sequelize ni `extends Model`.
+
+### Evidencia 21 — Arranque y rutas de Clients
+
+![VS Code: Nest inicia y registra rutas Clients](evidencias/21-iss-03-arranque-rutas-clients.png)
+
+El servidor inicia con la conexión de datos, sincronización segura y las rutas `GET /api/clients`, `GET /api/clients/:id` y `POST /api/clients` registradas.
