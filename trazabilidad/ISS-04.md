@@ -2,12 +2,12 @@
 
 # ISS-04 — Feature product-types CA
 
-**Naturaleza:** práctico (desarrollo de software backend)  
-**Issue GitHub:** `backend-nest-ia #__` (número que asigna GitHub al crear el Issue; anótalo aquí y en el cuerpo del Issue)  
-**Responsable (desarrollador):**  
-**Revisor humano:**  
-**Dependencias:** ISS-03 en **Hecho**  
-**Commit esperado:** `feat(iss-04): feature product-types CA` con `Refs #__`
+**Naturaleza:** práctico (desarrollo de software backend)
+**Issue GitHub:** `dw-2026-Futbol-Total #5`
+**Responsable (desarrollador):** Oscar Vega
+**Revisor humano:** Oscar Vega
+**Dependencias:** ISS-03 en **Hecho**
+**Commit esperado:** `feat(iss-04): feature product-types CA` con `Refs #5`
 
 > El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 
@@ -50,7 +50,7 @@
 
 | Fecha | Revisor | Actuación | AC revisados | Evidencia consultada | Hallazgo | Decisión |
 |-------|---------|-----------|--------------|----------------------|----------|----------|
-|       |         |           | OBJ, SPEC, REQ, AC | este archivo   |          | pendiente |
+| 2026-09-15 | Oscar Vega | aporte | OBJ, SPEC, REQ, AC | trazabilidad/ISS-04.md | Se definió ProductTypes replicando el patrón validado de Clients, con nombre único, seeder idempotente y cinco criterios verificables; sin Products ni Auth. | AC aprobados — puede En curso |
 
 Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cuál y por qué).
 
@@ -58,8 +58,8 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 ## 3. IA usada — se diligencia en **En curso**, después de enviar el prompt
 
-**Herramienta / modelo:** (pendiente)  
-**Fecha:** (pendiente)  
+**Herramienta / modelo:** (pendiente)
+**Fecha:** (pendiente)
 **Prompt enviado** (copiado **tal cual** de la ficha ISS-04 del Guion, sección «Prompt por issue»):
 
 ```text
@@ -80,7 +80,7 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 |       | HTTP 409 | AC-4 | | repetir el POST de AC-2 |
 |       | archivo fuente | AC-5 | `src/features/business/product-types/domain/entities/product-type.entity.ts` | `rg -n "sequelize|@nestjs|extends Model" <ruta>` → sin resultados |
 
-**Commit (hash):** pendiente — `feat(iss-04): feature product-types CA` · `Refs #__` · hecho `git push`  
+**Commit (hash):** pendiente — `feat(iss-04): feature product-types CA` · `Refs #__` · hecho `git push`
 **Autoevaluación de AC:** pendiente (AC-1 … AC-5: sí/no)
 
 ---
@@ -99,6 +99,6 @@ Pregunta guía: «¿Qué copiaste de Clients y qué tuviste que cambiar? ¿Dónd
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)  
-**Conclusión:**  
+**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
+**Conclusión:**
 **Trazabilidad final:** (hash del commit definitivo + enlace al Issue)

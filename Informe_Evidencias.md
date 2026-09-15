@@ -247,3 +247,11 @@ El Gate aprobado, la revisión humana y sus evidencias se registraron en el comm
 ![GitHub Project: ISS-01, ISS-02 e ISS-03 en hecho](evidencias/25-kanban-iss-03-hecho.png)
 
 El tablero confirma que ISS-01, ISS-02 e ISS-03 están en **Hecho**, sin tarjetas pendientes en los estados intermedios.
+
+## Inicio de ISS-04 — Feature product-types CA
+
+El Issue GitHub `#5` se creó como tarea real y se ubicó en **Preparado**, después de cerrar ISS-03.
+
+### Evidencia 26 — ISS-04 en Preparado
+
+![GitHub Project: ISS-04 preparada](evidencias/26-kanban-iss-04-preparado.png)
