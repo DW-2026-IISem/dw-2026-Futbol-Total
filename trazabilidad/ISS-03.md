@@ -2,21 +2,21 @@
 
 # ISS-03 — Feature clients CA
 
-**Naturaleza:** práctico (desarrollo de software backend)  
-**Issue GitHub:** `backend-nest-ia #__` (número que asigna GitHub al crear el Issue; anótalo aquí y en el cuerpo del Issue)  
-**Responsable (desarrollador):**  
-**Revisor humano:**  
-**Dependencias:** ISS-02 en **Hecho**  
-**Commit esperado:** `feat(iss-03): feature clients CA` con `Refs #__`
+**Naturaleza:** práctico (desarrollo de software backend)
+**Issue GitHub:** `dw-2026-Futbol-Total #NÚMERO_REAL`
+**Responsable (desarrollador):** Oscar Vega
+**Revisor humano:** Oscar Vega
+**Dependencias:** ISS-02 en **Hecho**
+**Commit esperado:** `feat(iss-03): feature clients CA` con `Refs #NÚMERO_REAL`
 
-> El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.  
+> El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 > Este es el issue **lento**: aquí se aprende el patrón de una feature completa. Los tres siguientes lo repiten.
 
 ---
 
 ## 1. SDD — se escribe en **Preparado**
 
-**OBJ:** Al finalizar, cualquier consumidor HTTP podrá registrar y consultar clientes persistidos en `tecnogua_ia`, con validación de entrada, para contar con la primera feature completa que sirve de patrón a las siguientes.
+**OBJ:** Al finalizar, cualquier consumidor HTTP podrá registrar y consultar clientes persistidos en `Pedalibre`, con validación de entrada, para contar con la primera feature completa que sirve de patrón a las siguientes.
 
 **SPEC (qué debe quedar):**
 - Feature `src/features/business/clients/` con las cuatro capas de `docs/Prompt.md` §2.
@@ -32,7 +32,7 @@
 - Sin JWT Token, Auth ni guards. No adelantar ISS-04 (ProductTypes).
 
 **AC (Dado → Cuando → Entonces; deciden el Gate):**
-- [ ] **AC-1** Dado la app arrancada y la tabla `clients` vacía; cuando corre el seeder al arrancar; entonces `GET /api/clients` responde `200` con al menos 1 cliente en `data.items` (`data.meta.total` ≥ 1), y **arrancar de nuevo no duplica** filas (mismo conteo).
+- [ ] **AC-1** Dado la app arrancada y la tabla `clients` vacía; cuando corre el seeder al arrancar; entonces `GET /api/clients` responde `200` con al menos 1 cliente en `data.items` (`data.meta.total` ≥ 1), y **arrancar de nuevo no duplica** filas (mismo conteo) en la base `Pedalibre`.
 - [ ] **AC-2** Dado un payload válido `{ "name": "...", "email": "...", "phone": "...", "address": "..." }`; cuando `POST /api/clients`; entonces responde `201` con el cliente creado en `data` (con `id`) y la fila existe en la tabla `clients`.
 - [ ] **AC-3** Dado un payload sin `name` (o con un campo no permitido); cuando `POST /api/clients`; entonces responde `400` y el conteo de filas **no cambia**.
 - [ ] **AC-4** Dado un `email` ya registrado; cuando `POST /api/clients` con ese email; entonces responde `409` y no crea fila.
@@ -52,7 +52,7 @@
 
 | Fecha | Revisor | Actuación | AC revisados | Evidencia consultada | Hallazgo | Decisión |
 |-------|---------|-----------|--------------|----------------------|----------|----------|
-|       |         |           | OBJ, SPEC, REQ, AC | este archivo   |          | pendiente |
+| 2026-09-15 | Oscar Vega | aporte | OBJ, SPEC, REQ, AC | trazabilidad/ISS-03.md | Se definió la primera feature completa con las capas CA, seeder idempotente y seis criterios verificables; sin Auth ni ProductTypes. | AC aprobados — puede En curso |
 
 Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cuál y por qué).
 
@@ -60,8 +60,8 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 ## 3. IA usada — se diligencia en **En curso**, después de enviar el prompt
 
-**Herramienta / modelo:** (pendiente)  
-**Fecha:** (pendiente)  
+**Herramienta / modelo:** (pendiente)
+**Fecha:** (pendiente)
 **Prompt enviado** (copiado **tal cual** de la ficha ISS-03 del Guion, sección «Prompt por issue»):
 
 ```text
@@ -83,7 +83,7 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 |       | respuesta HTTP 404 | AC-5 | (pegar respuesta) | `curl -i localhost:3002/api/clients/999999` |
 |       | archivo fuente | AC-6 | `src/features/business/clients/domain/entities/client.entity.ts` | `rg -n "sequelize|@nestjs|extends Model" <ruta>` → sin resultados |
 
-**Commit (hash):** pendiente — `feat(iss-03): feature clients CA` · `Refs #__` · hecho `git push`  
+**Commit (hash):** pendiente — `feat(iss-03): feature clients CA` · `Refs #__` · hecho `git push`
 **Autoevaluación de AC:** pendiente (AC-1 … AC-6: sí/no)
 
 ---
@@ -102,6 +102,6 @@ Revisión **estricta** (es el patrón): el desarrollador debe **señalar y expli
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)  
-**Conclusión:**  
+**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
+**Conclusión:**
 **Trazabilidad final:** (hash del commit definitivo + enlace al Issue)

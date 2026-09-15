@@ -191,3 +191,11 @@ El commit fue enviado correctamente a `origin/main` con la referencia al Issue `
 ![GitHub Project: ISS-01 e ISS-02 en la columna hecho](evidencias/18-kanban-iss-01-iss-02-hecho.png)
 
 El tablero registra ambas tarjetas en **Hecho**, después de la verificación, revisión humana y Gate aprobados.
+
+## Inicio de ISS-03 — Feature clients CA
+
+El Issue GitHub `#4` se creó como una tarea real y se ubicó en **Preparado**, luego de cerrar las dos dependencias anteriores.
+
+### Evidencia 19 — ISS-03 en Preparado
+
+![GitHub Project: ISS-03 preparada](evidencias/19-kanban-iss-03-preparado.png)
