@@ -185,3 +185,9 @@ La configuración de entorno por motor, la infraestructura Sequelize y los compo
 ![Terminal: commit técnico ISS-02 y push exitoso](evidencias/17-commit-iss-02-push.png)
 
 El commit fue enviado correctamente a `origin/main` con la referencia al Issue `#3`.
+
+### Evidencia 18 — ISS-01 e ISS-02 cerradas en Kanban
+
+![GitHub Project: ISS-01 e ISS-02 en la columna hecho](evidencias/18-kanban-iss-01-iss-02-hecho.png)
+
+El tablero registra ambas tarjetas en **Hecho**, después de la verificación, revisión humana y Gate aprobados.
