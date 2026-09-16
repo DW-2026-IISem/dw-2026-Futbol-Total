@@ -20,5 +20,6 @@ import { ProductTypesController } from './presentation/http/controllers/product-
       useExisting: ProductTypeRepository,
     },
   ],
+  exports: [PRODUCT_TYPE_REPOSITORY],
 })
 export class ProductTypesModule {}

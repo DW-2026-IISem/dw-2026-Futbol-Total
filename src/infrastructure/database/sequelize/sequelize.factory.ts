@@ -6,13 +6,14 @@ import {
   type DatabaseConfig,
 } from '../../../config/environment/env.interface';
 import { ClientModel } from '../../../features/business/clients/infrastructure/persistence/models/client.model';
+import { ProductModel } from '../../../features/business/products/infrastructure/persistence/models/product.model';
 import { ProductTypeModel } from '../../../features/business/product-types/infrastructure/persistence/models/product-type.model';
 import { getSequelizeOptions } from './sequelize.options';
 
 const nodeRequire = createRequire(__filename);
 const logger = new Logger('Sequelize');
 
-export const ALL_MODELS = [ClientModel, ProductTypeModel];
+export const ALL_MODELS = [ClientModel, ProductTypeModel, ProductModel];
 
 function loadDialectModule(dialect: DatabaseDialect): object {
   try {

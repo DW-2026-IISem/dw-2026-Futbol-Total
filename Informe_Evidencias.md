@@ -299,3 +299,19 @@ El Issue GitHub `#6` se creó como tarea real y se ubicó en **Preparado**, desp
 ### Evidencia 31 — ISS-05 en Preparado
 
 ![GitHub Project: ISS-05 preparada](evidencias/31-kanban-iss-05-preparado.png)
+
+## Verificación funcional de ISS-05
+
+La feature Products se verificó mediante sus rutas HTTP, reglas de validación, relación con ProductTypes, seeder idempotente y entidad de dominio pura.
+
+### Evidencia 32 — Arranque y rutas de Products
+
+![VS Code: Nest inicia y registra rutas Products](evidencias/32-iss-05-arranque-rutas-products.png)
+
+El servidor registra `GET /api/products`, `GET /api/products/:id` y `POST /api/products`, además de inicializar el módulo Products y sincronizar el esquema sin alteraciones destructivas.
+
+### Evidencia 33 — Idempotencia y entidad Product pura
+
+![Terminal: reinicio, conteo estable y entidad Product pura](evidencias/33-iss-05-idempotencia-y-entidad-pura.png)
+
+El conteo de `products` permaneció en `2` después del reinicio. La entidad no tiene dependencias de NestJS ni Sequelize y contiene `reduceStock` con la excepción de stock insuficiente.
