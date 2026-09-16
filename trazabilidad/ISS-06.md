@@ -3,11 +3,11 @@
 # ISS-06 — Sales y stock
 
 **Naturaleza:** práctico (desarrollo de software backend)
-**Issue GitHub:** `backend-nest-ia #__` (número que asigna GitHub al crear el Issue; anótalo aquí y en el cuerpo del Issue)
-**Responsable (desarrollador):**
-**Revisor humano:**
+**Issue GitHub:** `dw-2026-Futbol-Total #7`  
+**Responsable (desarrollador):** Oscar Vega  
+**Revisor humano:** Oscar Vega  
 **Dependencias:** ISS-05 en **Hecho** (Sales necesita Clients y Products)
-**Commit esperado:** `feat(iss-06): sales y stock` con `Refs #__`
+**Commit esperado:** `feat(iss-06): feature sales CA` con `Refs #7`
 
 > El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 > **Gate estricto:** aquí se juega la regla de negocio central (transacción y stock).
@@ -52,7 +52,7 @@
 
 | Fecha | Revisor | Actuación | AC revisados | Evidencia consultada | Hallazgo | Decisión |
 |-------|---------|-----------|--------------|----------------------|----------|----------|
-|       |         |           | OBJ, SPEC, REQ, AC | este archivo   |          | pendiente |
+| 2026-09-15 | Oscar Vega | aporte | OBJ, SPEC, REQ, AC | trazabilidad/ISS-06.md | Se definió Sales como la feature que integra Clients y Products; debe crear la venta y descontar stock de forma consistente, sin Auth ni adelantar ISS-07. | AC aprobados — puede En curso |
 
 Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cuál y por qué).
 
