@@ -349,3 +349,37 @@ El Issue GitHub `#7` se creó como tarea real y se ubicó en **Preparado**, tras
 ### Evidencia 38 — ISS-06 en Preparado
 
 ![GitHub Project: ISS-06 preparada](evidencias/38-kanban-iss-06-preparado.png)
+
+## Verificación funcional de ISS-06
+
+La feature Sales se verificó contra la base de datos, comprobando el descuento de stock, los rechazos sin persistencia parcial y la consulta de una venta con sus detalles.
+
+### Evidencia 39 — Arranque y rutas de Sales
+
+![VS Code: Nest inicia y registra rutas Sales](evidencias/39-iss-06-arranque-rutas-sales.png)
+
+Nest registra `POST /api/sales` y `GET /api/sales/:id`, y carga SalesModule después de Clients y Products.
+
+### Evidencia 40 — Venta válida y stock insuficiente
+
+![Terminal: creación de venta, stock y conteos](evidencias/40-iss-06-ac1-y-ac2-stock.png)
+
+La venta válida creó Sale y ProductSale, redujo el stock según el pedido; una solicitud posterior con cantidad insuficiente devolvió `409` y mantuvo los conteos.
+
+### Evidencia 41 — Atomicidad ante fallo de un ítem
+
+![Terminal: venta multiítem rechazada sin descuento parcial](evidencias/41-iss-06-atomicidad-y-entidades-puras.png)
+
+Al fallar el segundo producto por stock insuficiente, los productos A y B conservaron sus cantidades y no se crearon filas adicionales en `sales` ni `product_sales`.
+
+### Evidencia 42 — Validación y consulta de venta
+
+![Terminal: errores HTTP y GET de la venta](evidencias/42-iss-06-validacion-y-consulta-venta.png)
+
+Un cliente inexistente devolvió `404`, una lista de ítems vacía devolvió `400`, y `GET /api/sales/3` devolvió cliente, total e ítems.
+
+### Evidencia 43 — Transacción y entidades puras
+
+![Terminal: inspección de la transacción y del dominio](evidencias/43-iss-06-transaccion-y-entidades-puras.png)
+
+Las entidades Sale y ProductSale no dependen de NestJS ni Sequelize. El use-case contiene la transacción, `LOCK.UPDATE`, `reduceStock` y persistencia asociada a la transacción.

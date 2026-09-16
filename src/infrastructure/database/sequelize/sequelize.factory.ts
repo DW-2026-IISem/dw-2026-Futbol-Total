@@ -8,12 +8,14 @@ import {
 import { ClientModel } from '../../../features/business/clients/infrastructure/persistence/models/client.model';
 import { ProductModel } from '../../../features/business/products/infrastructure/persistence/models/product.model';
 import { ProductTypeModel } from '../../../features/business/product-types/infrastructure/persistence/models/product-type.model';
+import { ProductSaleModel } from '../../../features/business/sales/infrastructure/persistence/models/product-sale.model';
+import { SaleModel } from '../../../features/business/sales/infrastructure/persistence/models/sale.model';
 import { getSequelizeOptions } from './sequelize.options';
 
 const nodeRequire = createRequire(__filename);
 const logger = new Logger('Sequelize');
 
-export const ALL_MODELS = [ClientModel, ProductTypeModel, ProductModel];
+export const ALL_MODELS = [ClientModel, ProductTypeModel, ProductModel, SaleModel, ProductSaleModel];
 
 function loadDialectModule(dialect: DatabaseDialect): object {
   try {

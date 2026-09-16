@@ -3,9 +3,9 @@
 # ISS-06 — Sales y stock
 
 **Naturaleza:** práctico (desarrollo de software backend)
-**Issue GitHub:** `dw-2026-Futbol-Total #7`  
-**Responsable (desarrollador):** Oscar Vega  
-**Revisor humano:** Oscar Vega  
+**Issue GitHub:** `dw-2026-Futbol-Total #7`
+**Responsable (desarrollador):** Oscar Vega
+**Revisor humano:** Oscar Vega
 **Dependencias:** ISS-05 en **Hecho** (Sales necesita Clients y Products)
 **Commit esperado:** `feat(iss-06): feature sales CA` con `Refs #7`
 
@@ -32,19 +32,19 @@
 - Sin JWT Token, login ni Auth. **No inventes login** para «saber quién vende». No adelantar ISS-07.
 
 **AC (Dado → Cuando → Entonces; deciden el Gate):**
-- [ ] **AC-1** Dado un producto con `quantity = 5` y un cliente existente; cuando `POST /api/sales` con `items: [{ productId, quantity: 2 }]`; entonces responde `201`, `GET /api/products/:id` muestra `quantity = 3`, existe 1 fila en `sales` y 1 en `product_sales` con `total = 2 × unitPrice`.
-- [ ] **AC-2** Dado un producto con `quantity = 3`; cuando `POST /api/sales` con `quantity: 10`; entonces responde `409`, **no** hay fila nueva en `sales` ni en `product_sales`, y `quantity` sigue en `3`.
-- [ ] **AC-3** (atomicidad) Dado dos productos A (`quantity = 5`) y B (`quantity = 1`); cuando `POST /api/sales` con `[ {A, 2}, {B, 5} ]`; entonces responde `409` y **A sigue en 5** (el primer ítem no se descontó porque la transacción hizo rollback).
-- [ ] **AC-4** Dado `clientId` inexistente o `items: []`; cuando `POST /api/sales`; entonces responde `404` o `400` respectivamente y no crea filas.
-- [ ] **AC-5** Dado la venta de AC-1; cuando `GET /api/sales/:id`; entonces responde `200` y en `data` vienen `clientId`, `total` y el arreglo `items` con `productId`, `quantity`, `unitPrice` (igual al precio del producto si no se envió).
-- [ ] **AC-6** Dado `domain/entities/sale.entity.ts` y `product-sale.entity.ts`; cuando se inspeccionan; entonces son TypeScript puro.
+- [x] **AC-1** Dado un producto con `quantity = 5` y un cliente existente; cuando `POST /api/sales` con `items: [{ productId, quantity: 2 }]`; entonces responde `201`, `GET /api/products/:id` muestra `quantity = 3`, existe 1 fila en `sales` y 1 en `product_sales` con `total = 2 × unitPrice`.
+- [x] **AC-2** Dado un producto con `quantity = 3`; cuando `POST /api/sales` con `quantity: 10`; entonces responde `409`, **no** hay fila nueva en `sales` ni en `product_sales`, y `quantity` sigue en `3`.
+- [x] **AC-3** (atomicidad) Dado dos productos A (`quantity = 5`) y B (`quantity = 1`); cuando `POST /api/sales` con `[ {A, 2}, {B, 5} ]`; entonces responde `409` y **A sigue en 5** (el primer ítem no se descontó porque la transacción hizo rollback).
+- [x] **AC-4** Dado `clientId` inexistente o `items: []`; cuando `POST /api/sales`; entonces responde `404` o `400` respectivamente y no crea filas.
+- [x] **AC-5** Dado la venta de AC-1; cuando `GET /api/sales/:id`; entonces responde `200` y en `data` vienen `clientId`, `total` y el arreglo `items` con `productId`, `quantity`, `unitPrice` (igual al precio del producto si no se envió).
+- [x] **AC-6** Dado `domain/entities/sale.entity.ts` y `product-sale.entity.ts`; cuando se inspeccionan; entonces son TypeScript puro.
 
 **Checklist interno (IA, En curso):**
-- [ ] Entidades `Sale`, `ProductSale`; `SaleCalculator`; excepciones
-- [ ] DTO anidado (`items[]`) con `@ValidateNested`
-- [ ] `CreateSale` con transacción y rollback
-- [ ] Models + repositorio con soporte de transacción + `ALL_MODELS`
-- [ ] Controller + Swagger; módulo en `BusinessModule`
+- [x] Entidades `Sale`, `ProductSale`; `SaleCalculator`; excepciones
+- [x] DTO anidado (`items[]`) con `@ValidateNested`
+- [x] `CreateSale` con transacción y rollback
+- [x] Models + repositorio con soporte de transacción + `ALL_MODELS`
+- [x] Controller + Swagger; módulo en `BusinessModule`
 
 ---
 
@@ -60,31 +60,51 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 ## 3. IA usada — se diligencia en **En curso**, después de enviar el prompt
 
-**Herramienta / modelo:** (pendiente)
-**Fecha:** (pendiente)
+**Herramienta / modelo:** Cursor
+**Fecha:** 2026-09-15
 **Prompt enviado** (copiado **tal cual** de la ficha ISS-06 del Guion, sección «Prompt por issue»):
 
 ```text
-(pendiente — pegar aquí el prompt exacto)
+Naturaleza: PRÁCTICO. Eres asistente SOLO de ISS-06, no del backend entero.
+
+Implementa los AC de trazabilidad/ISS-06.md siguiendo docs/Prompt.md. Sales + ProductSale es UN solo agregado.
+
+Dominio: entidades PURAS Sale (id, saleDate, subtotal, tax, discounts, total, status, clientId, items) y
+ProductSale (id, saleId, productId, quantity, unitPrice, total); servicio SaleCalculator
+(subtotal = Σ quantity × unitPrice; total = subtotal + tax − discounts); ISaleRepository; SaleNotFoundException, EmptySaleException.
+Reutiliza Product.reduceStock e InsufficientStockException de products.
+Aplicación: CreateSaleDto (clientId requerido; items[] con @ArrayMinSize(1) y @ValidateNested de { productId, quantity > 0,
+unitPrice? > 0 }; si unitPrice no viene se usa el precio actual del producto; tax, discounts ≥ 0 opcionales).
+Use-case CreateSale: verifica cliente (IClientRepository → 404), carga productos (IProductRepository → 404),
+llama product.reduceStock(qty) para TODOS los ítems antes de escribir nada (→ 409), calcula totales y persiste
+Sale + ProductSale + products.quantity DENTRO DE UNA SOLA transacción Sequelize (sequelize.transaction(async t => ...),
+con lock: t.LOCK.UPDATE por producto y re-verificación del stock bajo bloqueo); cualquier error → rollback.
+Infraestructura: SaleModel (sales) y ProductSaleModel (product_sales) en ALL_MODELS; SaleRepository (Sequelize) que abre la transacción.
+Presentación: POST /api/sales (201), GET /api/sales/:id (200 con items). Errores: 400 items vacíos; 404 cliente/producto; 409 stock.
+
+Prohibido: Auth, Users, JWT Token, login, userId «para saber quién vende»; entidad que extienda Model; force: true.
+NO adelantes ISS-07. NO toques docs/ ni trazabilidad/.
+
+Al final entrega tres listas: archivos tocados; cómo verifico cada AC (incluye el caso de dos ítems con rollback); qué quedó fuera de alcance.
 ```
 
-**Ajustes o correcciones que hiciste a lo generado:** (pendiente)
+**Ajustes o correcciones que hiciste a lo generado:** No se requirieron correcciones funcionales posteriores. Se verificaron manualmente el build, las rutas, la venta válida, el stock insuficiente, el rollback multiítem, las validaciones HTTP, la consulta de venta, la pureza del dominio y la transacción con bloqueo.
 
 ---
 
 ## 4. EVI — se diligencia en **Verificación** (después de ejecutar tú mismo)
 
 | Fecha | Tipo | AC que demuestra | Enlace o ruta | Cómo reproducir |
-|-------|------|------------------|---------------|-----------------|
-|       | HTTP 201 + GET producto | AC-1 | | `curl -i -X POST localhost:3002/api/sales -H 'Content-Type: application/json' -d '{"clientId":1,"items":[{"productId":1,"quantity":2}]}'` y luego `curl localhost:3002/api/products/1` |
-|       | HTTP 409 + conteos | AC-2 | | mismo POST con `"quantity": 10`; `SELECT COUNT(*) FROM sales; SELECT quantity FROM products WHERE id=1;` |
-|       | HTTP 409 + A intacto | AC-3 | | POST con dos ítems; `SELECT quantity FROM products WHERE id IN (A,B)` |
-|       | HTTP 404 / 400 | AC-4 | | POST con `"clientId": 999999`; POST con `"items": []` |
-|       | HTTP 200 con items | AC-5 | | `curl localhost:3002/api/sales/1` |
-|       | archivos fuente | AC-6 | rutas de las entidades | `rg -n "sequelize|@nestjs|extends Model" <rutas>` → sin resultados |
+|------|------|------------------|---------------|-----------------|
+| 2026-09-15 | POST 201, GET producto y conteos SQL | AC-1 | Evidencia 40; venta `id: 3`, producto 2 pasó de 5 a 3; conteos 2 → 3 | POST válido con `clientId: 1`, `productId: 2`, `quantity: 2`; consultar producto y tablas |
+| 2026-09-15 | POST 409, GET producto y conteos SQL | AC-2 | Evidencia 40; cantidad 10 rechazada; stock 3 y conteos 3 sin cambios | POST con producto 2 y `quantity: 10` |
+| 2026-09-15 | POST 409 y conteos SQL | AC-3 | Evidencia 41; A quedó en 5, B en 1 y tablas permanecieron en 3 | POST con A cantidad 2 y B cantidad 5 |
+| 2026-09-15 | POST 404 y 400; conteos SQL | AC-4 | Evidencia 42; cliente inexistente e ítems vacíos no crearon filas | POST con `clientId: 999999`; POST con `"items":[]` |
+| 2026-09-15 | GET 200 con detalle | AC-5 | Evidencia 42; `GET /api/sales/3` incluye `clientId`, `total` e `items` | `curl -i http://localhost:3002/api/sales/3` |
+| 2026-09-15 | Inspección de código | AC-6 | Evidencia 43; entidades puras, transacción, `LOCK.UPDATE` y `reduceStock` | Ejecutar los `grep` sobre entidades y `create-sale.use-case.ts` |
 
-**Commit (hash):** pendiente — `feat(iss-06): sales y stock` · `Refs #__` · hecho `git push`
-**Autoevaluación de AC:** pendiente (AC-1 … AC-6: sí/no)
+**Commit (hash):** pendiente — `feat(iss-06): feature sales CA` · `Refs #7` · hecho `git push`
+**Autoevaluación de AC:** AC-1: sí; AC-2: sí; AC-3: sí; AC-4: sí; AC-5: sí; AC-6: sí
 
 ---
 

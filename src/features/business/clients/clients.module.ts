@@ -20,5 +20,6 @@ import { CLIENT_REPOSITORY } from './domain/interfaces/client.repository';
       useExisting: ClientRepository,
     },
   ],
+  exports: [CLIENT_REPOSITORY],
 })
 export class ClientsModule {}

@@ -22,5 +22,6 @@ import { ProductsController } from './presentation/http/controllers/products.con
       useExisting: ProductRepository,
     },
   ],
+  exports: [PRODUCT_REPOSITORY],
 })
 export class ProductsModule {}
