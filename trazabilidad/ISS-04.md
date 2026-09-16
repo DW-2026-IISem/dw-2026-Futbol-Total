@@ -93,7 +93,7 @@ Al final entrega tres listas: archivos tocados; cómo verifico cada AC; qué que
 | 2026-09-15 | respuesta HTTP 409 | AC-4 | Nombre `Bebidas Premium ISS04` repetido devolvió 409 | Repetir POST con el mismo nombre |
 | 2026-09-15 | inspección de código | AC-5 | Evidencia 28: entidad sin dependencias de framework u ORM | Buscar `sequelize`, `sequelize-typescript`, `@nestjs` y `extends Model`; sin resultados |
 
-**Commit (hash):** pendiente — `feat(iss-04): feature product-types CA` · `Refs #5` · hecho `git push`
+**Commit (hash):** `f15fa0f feat(iss-04): feature product-types CA` con `Refs #5` y `git push` realizado.
 **Autoevaluación de AC:** AC-1: sí · AC-2: sí · AC-3: sí · AC-4: sí · AC-5: sí
 
 ---
@@ -104,14 +104,14 @@ Pregunta guía: «¿Qué copiaste de Clients y qué tuviste que cambiar? ¿Dónd
 
 | Fecha | Revisor | Actuación (aporte · revisión conforme · devolución) | AC revisados | Evidencia consultada | Hallazgo | Decisión |
 |-------|---------|-----------------------------------------------------|--------------|----------------------|----------|----------|
-|       |         |           |              |                      |          |          |
+| 2026-09-15 | Oscar Vega | revisión conforme | AC-1, AC-2, AC-3, AC-4, AC-5 | Evidencias 27, 28 y 29; build exitoso; pruebas HTTP y conteos SQL | ProductTypes replica el patrón de Clients: entidad pura, contrato de repositorio, adaptador Sequelize, casos de uso y controller. La unicidad del nombre se valida en el caso de uso y la base de datos refuerza la regla. | Aprobado — puede Hecho |
 
-**Respuesta del autor (ajuste o justificación):**
+**Respuesta del autor (ajuste o justificación):** Se reutilizó la estructura de cuatro capas de Clients; se cambiaron únicamente los campos, nombres, tabla `product_types`, seeder por `name` y regla de unicidad. La entidad conserva las reglas del dominio, el caso de uso verifica el nombre duplicado mediante `IProductTypeRepository`, y el repositorio/modelo Sequelize materializan la persistencia.
 
 ---
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
-**Conclusión:**
-**Trazabilidad final:** (hash del commit definitivo + enlace al Issue)
+**Estado:** aprobado
+**Conclusión:** ISS-04 cumple los cinco criterios de aceptación. ProductTypes mantiene Clean Architecture, usa seeder idempotente y responde 200, 201, 400 y 409 según el contrato.
+**Trazabilidad final:** `f15fa0f feat(iss-04): feature product-types CA` con `Refs #5` · Issue: `dw-2026-Futbol-Total #5`.

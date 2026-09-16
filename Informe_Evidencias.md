@@ -271,3 +271,23 @@ El servidor registra las rutas `GET /api/product-types`, `GET /api/product-types
 ![Terminal: conteo estable y entidad ProductType pura](evidencias/28-iss-04-idempotencia-y-entidad-pura.png)
 
 El conteo de `product_types` se mantuvo en `2` antes y después del reinicio; la búsqueda no encontró dependencias de NestJS/Sequelize ni `extends Model` en la entidad de dominio.
+
+## Commit técnico — ISS-04
+
+La feature ProductTypes se consolidó siguiendo el patrón de Clients, con el seeder idempotente y las validaciones HTTP requeridas.
+
+```text
+f15fa0f feat(iss-04): feature product-types CA
+```
+
+### Evidencia 29 — Commit y push de ISS-04
+
+![Terminal: commit técnico ISS-04 y push exitoso](evidencias/29-commit-iss-04-push.png)
+
+El commit técnico fue enviado a `origin/main` con referencia al Issue `#5`.
+
+### Evidencia 30 — ISS-04 cerrada en Kanban
+
+![GitHub Project: ISS-01 a ISS-04 en hecho](evidencias/30-kanban-iss-04-hecho.png)
+
+El tablero confirma que ISS-01, ISS-02, ISS-03 e ISS-04 se encuentran en **Hecho**.
