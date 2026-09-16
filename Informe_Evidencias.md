@@ -383,3 +383,29 @@ Un cliente inexistente devolvió `404`, una lista de ítems vacía devolvió `40
 ![Terminal: inspección de la transacción y del dominio](evidencias/43-iss-06-transaccion-y-entidades-puras.png)
 
 Las entidades Sale y ProductSale no dependen de NestJS ni Sequelize. El use-case contiene la transacción, `LOCK.UPDATE`, `reduceStock` y persistencia asociada a la transacción.
+
+## Commit técnico — ISS-06
+
+La feature Sales se integró con Clients y Products, preservando la atomicidad de la venta y del descuento de stock.
+
+```text
+430f788 feat(iss-06): feature sales CA
+```
+
+### Evidencia 44 — Commit y push de ISS-06
+
+![Terminal: commit técnico ISS-06 y push exitoso](evidencias/44-commit-iss-06-push.png)
+
+El commit técnico fue enviado a `origin/main` con referencia al Issue `#7`.
+
+### Evidencia 45 — ISS-06 en revisión humana
+
+![GitHub Project: ISS-06 en revisión humana](evidencias/45-kanban-iss-06-revision-humana.png)
+
+La tarjeta pasó a **Revisión humana** después de ejecutar los seis criterios de aceptación y enviar el commit técnico.
+
+### Evidencia 46 — ISS-06 cerrada en Kanban
+
+![GitHub Project: ISS-06 en hecho](evidencias/46-kanban-iss-06-hecho.png)
+
+El tablero confirma que ISS-06 alcanzó **Hecho** después de registrar la revisión humana y el Gate.
