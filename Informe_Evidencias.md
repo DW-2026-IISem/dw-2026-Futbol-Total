@@ -291,3 +291,11 @@ El commit técnico fue enviado a `origin/main` con referencia al Issue `#5`.
 ![GitHub Project: ISS-01 a ISS-04 en hecho](evidencias/30-kanban-iss-04-hecho.png)
 
 El tablero confirma que ISS-01, ISS-02, ISS-03 e ISS-04 se encuentran en **Hecho**.
+
+## Inicio de ISS-05 — Feature products CA
+
+El Issue GitHub `#6` se creó como tarea real y se ubicó en **Preparado**, después de cerrar ISS-04.
+
+### Evidencia 31 — ISS-05 en Preparado
+
+![GitHub Project: ISS-05 preparada](evidencias/31-kanban-iss-05-preparado.png)
