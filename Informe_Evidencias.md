@@ -315,3 +315,29 @@ El servidor registra `GET /api/products`, `GET /api/products/:id` y `POST /api/p
 ![Terminal: reinicio, conteo estable y entidad Product pura](evidencias/33-iss-05-idempotencia-y-entidad-pura.png)
 
 El conteo de `products` permaneció en `2` después del reinicio. La entidad no tiene dependencias de NestJS ni Sequelize y contiene `reduceStock` con la excepción de stock insuficiente.
+
+## Commit técnico — ISS-05
+
+La feature Products quedó integrada con ProductTypes, validaciones de entrada, reglas de disponibilidad del tipo y persistencia segura.
+
+```text
+0019924 feat(iss-05): feature products CA
+```
+
+### Evidencia 34 — Commit y push de ISS-05
+
+![Terminal: commit técnico ISS-05 y push exitoso](evidencias/34-commit-iss-05-push.png)
+
+El commit técnico fue enviado a `origin/main` con referencia al Issue `#6`.
+
+### Evidencia 35 — ISS-05 en revisión humana
+
+![GitHub Project: ISS-05 en revisión humana](evidencias/35-kanban-iss-05-revision-humana.png)
+
+La tarjeta pasó a **Revisión humana** tras completar las evidencias, marcar los criterios de aceptación y enviar el commit técnico.
+
+### Evidencia 36 — ISS-05 cerrada en Kanban
+
+![GitHub Project: ISS-05 en hecho](evidencias/36-kanban-iss-05-hecho.png)
+
+El tablero confirma que ISS-05 alcanzó **Hecho** después de la revisión humana aprobada y el Gate registrado.

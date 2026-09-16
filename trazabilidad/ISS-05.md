@@ -109,14 +109,18 @@ Pregunta guía: «¿Dónde vive la relación con ProductType: en el dominio o en
 
 | Fecha | Revisor | Actuación (aporte · revisión conforme · devolución) | AC revisados | Evidencia consultada | Hallazgo | Decisión |
 | ----- | ------- | -------------------------------------------------------- | ------------ | -------------------- | -------- | --------- |
-|       |         |                                                          |              |                      |          |           |
+| 2026-09-15 | Oscar Vega | revisión conforme | AC-1, AC-2, AC-3, AC-4, AC-5 | Evidencias 32, 33 y 34; respuestas HTTP 200, 201, 400, 404 y 409; build exitoso | Products conserva las capas de dominio, aplicación, infraestructura y presentación. La entidad es pura; el use-case consulta ProductTypes mediante IProductTypeRepository antes de persistir, y el seeder no duplica productos. | aprobado |
 
 **Respuesta del autor (ajuste o justificación):**
+
+La relación con ProductType está aislada en ProductModel mediante la clave foránea; el dominio usa únicamente productTypeId. CreateProductUseCase depende de IProductTypeRepository para validar existencia y estado activo, sin acoplarse al modelo Sequelize. Product.reduceStock conserva la regla de no permitir stock negativo para ISS-06.
 
 ---
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
-**Conclusión:**
-**Trazabilidad final:** (hash del commit definitivo + enlace al Issue)
+**Estado:** aprobado
+
+**Conclusión:** ISS-05 cumple los cinco criterios de aceptación. Products mantiene la arquitectura por capas, valida ProductTypes existentes y activos, persiste productos con stock, tiene seeder idempotente y conserva la regla de stock en una entidad de dominio pura.
+
+**Trazabilidad final:** `0019924 feat(iss-05): feature products CA` con `Refs #6` · Issue: `dw-2026-Futbol-Total #6`.
