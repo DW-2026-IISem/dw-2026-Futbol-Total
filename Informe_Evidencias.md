@@ -341,3 +341,11 @@ La tarjeta pasó a **Revisión humana** tras completar las evidencias, marcar lo
 ![GitHub Project: ISS-05 en hecho](evidencias/36-kanban-iss-05-hecho.png)
 
 El tablero confirma que ISS-05 alcanzó **Hecho** después de la revisión humana aprobada y el Gate registrado.
+
+## Inicio de ISS-06 — Feature sales CA
+
+El Issue GitHub `#7` se creó como tarea real y se ubicó en **Preparado**, tras cerrar ISS-05.
+
+### Evidencia 38 — ISS-06 en Preparado
+
+![GitHub Project: ISS-06 preparada](evidencias/38-kanban-iss-06-preparado.png)

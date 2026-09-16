@@ -2,14 +2,14 @@
 
 # ISS-06 — Sales y stock
 
-**Naturaleza:** práctico (desarrollo de software backend)  
-**Issue GitHub:** `backend-nest-ia #__` (número que asigna GitHub al crear el Issue; anótalo aquí y en el cuerpo del Issue)  
-**Responsable (desarrollador):**  
-**Revisor humano:**  
-**Dependencias:** ISS-05 en **Hecho** (Sales necesita Clients y Products)  
+**Naturaleza:** práctico (desarrollo de software backend)
+**Issue GitHub:** `backend-nest-ia #__` (número que asigna GitHub al crear el Issue; anótalo aquí y en el cuerpo del Issue)
+**Responsable (desarrollador):**
+**Revisor humano:**
+**Dependencias:** ISS-05 en **Hecho** (Sales necesita Clients y Products)
 **Commit esperado:** `feat(iss-06): sales y stock` con `Refs #__`
 
-> El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.  
+> El estado del issue **vive en el tablero Kanban**, no en este archivo. Cada sección indica en qué estado se diligencia; hasta entonces se deja como está.
 > **Gate estricto:** aquí se juega la regla de negocio central (transacción y stock).
 
 ---
@@ -60,8 +60,8 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 
 ## 3. IA usada — se diligencia en **En curso**, después de enviar el prompt
 
-**Herramienta / modelo:** (pendiente)  
-**Fecha:** (pendiente)  
+**Herramienta / modelo:** (pendiente)
+**Fecha:** (pendiente)
 **Prompt enviado** (copiado **tal cual** de la ficha ISS-06 del Guion, sección «Prompt por issue»):
 
 ```text
@@ -83,7 +83,7 @@ Decisión posible: `AC aprobados — puede En curso` · `Ajustar AC` (indicar cu
 |       | HTTP 200 con items | AC-5 | | `curl localhost:3002/api/sales/1` |
 |       | archivos fuente | AC-6 | rutas de las entidades | `rg -n "sequelize|@nestjs|extends Model" <rutas>` → sin resultados |
 
-**Commit (hash):** pendiente — `feat(iss-06): sales y stock` · `Refs #__` · hecho `git push`  
+**Commit (hash):** pendiente — `feat(iss-06): sales y stock` · `Refs #__` · hecho `git push`
 **Autoevaluación de AC:** pendiente (AC-1 … AC-6: sí/no)
 
 ---
@@ -102,6 +102,6 @@ Preguntas guía (**estrictas**): «¿En qué use-case baja el stock? Muéstrame 
 
 ## 6. Gate — decide **Hecho** (solo el revisor)
 
-**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)  
-**Conclusión:**  
+**Estado:** pendiente (`aprobado` · `aprobado con observación` · `devuelto` · `cancelado`)
+**Conclusión:**
 **Trazabilidad final:** (hash del commit definitivo + enlace al Issue)
