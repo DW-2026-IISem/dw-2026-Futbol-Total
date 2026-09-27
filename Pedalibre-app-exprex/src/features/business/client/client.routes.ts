@@ -6,10 +6,12 @@ export class ClientRoutes {
 
   public routes(app: Application): void {
     app.route("/api/clientes")
-      .get(this.clientController.getAllClients)
-      .post(this.clientController.createClient);
+      .get((req, res) => this.clientController.getAllClients(req, res))
+      .post((req, res) => this.clientController.createClient(req, res));
 
     app.route("/api/clientes/:id")
-      .get(this.clientController.getOneClient);
+      .get((req, res) => this.clientController.getOneClient(req, res))
+      .put((req, res) => this.clientController.updateClientPut(req, res))
+      .patch((req, res) => this.clientController.updateClientPatch(req, res));
   }
 }

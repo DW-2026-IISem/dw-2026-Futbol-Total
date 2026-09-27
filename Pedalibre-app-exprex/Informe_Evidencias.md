@@ -254,3 +254,22 @@ Implemente POST /api/clientes. La creacion devuelve el cliente sin password, usa
 ![Terminal: commit de creacion Client](evidencias/25-commit-iss-03-c.png)
 
 **Commit:** 731df7b feat(pedalibre): crear clientes ISS-03-C
+
+
+## Actualizacion de Client - ISS-03-D
+
+Implemente PUT y PATCH con una lista de campos permitidos. Durante la primera prueba detecte que Express perdia el contexto this del controller; corrijo las rutas con funciones envolventes. Tambien ajusto el tipado de status para respetar active e inactive.
+
+### Evidencia 26 - Correccion de tipado de actualizacion
+
+![Terminal: compilacion tras corregir el tipado](evidencias/26-tipado-update-iss-03-d.png)
+
+### Evidencia 27 - Error de contexto detectado
+
+![Terminal: error de this antes de corregir rutas](evidencias/27-error-contexto-update-iss-03-d.png)
+
+### Evidencia 28 - PATCH, PUT y validacion de cuerpo vacio
+
+![Terminal: actualizaciones correctas y PATCH vacio rechazado](evidencias/28-pruebas-update-iss-03-d.png)
+
+**Resultado:** PATCH actualizo telefono y status con 200. PUT actualizo los datos completos con 200. PATCH sin campos respondio 400. Las respuestas no exponen password.

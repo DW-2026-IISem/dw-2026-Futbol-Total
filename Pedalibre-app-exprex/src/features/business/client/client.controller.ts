@@ -11,6 +11,33 @@ const clientPublicAttributes = {
   exclude: ["password"],
 };
 
+type EditableClientField = "name" | "address" | "phone" | "email" | "password" | "status";
+
+const editableFields: EditableClientField[] = [
+  "name",
+  "address",
+  "phone",
+  "email",
+  "password",
+  "status",
+];
+
+function clientUpdates(body: Partial<ClientI>): Partial<ClientI> {
+  const updates: Partial<ClientI> = {};
+
+  for (const field of editableFields) {
+    if (body[field] !== undefined) {
+      if (field === "status") {
+        updates.status = body.status;
+      } else {
+        updates[field] = body[field];
+      }
+    }
+  }
+
+  return updates;
+}
+
 export class ClientController {
   public async getAllClients(_req: Request, res: Response): Promise<void> {
     try {
@@ -65,5 +92,51 @@ export class ClientController {
 
       res.status(400).json({ error: "No fue posible crear el cliente" });
     }
+  }
+
+  private async updateClient(
+    req: Request,
+    res: Response,
+    method: "PUT" | "PATCH"
+  ): Promise<void> {
+    try {
+      const updates = clientUpdates(req.body);
+
+      if (Object.keys(updates).length === 0) {
+        res.status(400).json({ error: `No hay campos para actualizar con ${method}` });
+        return;
+      }
+
+      const [affectedRows] = await Client.update(updates, {
+        where: { id: paramId(req) },
+        individualHooks: true,
+      });
+
+      if (affectedRows === 0) {
+        res.status(404).json({ error: "Cliente no encontrado" });
+        return;
+      }
+
+      const client = await Client.findByPk(paramId(req), {
+        attributes: clientPublicAttributes,
+      });
+
+      res.status(200).json({ client });
+    } catch (error: any) {
+      if (error?.name === "SequelizeUniqueConstraintError") {
+        res.status(409).json({ error: "El correo ya esta registrado" });
+        return;
+      }
+
+      res.status(400).json({ error: "No fue posible actualizar el cliente" });
+    }
+  }
+
+  public async updateClientPut(req: Request, res: Response): Promise<void> {
+    await this.updateClient(req, res, "PUT");
+  }
+
+  public async updateClientPatch(req: Request, res: Response): Promise<void> {
+    await this.updateClient(req, res, "PATCH");
   }
 }
