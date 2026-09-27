@@ -189,3 +189,68 @@ Consulto directamente la tabla clients despues de sincronizar la aplicacion. Ver
 ![Terminal: columnas reales de la tabla clients](evidencias/15-tabla-clients-iss-03-a.png)
 
 **Resultado:** la tabla contiene id, name, address, phone, email, password, status, createdAt y updatedAt. status usa enum active e inactive y su valor por defecto es inactive. ISS-03-A queda comprobado.
+
+
+## Commit funcional - ISS-03-A
+
+Registro la fundacion de la feature Client, incluyendo modelo oficial, esqueletos, cableado y comprobaciones.
+
+### Evidencia 16 - Commit y push de ISS-03-A
+
+![Terminal: commit funcional de Client](evidencias/16-commit-iss-03-a.png)
+
+**Commit:** 21d9b1c feat(pedalibre): fundar feature client ISS-03-A
+
+**Resultado:** el commit se envio correctamente a origin/main.
+
+## Consultas de Client - ISS-03-B
+
+Implemente GET /api/clientes y GET /api/clientes/:id. Durante la primera comprobacion detecte que las respuestas exponian el campo password. Corrijo el problema excluyendo password en las consultas publicas antes de cerrar el hito.
+
+### Evidencia 17 - Implementacion y compilacion de consultas
+
+![Terminal: codigo de consulta y compilacion](evidencias/17-compilacion-consultas-iss-03-b.png)
+
+### Evidencia 18 - Prueba inicial de consultas
+
+![Terminal: respuestas GET iniciales](evidencias/18-prueba-inicial-consultas-iss-03-b.png)
+
+### Evidencia 19 - Password oculto y cliente inexistente
+
+![Terminal: password no expuesto y respuesta 404](evidencias/19-password-oculto-404-iss-03-b.png)
+
+### Evidencia 20 - Consulta individual segura
+
+![Terminal: GET por id real sin password](evidencias/20-getone-seguro-iss-03-b.png)
+
+**Resultado:** GET /api/clientes/:id responde 200 para un cliente existente y 404 para uno inexistente. Las respuestas publicas no exponen password.
+
+### Evidencia 21 - Commit y push de ISS-03-B
+
+![Terminal: commit de consultas Client](evidencias/21-commit-iss-03-b.png)
+
+**Commit:** 0f43cc4 feat(pedalibre): consultar clientes ISS-03-B
+
+## Creacion de Client - ISS-03-C
+
+Implemente POST /api/clientes. La creacion devuelve el cliente sin password, usa inactive por defecto y responde 409 cuando el correo ya existe. Tambien comprobe en la base de datos que la contrasena se almacena como hash bcrypt.
+
+### Evidencia 22 - Implementacion y compilacion de creacion
+
+![Terminal: codigo de creacion y compilacion](evidencias/22-compilacion-creacion-iss-03-c.png)
+
+### Evidencia 23 - Creacion y correo duplicado
+
+![Terminal: POST 201 y correo duplicado](evidencias/23-creacion-duplicado-iss-03-c.png)
+
+### Evidencia 24 - Hash bcrypt y conflicto 409
+
+![Terminal: password hasheado y correo duplicado](evidencias/24-hash-bcrypt-iss-03-c.png)
+
+**Resultado:** POST crea un cliente con 201, devuelve status inactive sin password, rechaza el correo duplicado con 409 y persiste la contrasena como hash bcrypt.
+
+### Evidencia 25 - Commit y push de ISS-03-C
+
+![Terminal: commit de creacion Client](evidencias/25-commit-iss-03-c.png)
+
+**Commit:** 731df7b feat(pedalibre): crear clientes ISS-03-C
