@@ -273,3 +273,31 @@ Implemente PUT y PATCH con una lista de campos permitidos. Durante la primera pr
 ![Terminal: actualizaciones correctas y PATCH vacio rechazado](evidencias/28-pruebas-update-iss-03-d.png)
 
 **Resultado:** PATCH actualizo telefono y status con 200. PUT actualizo los datos completos con 200. PATCH sin campos respondio 400. Las respuestas no exponen password.
+
+
+### Evidencia 29 - Commit y push de ISS-03-D
+
+![Terminal: commit de actualizacion Client](evidencias/29-commit-iss-03-d.png)
+
+**Commit:** 317cc88 feat(pedalibre): actualizar clientes ISS-03-D
+
+**Resultado:** el codigo de PUT y PATCH, el informe y las evidencias de ISS-03-D fueron enviados correctamente a origin/main.
+
+
+## Eliminacion fisica y logica - ISS-03-E
+
+Implemente DELETE fisico y PATCH deactivate. En la primera comprobacion el identificador dinamico no se transfirio al proceso Node y la URL quedo incompleta. Corrijo la prueba usando el id real creado y verifico el ciclo completo.
+
+### Evidencia 30 - Implementacion y compilacion de eliminacion
+
+![Terminal: codigo de eliminacion y compilacion](evidencias/30-compilacion-delete-iss-03-e.png)
+
+### Evidencia 31 - Diagnostico de identificador vacio
+
+![Terminal: rutas invocadas sin identificador](evidencias/31-diagnostico-id-vacio-delete-iss-03-e.png)
+
+### Evidencia 32 - Baja logica y borrado fisico verificados
+
+![Terminal: deactivate, exclusion de activos, DELETE y 404](evidencias/32-pruebas-delete-iss-03-e.png)
+
+**Resultado:** PATCH deactivate devuelve 200 e inactiva el cliente. GET /api/clientes deja de listarlo, GET por id lo conserva como inactive, DELETE lo elimina con 200 y el GET posterior devuelve 404. ISS-03-E queda comprobado.

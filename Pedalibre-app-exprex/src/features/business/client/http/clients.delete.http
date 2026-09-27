@@ -1,0 +1,11 @@
+### Feature Client — DELETE fisico y DELETE logico
+### Leyenda: SIN AUTH
+
+@baseUrl = http://localhost:3001
+@id = 1
+
+### Borrado fisico
+DELETE {{baseUrl}}/api/clientes/{{id}}
+
+### Baja logica
+PATCH {{baseUrl}}/api/clientes/{{id}}/deactivate

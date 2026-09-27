@@ -11,7 +11,13 @@ const clientPublicAttributes = {
   exclude: ["password"],
 };
 
-type EditableClientField = "name" | "address" | "phone" | "email" | "password" | "status";
+type EditableClientField =
+  | "name"
+  | "address"
+  | "phone"
+  | "email"
+  | "password"
+  | "status";
 
 const editableFields: EditableClientField[] = [
   "name",
@@ -42,8 +48,10 @@ export class ClientController {
   public async getAllClients(_req: Request, res: Response): Promise<void> {
     try {
       const clients: ClientI[] = await Client.findAll({
+        where: { status: "active" },
         attributes: clientPublicAttributes,
       });
+
       res.status(200).json({ clients });
     } catch {
       res.status(500).json({ error: "Error al obtener clientes" });
@@ -138,5 +146,46 @@ export class ClientController {
 
   public async updateClientPatch(req: Request, res: Response): Promise<void> {
     await this.updateClient(req, res, "PATCH");
+  }
+
+  public async deletePhysical(req: Request, res: Response): Promise<void> {
+    try {
+      const id = paramId(req);
+      const client = await Client.findByPk(id);
+
+      if (!client) {
+        res.status(404).json({ error: "Cliente no encontrado" });
+        return;
+      }
+
+      await client.destroy();
+      res.status(200).json({ message: "Cliente eliminado permanentemente", id });
+    } catch {
+      res.status(500).json({ error: "Error al eliminar el cliente" });
+    }
+  }
+
+  public async deleteLogical(req: Request, res: Response): Promise<void> {
+    try {
+      const id = paramId(req);
+      const client = await Client.findByPk(id);
+
+      if (!client) {
+        res.status(404).json({ error: "Cliente no encontrado" });
+        return;
+      }
+
+      await client.update({ status: "inactive" });
+
+      const publicClient = client.get({ plain: true });
+      delete publicClient.password;
+
+      res.status(200).json({
+        message: "Cliente desactivado",
+        client: publicClient,
+      });
+    } catch {
+      res.status(500).json({ error: "Error al desactivar el cliente" });
+    }
   }
 }

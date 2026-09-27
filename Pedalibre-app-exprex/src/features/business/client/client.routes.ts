@@ -12,6 +12,10 @@ export class ClientRoutes {
     app.route("/api/clientes/:id")
       .get((req, res) => this.clientController.getOneClient(req, res))
       .put((req, res) => this.clientController.updateClientPut(req, res))
-      .patch((req, res) => this.clientController.updateClientPatch(req, res));
+      .patch((req, res) => this.clientController.updateClientPatch(req, res))
+      .delete((req, res) => this.clientController.deletePhysical(req, res));
+
+    app.route("/api/clientes/:id/deactivate")
+      .patch((req, res) => this.clientController.deleteLogical(req, res));
   }
 }
