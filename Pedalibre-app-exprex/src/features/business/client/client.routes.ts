@@ -6,7 +6,8 @@ export class ClientRoutes {
 
   public routes(app: Application): void {
     app.route("/api/clientes")
-      .get(this.clientController.getAllClients);
+      .get(this.clientController.getAllClients)
+      .post(this.clientController.createClient);
 
     app.route("/api/clientes/:id")
       .get(this.clientController.getOneClient);

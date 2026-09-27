@@ -17,9 +17,8 @@ export class ClientController {
       const clients: ClientI[] = await Client.findAll({
         attributes: clientPublicAttributes,
       });
-
       res.status(200).json({ clients });
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: "Error al obtener clientes" });
     }
   }
@@ -36,8 +35,35 @@ export class ClientController {
       }
 
       res.status(200).json({ client });
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: "Error al obtener el cliente" });
+    }
+  }
+
+  public async createClient(req: Request, res: Response): Promise<void> {
+    try {
+      const { name, address, phone, email, password, status } = req.body;
+
+      const client = await Client.create({
+        name,
+        address,
+        phone,
+        email,
+        password,
+        status,
+      });
+
+      const publicClient = client.get({ plain: true });
+      delete publicClient.password;
+
+      res.status(201).json({ client: publicClient });
+    } catch (error: any) {
+      if (error?.name === "SequelizeUniqueConstraintError") {
+        res.status(409).json({ error: "El correo ya esta registrado" });
+        return;
+      }
+
+      res.status(400).json({ error: "No fue posible crear el cliente" });
     }
   }
 }
