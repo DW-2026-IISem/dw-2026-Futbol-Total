@@ -7,16 +7,37 @@ function paramId(req: Request): number {
   return Number(value);
 }
 
+const clientPublicAttributes = {
+  exclude: ["password"],
+};
+
 export class ClientController {
-  // ================== READ ==================
-  // Se completa en ISS-03-B.
+  public async getAllClients(_req: Request, res: Response): Promise<void> {
+    try {
+      const clients: ClientI[] = await Client.findAll({
+        attributes: clientPublicAttributes,
+      });
 
-  // ================== CREATE ==================
-  // Se completa en ISS-03-C.
+      res.status(200).json({ clients });
+    } catch (error) {
+      res.status(500).json({ error: "Error al obtener clientes" });
+    }
+  }
 
-  // ================== UPDATE ==================
-  // Se completa en ISS-03-D.
+  public async getOneClient(req: Request, res: Response): Promise<void> {
+    try {
+      const client = await Client.findByPk(paramId(req), {
+        attributes: clientPublicAttributes,
+      });
 
-  // ================== DELETE ==================
-  // Se completa en ISS-03-E.
+      if (!client) {
+        res.status(404).json({ error: "Cliente no encontrado" });
+        return;
+      }
+
+      res.status(200).json({ client });
+    } catch (error) {
+      res.status(500).json({ error: "Error al obtener el cliente" });
+    }
+  }
 }
