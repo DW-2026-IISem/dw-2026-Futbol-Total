@@ -108,3 +108,84 @@ Reviso las variables de entorno sin imprimir sus valores y comparo los motores d
 ![Terminal: variables sanitizadas, motores de db.ts y compilacion](evidencias/08-motores-configurados-iss-02.png)
 
 **Resultado:** las variables requeridas existen sin exponer valores en la salida de la terminal. db.ts declara MySQL y PostgreSQL, y npx tsc --noEmit finaliza sin errores. ISS-02 queda comprobado.
+
+
+## Commit de seguimiento - ISS-02
+
+Registro la documentacion de la verificacion de ISS-02 y las evidencias pendientes desde el commit anterior. Envio el commit a origin/main.
+
+### Evidencia 09 - Commit y push de ISS-02
+
+![Terminal: commit documental de ISS-02 y push exitoso](evidencias/09-commit-iss-02.png)
+
+**Commit:** e77424e docs(pedalibre): documentar verificacion ISS-02
+
+**Resultado:** el remoto main se actualizo correctamente. Solo permanece modificada la ruta externa docs/Prompt.md, que no pertenece a Pedalibre-app-exprex.
+
+
+## Diagnostico de Client - ISS-03-A
+
+Comparo la feature Client requerida por el manual con la implementacion heredada. Confirmo que faltan client.model.ts, client.controller.ts, client.routes.ts y la carpeta http dentro de src/features/business/client.
+
+El modelo heredado usa status ACTIVE e INACTIVE, defaultValue ACTIVE y timestamps false. Aunque TypeScript compila, este modelo no cumple la convencion ni la ubicacion definida para ISS-03-A.
+
+### Evidencia 10 - Diagnostico previo de ISS-03-A
+
+![Terminal: estructura faltante y reglas del modelo heredado](evidencias/10-diagnostico-iss-03-a-client.png)
+
+**Resultado:** debo crear la feature Client oficial sin eliminar todavia el codigo heredado. El siguiente paso sera construir el modelo nuevo y verificar su compilacion.
+
+
+## Modelo oficial de Client - ISS-03-A
+
+Creo el modelo oficial en src/features/business/client y la carpeta http. El modelo usa status active e inactive, default inactive, timestamps true y hooks de bcrypt para proteger la contrasena.
+
+### Evidencia 11 - Modelo y carpeta HTTP de Client
+
+![Terminal: dependencias bcrypt, modelo oficial, carpeta HTTP y compilacion](evidencias/11-modelo-client-iss-03-a.png)
+
+**Resultado:** bcryptjs y sus tipos estan instalados. El modelo y la carpeta HTTP existen, y npx tsc --noEmit finaliza sin errores.
+
+
+## Esqueletos de Client - ISS-03-A
+
+Creo los archivos client.controller.ts y client.routes.ts en la feature oficial. Mantengo los metodos como esqueletos porque el CRUD inicia en los sub-ISS posteriores.
+
+### Evidencia 12 - Controller y routes de Client
+
+![Terminal: esqueletos Client y compilacion](evidencias/12-esqueletos-client-iss-03-a.png)
+
+**Resultado:** controller y routes oficiales existen. La compilacion TypeScript termina sin errores.
+
+
+## Cableado de Client - ISS-03-A
+
+Reemplazo el agregador de rutas heredado y conecto el modelo Client oficial con App. El arranque ahora crea Routes, registra la feature y sincroniza Sequelize con alter true para alinear timestamps sin recrear la base de datos.
+
+### Evidencia 13 - Cableado y compilacion de Client
+
+![Terminal: imports, Routes, sincronizacion y compilacion](evidencias/13-cableado-client-iss-03-a.png)
+
+**Resultado:** config importa el modelo y Routes; routePrv registra Client; la sincronizacion usa force false y alter true. TypeScript termina sin errores.
+
+
+## Arranque y sincronizacion de Client - ISS-03-A
+
+Inicio la aplicacion despues de conectar el modelo Client oficial. Confirmo que nodemon ejecuta el servidor, MySQL responde y Sequelize sincroniza la base de datos con la configuracion actual.
+
+### Evidencia 14 - Arranque con Client sincronizado
+
+![Terminal: servidor, MySQL y sincronizacion de Client](evidencias/14-arranque-client-iss-03-a.png)
+
+**Resultado:** el servidor inicia en el puerto 3001, MySQL responde correctamente y la sincronizacion termina sin error.
+
+
+## Estructura real de clients - ISS-03-A
+
+Consulto directamente la tabla clients despues de sincronizar la aplicacion. Verifico que Sequelize aplico la estructura del modelo oficial.
+
+### Evidencia 15 - Tabla clients con timestamps
+
+![Terminal: columnas reales de la tabla clients](evidencias/15-tabla-clients-iss-03-a.png)
+
+**Resultado:** la tabla contiene id, name, address, phone, email, password, status, createdAt y updatedAt. status usa enum active e inactive y su valor por defecto es inactive. ISS-03-A queda comprobado.
