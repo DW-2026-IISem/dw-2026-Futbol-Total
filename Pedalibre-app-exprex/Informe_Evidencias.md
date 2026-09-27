@@ -73,3 +73,38 @@ Inicio el servidor con npm run dev. Confirmo que nodemon ejecuta ts-node, que la
 ![Terminal: servidor Express, conexion MySQL y sincronizacion](evidencias/05-iss-01-arranque-servidor.png)
 
 **Resultado:** el servidor inicia, la conexion a MySQL es exitosa y la base de datos se sincroniza. Con las evidencias de estructura y compilacion, ISS-01 queda comprobado para el alcance inicial.
+
+
+## Commit de seguimiento - ISS-01
+
+Registro la base inicial, la estructura creada, el informe y las cinco evidencias del hito ISS-01 en un commit exclusivo de Pedalibre-app-exprex. Envio el commit a la rama remota main.
+
+### Evidencia 06 - Commit y push exitosos
+
+![Terminal: commit inicial y push a origin main](evidencias/06-commit-inicial-iss-01.png)
+
+**Commit:** ef99c06 chore(pedalibre): registrar base inicial e ISS-01
+
+**Resultado:** GitHub recibio 36 objetos y actualizo main. El estado final conserva solamente la modificacion externa docs/Prompt.md, que no forma parte de este proyecto ni de este commit.
+
+
+## Verificacion de infraestructura - ISS-02
+
+Verifico las dependencias de Sequelize, los archivos de infraestructura y la compilacion TypeScript. Confirmo que mysql2, oracledb, pg-hstore, pg, sequelize y tedious estan instalados, y que existen src/database/db.ts y src/database/seeders.
+
+### Evidencia 07 - Dependencias y archivos de ISS-02
+
+![Terminal: dependencias de base de datos y compilacion](evidencias/07-verificacion-iss-02.png)
+
+**Resultado:** las dependencias requeridas estan disponibles, la infraestructura de base de datos existe y TypeScript compila sin errores. La evidencia muestra los nombres de las variables de entorno sin revelar sus valores.
+
+
+## Configuracion segura y motores - ISS-02
+
+Reviso las variables de entorno sin imprimir sus valores y comparo los motores declarados con la implementacion de src/database/db.ts. Confirmo bloques de configuracion para MySQL, PostgreSQL, MSSQL y Oracle. El modulo actual implementa MySQL y PostgreSQL como motores seleccionables.
+
+### Evidencia 08 - Variables y motores configurados
+
+![Terminal: variables sanitizadas, motores de db.ts y compilacion](evidencias/08-motores-configurados-iss-02.png)
+
+**Resultado:** las variables requeridas existen sin exponer valores en la salida de la terminal. db.ts declara MySQL y PostgreSQL, y npx tsc --noEmit finaliza sin errores. ISS-02 queda comprobado.
