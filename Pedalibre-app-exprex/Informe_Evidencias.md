@@ -301,3 +301,12 @@ Implemente DELETE fisico y PATCH deactivate. En la primera comprobacion el ident
 ![Terminal: deactivate, exclusion de activos, DELETE y 404](evidencias/32-pruebas-delete-iss-03-e.png)
 
 **Resultado:** PATCH deactivate devuelve 200 e inactiva el cliente. GET /api/clientes deja de listarlo, GET por id lo conserva como inactive, DELETE lo elimina con 200 y el GET posterior devuelve 404. ISS-03-E queda comprobado.
+
+
+### Evidencia 33 - Commit y push de ISS-03-E
+
+![Terminal: commit del CRUD completo de Client](evidencias/33-commit-iss-03-e.png)
+
+**Commit:** e8cc369 feat(pedalibre): eliminar clientes ISS-03-E
+
+**Resultado:** el CRUD completo de Client y sus evidencias fueron enviados correctamente a origin/main.

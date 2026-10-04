@@ -412,4 +412,182 @@ Confirmar que el servidor arranca sin errores y detenerlo con `Ctrl+C`.
 
 **Conclusión:** Inicié el servidor con `npm run dev`, confirmé que se ejecutó en el puerto 4000 y luego lo detuve con `Ctrl+C`.
 
-**Commit del hito ISS-01:** pendiente; los cambios se conservan sin commit para que el responsable los revise y decida cómo registrarlos.
+**Commit del hito ISS-01:** `74e35364b03b0eb8c7804166433bc15e3953bf4d` — `feat(pedalibre): completar ISS-01 esqueleto` (creado y enviado por el responsable).
+
+## ISS-02 — Infraestructura de base de datos
+
+**Objetivo del manual:** instalar los drivers, configurar `.env`, crear el módulo Sequelize y reservar `seeders/` para un ISS posterior.  
+**Dependencia:** ISS-01, completado y enviado a `origin/main`.  
+**Referencia:** `Guia-unificada.md`, ISS-02, subítem 3.1 — Drivers Sequelize y `.env`.
+
+### Paso 1 — Instalar Sequelize y drivers *(paquetes instalados; advertencias pendientes de revisar)*
+
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npm install sequelize@^6.37.8 mysql2@^3.24.4 pg@^8.23.0 pg-hstore@^2.3.4 tedious@^20.0.0 oracledb@^7.0.1
+npm install -D @types/sequelize@^6.12.0
+npm ls sequelize mysql2 pg pg-hstore tedious oracledb @types/sequelize --depth=0
+```
+
+**Captura:** mostrar la instalación y el listado de paquetes instalados.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `npm ls` muestra Sequelize `6.37.8`, `mysql2` `3.24.4`, `pg` `8.23.1`, `pg-hstore` `2.3.4`, `tedious` `20.0.3`, `oracledb` `7.0.1` y `@types/sequelize` `6.12.0`.
+- **Advertencias:** npm bloqueó los scripts de instalación de `tedious` y `oracledb`, que requieren revisión/aprobación explícita. npm también informó 19 vulnerabilidades (12 moderadas y 7 altas).
+- **Estado:** Los paquetes están instalados; queda pendiente revisar los scripts bloqueados y el informe de auditoría antes de afirmar que los drivers están listos para conectarse.
+- **Evidencia:** [`E-ISS02-P01-01-drivers.png`](trazabilidad/E-ISS02-P01-01-drivers.png).
+
+![Captura del listado de drivers instalados y las advertencias de npm](trazabilidad/E-ISS02-P01-01-drivers.png)
+
+**Conclusión:** Instalé y confirmé la presencia de los drivers requeridos. También registré los scripts bloqueados de `tedious` y `oracledb` y las vulnerabilidades reportadas; no ejecuté aprobaciones ni reparaciones automáticas.
+
+### Paso 2 — Crear la configuración local `.env` *(configurado; evidencia pendiente)*
+
+**Referencia:** ISS-02, subítem 3.1 — Drivers Sequelize y `.env`.  
+**Acción:** crear `.env` con los valores de entorno proporcionados para Pedalibre y bloques separados para MySQL, PostgreSQL, MSSQL y Oracle.
+
+**Adaptación respecto al manual:** el ejemplo del ISS usa `DB_ENGINE` y nombres genéricos por motor. Para Pedalibre se usa `DB_DIALECT` y variables namespaced (`DB_MYSQL_*`, `DB_POSTGRES_*`, `DB_MSSQL_*`, `DB_ORACLE_*`), de acuerdo con la configuración proporcionada para seleccionar y validar el dialecto activo.
+
+**Protección:** `.env` está excluido por `.gitignore`; mantenerlo local y no agregarlo al commit. Cualquier captura debe mostrar solo los nombres de variables y el dialecto activo, nunca sus valores de credenciales.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `.env` local creado con `PORT=3002`, `NODE_ENV=development`, `DB_DIALECT=mysql` y bloques de configuración para los cuatro motores.
+- **Estado:** Configuración creada; `.env` permanece local e ignorado por Git. La lectura de las variables se verificará al probar el módulo de base de datos.
+- **Evidencia:** sin captura para proteger los valores secretos; se confirmó con `git check-ignore` que `.env` está ignorado.
+
+**Nota de seguridad:** las credenciales compartidas en la conversación quedaron expuestas. Cambiarlas por credenciales fuertes y únicas en los servidores y actualizar el `.env` local antes de usar el entorno fuera de pruebas.
+
+### Paso 3 — Crear `src/database/db.ts` *(archivo creado y compilado)*
+
+**Referencia:** ISS-02, subítem 3.2 — Configuración Sequelize.  
+**Adaptación:** usar `DB_DIALECT` y los bloques `DB_<MOTOR>_*` definidos para Pedalibre, y validar únicamente las variables del motor seleccionado. El Sequelize 6 instalado incluye dialectos para MySQL, PostgreSQL, MSSQL y Oracle; Oracle utilizará `DB_ORACLE_CONNECT_STRING`.
+
+**Acción:** crear `src/database/db.ts` exportando `sequelize`, `getDatabaseInfo` y `testConnection`. El código debe fallar explícitamente si falta `DB_DIALECT`, si un valor de configuración requerido del dialecto activo está ausente o si se selecciona un motor no soportado. `getDatabaseInfo` no debe devolver contraseñas.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `src/database/db.ts` exporta `sequelize`, `getDatabaseInfo` y `testConnection`; requiere `DB_DIALECT` y las variables del motor seleccionado, y `getDatabaseInfo` no incluye la contraseña. `npx tsc --noEmit` terminó sin errores.
+- **Estado:** Cumple el criterio de creación y compilación del módulo.
+- **Evidencia:** [`E-ISS02-P03-01-db-ts-typescript.png`](trazabilidad/E-ISS02-P03-01-db-ts-typescript.png).
+
+![Captura del módulo Sequelize db.ts y de la compilación TypeScript sin errores](trazabilidad/E-ISS02-P03-01-db-ts-typescript.png)
+
+**Conclusión:** Implementé el módulo de Sequelize para los dialectos configurados, oculté la contraseña en la información de diagnóstico y comprobé que el archivo compila.
+
+**Pendiente:** probar que la configuración activa de `.env` se carga correctamente y comprobar la conexión al MySQL configurado para Pedalibre.
+
+### Paso 4 — Validar la configuración MySQL seleccionada *(completado)*
+
+**Acción:** cargar el módulo y confirmar el dialecto activo sin mostrar datos de conexión ni credenciales.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** el módulo cargó 24 variables de `.env` y `getDatabaseInfo().engine` devolvió `mysql`, sin mostrar credenciales.
+- **Estado:** Cumple la validación de configuración del motor seleccionado.
+- **Evidencia:** [`E-ISS02-P04-01-config-mysql-validada.png`](trazabilidad/E-ISS02-P04-01-config-mysql-validada.png).
+
+![Captura de la configuración cargada con MySQL seleccionado, sin exponer secretos](trazabilidad/E-ISS02-P04-01-config-mysql-validada.png)
+
+**Conclusión:** Comprobé que el módulo leyó la configuración local y seleccionó MySQL sin imprimir credenciales.
+
+### Paso 5 — Probar conexión al MySQL de Pedalibre *(completado)*
+
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npx ts-node -e 'import { sequelize } from "./src/database/db"; sequelize.authenticate().then(async () => { console.log("Conexión MySQL exitosa"); await sequelize.close(); }).catch(async () => { console.error("No fue posible conectar con MySQL"); await sequelize.close(); process.exitCode = 1; });'
+```
+
+**Captura:** mostrar solo el resultado de conexión. Revisar que no aparezcan credenciales antes de guardarla.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** Sequelize autenticó contra MySQL y ejecutó `SELECT 1+1 AS result`; la terminal mostró `Conexión MySQL exitosa`.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS02-P05-01-conexion-mysql.png`](trazabilidad/E-ISS02-P05-01-conexion-mysql.png).
+
+![Captura de autenticación exitosa contra MySQL](trazabilidad/E-ISS02-P05-01-conexion-mysql.png)
+
+**Conclusión:** Comprobé que Pedalibre puede conectarse al servidor MySQL configurado y que Sequelize ejecuta una consulta de prueba.
+
+### Paso 6 — Confirmar carpeta `seeders/` reservada *(completado)*
+
+**Referencia:** ISS-02, subítem 3.3 — Carpeta seeders (reservada).  
+**Acción:** comprobar que existe la carpeta y que todavía no contiene seeders ni runner:
+
+```bash
+test -d src/database/seeders && find src/database/seeders -maxdepth 1 -type f -print
+```
+
+La carpeta debe existir y el comando no debe listar archivos. No crear lógica de seeders en ISS-02.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** la carpeta `src/database/seeders/` existe; `find` no listó archivos en ella.
+- **Estado:** Cumple; reservada y sin lógica de seeders.
+- **Evidencia:** [`E-ISS02-P06-01-seeders-reservada.png`](trazabilidad/E-ISS02-P06-01-seeders-reservada.png).
+
+![Captura de la carpeta seeders vacía y la comprobación ejecutada](trazabilidad/E-ISS02-P06-01-seeders-reservada.png)
+
+**Conclusión:** Confirmé que `seeders/` está creada y permanece vacía, tal como requiere ISS-02.
+
+### Paso 7 — Verificar ISS-02 *(completado)*
+
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npx tsc --noEmit
+test -f src/database/db.ts && test -f .env && test -d src/database/seeders && echo "Verificación ISS-02 correcta"
+```
+
+**Captura:** mostrar que TypeScript no reporta errores y aparece `Verificación ISS-02 correcta`. No mostrar el contenido de `.env`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `npx tsc --noEmit` terminó sin errores; existen `src/database/db.ts`, `.env` y `src/database/seeders/`. La terminal imprimió `Verificación ISS-02 correcta`.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS02-P07-01-verificacion.png`](trazabilidad/E-ISS02-P07-01-verificacion.png).
+
+![Captura de la compilación y verificación de archivos de ISS-02](trazabilidad/E-ISS02-P07-01-verificacion.png)
+
+**Conclusión:** Verifiqué que el módulo compila, que existen los archivos requeridos y que `seeders/` está creada.
+
+### Paso 8 — Arrancar el servidor para cerrar ISS-02 *(completado)*
+
+**Acción:** ejecutar desde `Proyecto Backend-2026`:
+
+```bash
+npm run dev
+```
+
+Confirmar que inicia sin errores y que usa el puerto `3002` indicado por `.env`; luego detenerlo con `Ctrl+C`. Si falla, guardar la salida sin secretos y registrar el error antes de corregir.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `npm run dev` inició nodemon/ts-node y mostró `Servidor ejecutándose en puerto 3002`.
+- **Estado:** Cumple. Después de tomar la captura, detuve el servidor con `Ctrl+C`.
+- **Evidencia:** [`E-ISS02-P08-01-arranque-servidor.png`](trazabilidad/E-ISS02-P08-01-arranque-servidor.png).
+
+![Captura del servidor Pedalibre ejecutándose en el puerto 3002](trazabilidad/E-ISS02-P08-01-arranque-servidor.png)
+
+**Conclusión:** Inicié el servidor, confirmé que tomó el puerto 3002 de la configuración y lo detuve con `Ctrl+C`.
+
+### Cierre y GATE de ISS-02
+
+Completé la instalación de drivers, la configuración local de `.env`, el módulo Sequelize y la comprobación de la carpeta `seeders/`. TypeScript compila sin errores, la conexión al MySQL configurado tuvo éxito y el servidor inició en el puerto 3002.
+
+**Resultado del GATE de ISS-02:** cumplido para el alcance verificado.  
+**Pendientes técnicos registrados:** advertencias de scripts bloqueados de instalación y vulnerabilidades npm; Oracle está configurado en el módulo, pero su conexión no se ha probado. `.env` permanece local y excluido de Git.
+
+**Commit del hito ISS-02:** pendiente; el responsable decidirá cuándo crearlo y enviarlo.
