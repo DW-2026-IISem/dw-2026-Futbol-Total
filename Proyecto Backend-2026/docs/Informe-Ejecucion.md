@@ -590,4 +590,740 @@ Completé la instalación de drivers, la configuración local de `.env`, el mód
 **Resultado del GATE de ISS-02:** cumplido para el alcance verificado.  
 **Pendientes técnicos registrados:** advertencias de scripts bloqueados de instalación y vulnerabilidades npm; Oracle está configurado en el módulo, pero su conexión no se ha probado. `.env` permanece local y excluido de Git.
 
-**Commit del hito ISS-02:** pendiente; el responsable decidirá cuándo crearlo y enviarlo.
+**Commit del hito ISS-02:** `6e97ba1bde83c4dbc6fe2a56181f8cb84851d1e7` — `feat(pedalibre): completar ISS-02 infraestructura de base de datos` (creado y enviado por el responsable).
+
+## ISS-03-A — Feature Client: fundación
+
+**Objetivo:** preparar el feature Client con arquitectura por capas.  
+**Dependencia:** ISS-02, completado y enviado a `origin/main`.  
+**Referencia:** `Guia-unificada.md`, ISS-03-A, subítem 4.0.1 — `src/shared/errors/app-error.ts`.
+
+### Paso 1 — Crear `AppError` *(completado)*
+
+**Acción:** desde `Proyecto Backend-2026`, crear `src/shared/errors/app-error.ts`:
+
+```bash
+cat > src/shared/errors/app-error.ts <<'EOF'
+/**
+ * Error de aplicación con código HTTP asociado.
+ *
+ * Lo lanzan los services cuando una regla de negocio no se cumple.
+ * Los controllers lo traducen a una respuesta HTTP.
+ */
+export class AppError extends Error {
+  public readonly statusCode: number;
+
+  public constructor(statusCode: number, message: string) {
+    super(message);
+    this.name = "AppError";
+    this.statusCode = statusCode;
+  }
+}
+EOF
+```
+
+**Captura:** mostrar el archivo en `src/shared/errors/`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `src/shared/errors/app-error.ts` define `AppError`, que extiende `Error` y expone `statusCode`.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P01-01-app-error.png`](trazabilidad/E-ISS03A-P01-01-app-error.png).
+
+![Captura de AppError en src/shared/errors/app-error.ts](trazabilidad/E-ISS03A-P01-01-app-error.png)
+
+**Conclusión:** Creé el error de aplicación con su código HTTP para que los controllers puedan convertir errores de negocio en respuestas HTTP.
+
+### Paso 2 — Crear `BaseController` *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.0.2 — `src/shared/http/base-controller.ts`.  
+**Acción:** crear `src/shared/http/base-controller.ts`:
+
+```bash
+cat > src/shared/http/base-controller.ts <<'EOF'
+import { Request, Response } from "express";
+import { AppError } from "../errors/app-error";
+
+export abstract class BaseController {
+  protected async run(res: Response, work: () => Promise<void>): Promise<void> {
+    try {
+      await work();
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  }
+
+  protected paramId(req: Request): number {
+    const raw = req.params.id;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+
+    if (!value || !/^\d+$/.test(value) || Number(value) < 1) {
+      throw new AppError(400, "Invalid id: must be a positive integer");
+    }
+    return Number(value);
+  }
+
+  protected handleError(res: Response, error: unknown): void {
+    if (error instanceof AppError) {
+      res.status(error.statusCode).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: "Internal server error", detail: String(error) });
+  }
+}
+EOF
+```
+
+**Captura:** mostrar el archivo en `src/shared/http/`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `src/shared/http/base-controller.ts` define `run`, valida `:id` como entero positivo en `paramId` y traduce `AppError` a su código HTTP en `handleError`.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P02-01-base-controller.png`](trazabilidad/E-ISS03A-P02-01-base-controller.png).
+
+![Captura de BaseController con el manejo común de errores y parámetros HTTP](trazabilidad/E-ISS03A-P02-01-base-controller.png)
+
+**Conclusión:** Creé la clase base que centraliza el manejo de errores y la validación de identificadores de los controllers.
+
+### Paso 3 — Crear el helper de transacciones *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.0.3 — `src/shared/database/with-transaction.ts`.  
+**Acción:** crear `src/shared/database/with-transaction.ts`:
+
+```bash
+cat > src/shared/database/with-transaction.ts <<'EOF'
+import { Transaction } from "sequelize";
+import { sequelize } from "../../database/db";
+
+export async function withTransaction<T>(
+  work: (transaction: Transaction) => Promise<T>
+): Promise<T> {
+  const transaction = await sequelize.transaction();
+  let committed = false;
+
+  try {
+    const result = await work(transaction);
+    await transaction.commit();
+    committed = true;
+    return result;
+  } catch (error) {
+    if (!committed) {
+      await transaction.rollback().catch(() => undefined);
+    }
+    throw error;
+  }
+}
+EOF
+```
+
+**Captura:** mostrar el archivo en `src/shared/database/`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `withTransaction` abre una transacción, confirma al completar el trabajo y revierte si ocurre un error antes del commit.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P03-01-with-transaction.png`](trazabilidad/E-ISS03A-P03-01-with-transaction.png).
+
+![Captura del helper withTransaction con commit y rollback](trazabilidad/E-ISS03A-P03-01-with-transaction.png)
+
+**Conclusión:** Creé el helper para ejecutar operaciones dentro de una transacción y asegurar commit o rollback según el resultado.
+
+### Paso 4 — Instalar bcryptjs *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.1 — Modelo Client.  
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npm install bcryptjs@^3.0.3
+npm install -D @types/bcryptjs@^3.0.0
+```
+
+**Captura:** mostrar el resultado de la instalación.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** npm instaló `bcryptjs` y `@types/bcryptjs`. npm reportó 19 vulnerabilidades (12 moderadas y 7 altas) y volvió a advertir que los scripts de `tedious` y `oracledb` están bloqueados.
+- **Estado:** Cumple la instalación solicitada; las advertencias quedan registradas, sin ejecutar reparaciones automáticas.
+- **Evidencia:** [`E-ISS03A-P04-01-bcryptjs.png`](trazabilidad/E-ISS03A-P04-01-bcryptjs.png).
+
+![Captura de instalación de bcryptjs y sus advertencias npm](trazabilidad/E-ISS03A-P04-01-bcryptjs.png)
+
+**Conclusión:** Instalé bcryptjs y sus tipos para proteger las contraseñas del modelo Client. Registré las advertencias de npm sin aplicar correcciones automáticas.
+
+### Paso 5 — Crear el modelo Client *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.1 — Modelo Client.  
+**Acción:** crear `src/features/business/clients/client.model.ts`:
+
+```bash
+cat > src/features/business/clients/client.model.ts <<'EOF'
+import { DataTypes, Model } from "sequelize";
+import { sequelize } from "../../../database/db";
+import bcrypt from "bcryptjs";
+
+export interface ClientI {
+  id?: number;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  password: string;
+  status: "active" | "inactive";
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export class Client extends Model {
+  public id!: number;
+  public name!: string;
+  public address!: string;
+  public phone!: string;
+  public email!: string;
+  public password!: string;
+  public status!: "active" | "inactive";
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+Client.init(
+  {
+    name: { type: DataTypes.STRING, allowNull: true },
+    address: { type: DataTypes.STRING, allowNull: true },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: { notEmpty: { msg: "Phone cannot be empty" } },
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+      validate: { isEmail: { msg: "Email must be a valid email address" } },
+    },
+    password: { type: DataTypes.STRING, allowNull: true },
+    status: {
+      type: DataTypes.ENUM("active", "inactive"),
+      defaultValue: "inactive",
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    modelName: "Client",
+    tableName: "clients",
+    timestamps: true,
+    hooks: {
+      beforeCreate: async (client: Client) => {
+        if (client.password) {
+          const salt = await bcrypt.genSalt(10);
+          client.password = await bcrypt.hash(client.password, salt);
+        }
+      },
+      beforeUpdate: async (client: Client) => {
+        if (client.changed("password") && client.password) {
+          const salt = await bcrypt.genSalt(10);
+          client.password = await bcrypt.hash(client.password, salt);
+        }
+      },
+      beforeBulkCreate: async (clients: Client[]) => {
+        for (const client of clients) {
+          if (client.password) {
+            const salt = await bcrypt.genSalt(10);
+            client.password = await bcrypt.hash(client.password, salt);
+          }
+        }
+      },
+    },
+  },
+);
+EOF
+```
+
+**Captura:** mostrar el modelo en `src/features/business/clients/`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `client.model.ts` con la interfaz y el modelo Client, estado `active`/`inactive`, timestamps y hooks bcrypt para creación, actualización y creación masiva.
+- **Estado:** Archivo creado; falta verificar la compilación TypeScript.
+- **Evidencia:** [`E-ISS03A-P05-01-modelo-client.png`](trazabilidad/E-ISS03A-P05-01-modelo-client.png).
+
+![Captura del modelo Client en Visual Studio Code](trazabilidad/E-ISS03A-P05-01-modelo-client.png)
+
+**Conclusión:** Creé el modelo Client con los campos, el estado predeterminado inactivo, las marcas de tiempo y el hash de contraseña previsto para sus operaciones de escritura. La compilación queda pendiente de verificación.
+
+### Paso 6 — Verificar compilación TypeScript *(completado)*
+
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npx tsc --noEmit
+```
+
+**Captura:** mostrar el comando y su resultado en la terminal. Si aparecen errores, no registrar este paso como cumplido; corregirlos y repetir la verificación.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `npx tsc --noEmit` terminó y devolvió el prompt sin mostrar errores.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P06-01-compilacion-modelo-client.png`](trazabilidad/E-ISS03A-P06-01-compilacion-modelo-client.png).
+
+![Captura de la compilación TypeScript sin errores](trazabilidad/E-ISS03A-P06-01-compilacion-modelo-client.png)
+
+**Conclusión:** Verifiqué el modelo Client con el compilador TypeScript; el comando terminó sin reportar errores.
+
+### Paso 7 — Crear carpetas HTTP y DTO *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — DTO + esqueletos.  
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+mkdir -p src/features/business/clients/http src/features/business/clients/dto
+```
+
+**Captura:** mostrar el árbol del proyecto con ambas carpetas bajo `src/features/business/clients/`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se crearon las carpetas `http/` y `dto/` dentro de `src/features/business/clients/`.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P07-01-carpetas-http-dto.png`](trazabilidad/E-ISS03A-P07-01-carpetas-http-dto.png).
+
+![Captura de las carpetas http y dto del feature Clients](trazabilidad/E-ISS03A-P07-01-carpetas-http-dto.png)
+
+**Conclusión:** Creé las carpetas reservadas para las solicitudes HTTP de prueba y los objetos de transferencia de datos del feature Clients.
+
+### Paso 8 — Crear DTO de creación *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — DTO `CreateClientDto`.  
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+cat > src/features/business/clients/dto/create-client.dto.ts <<'EOF'
+/** Datos de entrada de `POST /api/clientes`. */
+export interface CreateClientDto {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  password: string;
+  /** Opcional: por defecto `active`. Tras crearlo, el estado sólo cambia con el borrado lógico. */
+  status?: "active" | "inactive";
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `create-client.dto.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `CreateClientDto` con los datos de entrada requeridos y el estado opcional `active`/`inactive`.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P08-01-create-client-dto.png`](trazabilidad/E-ISS03A-P08-01-create-client-dto.png).
+
+![Captura del DTO CreateClientDto](trazabilidad/E-ISS03A-P08-01-create-client-dto.png)
+
+**Conclusión:** Definí los datos aceptados para crear un cliente y dejé el estado como campo opcional, conforme al contrato del manual.
+
+### Paso 9 — Crear DTO de actualización *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — DTO `UpdateClientDto`.  
+**Acción:** crear el archivo desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/dto/update-client.dto.ts <<'EOF'
+/**
+ * Datos de entrada de `PUT /api/clientes/:id` (reemplazo completo).
+ *
+ * `status` no se incluye: el estado sólo cambia con el borrado lógico.
+ */
+export interface UpdateClientDto {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  /** Si no se envía, el service conserva el hash actual. */
+  password?: string;
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `update-client.dto.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `UpdateClientDto` para reemplazo completo; incluye los datos requeridos y contraseña opcional, sin permitir cambiar el estado mediante PUT.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P09-01-update-client-dto.png`](trazabilidad/E-ISS03A-P09-01-update-client-dto.png).
+
+![Captura del DTO UpdateClientDto](trazabilidad/E-ISS03A-P09-01-update-client-dto.png)
+
+**Conclusión:** Definí el contrato de actualización completa. Dejé fuera el estado para que su modificación quede reservada al borrado lógico.
+
+### Paso 10 — Crear DTO de actualización parcial *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — DTO `PatchClientDto`.  
+**Acción:** crear desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/dto/patch-client.dto.ts <<'EOF'
+import { UpdateClientDto } from "./update-client.dto";
+
+/** Datos de entrada de `PATCH /api/clientes/:id` (actualización parcial). */
+export type PatchClientDto = Partial<UpdateClientDto>;
+EOF
+```
+
+**Captura:** mostrar el archivo completo `patch-client.dto.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `PatchClientDto` como `Partial<UpdateClientDto>`. La captura muestra el comando y el resultado en la terminal, y el archivo en el árbol del proyecto.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P10-01-patch-client-dto.png`](trazabilidad/E-ISS03A-P10-01-patch-client-dto.png).
+
+![Captura de la creación de PatchClientDto](trazabilidad/E-ISS03A-P10-01-patch-client-dto.png)
+
+**Conclusión:** Definí el DTO para actualizar parcialmente un cliente reutilizando los campos permitidos por `UpdateClientDto`.
+
+### Paso 11 — Crear DTO de respuesta *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — DTO `ClientResponseDto`.  
+**Acción:** crear el archivo desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/dto/client-response.dto.ts <<'EOF'
+import { Client, ClientI } from "../client.model";
+
+/**
+ * Respuesta HTTP de un cliente. Lo usan GET de clientes y las respuestas de
+ * creación, actualización y borrado lógico.
+ * La contraseña nunca se expone.
+ */
+export type ClientResponseDto = Omit<ClientI, "password">;
+
+/** Convierte el modelo en un objeto plano sin la contraseña. */
+export function toClientResponse(client: Client): ClientResponseDto {
+  const { password, ...safe } = client.toJSON() as ClientI & { password?: string };
+  return safe;
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `client-response.dto.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `ClientResponseDto` y el mapper `toClientResponse`, que devuelve los datos del modelo sin la contraseña.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P11-01-client-response-dto.png`](trazabilidad/E-ISS03A-P11-01-client-response-dto.png).
+
+![Captura del DTO de respuesta que excluye la contraseña](trazabilidad/E-ISS03A-P11-01-client-response-dto.png)
+
+**Conclusión:** Definí el DTO de respuesta y su mapper; comprobé visualmente que la contraseña se excluye de la salida prevista para HTTP.
+
+### Paso 12 — Crear el índice de exportación de DTOs *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — `dto/index.ts`.  
+**Acción:** crear el archivo desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/dto/index.ts <<'EOF'
+export * from "./create-client.dto";
+export * from "./update-client.dto";
+export * from "./patch-client.dto";
+export * from "./client-response.dto";
+EOF
+```
+
+**Captura:** mostrar el archivo completo `dto/index.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `dto/index.ts` exporta los DTOs de creación, actualización completa, actualización parcial y respuesta.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P12-01-dto-index.png`](trazabilidad/E-ISS03A-P12-01-dto-index.png).
+
+![Captura del índice de exportación de DTOs](trazabilidad/E-ISS03A-P12-01-dto-index.png)
+
+**Conclusión:** Centralicé las exportaciones de los cuatro DTOs en el punto de entrada de la carpeta.
+
+### Paso 13 — Crear esqueleto del repository *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — Repository.  
+**Acción:** crear desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/clients.repository.ts <<'EOF'
+import { Client } from "./client.model";
+
+/**
+ * Capa Repository del feature Clients.
+ * Única responsable de hablar con Sequelize (el modelo `Client`).
+ */
+export class ClientsRepository {
+  // ================== READ ==================
+  // (rellenar en ISS-03-B) findAllActive, findById
+
+  // ================== CREATE ==================
+  // (rellenar en ISS-03-C) create
+
+  // ================== UPDATE ==================
+  // (rellenar en ISS-03-D) update
+
+  // ================== DELETE ==================
+  // (rellenar en ISS-03-E) delete
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `clients.repository.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `ClientsRepository` con la importación de `Client` y secciones reservadas para READ, CREATE, UPDATE y DELETE de las siguientes ISS.
+- **Estado:** Cumple el criterio de esqueleto.
+- **Evidencia:** [`E-ISS03A-P13-01-clients-repository.png`](trazabilidad/E-ISS03A-P13-01-clients-repository.png).
+
+![Captura del esqueleto de ClientsRepository](trazabilidad/E-ISS03A-P13-01-clients-repository.png)
+
+**Conclusión:** Creé el esqueleto del repository con la separación por operaciones definida para completar el CRUD en las ISS posteriores.
+
+### Paso 14 — Crear esqueleto del service *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — Service.  
+**Acción:** crear desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/clients.service.ts <<'EOF'
+import { ClientsRepository } from "./clients.repository";
+
+/**
+ * Capa Service del feature Clients.
+ * Reglas de negocio; no conoce req/res ni Sequelize (delega en el repository).
+ */
+export class ClientsService {
+  public constructor(
+    private readonly repository: ClientsRepository = new ClientsRepository()
+  ) {}
+
+  // ================== READ ==================
+  // (rellenar en ISS-03-B) getAll, getOne
+
+  // ================== CREATE ==================
+  // (rellenar en ISS-03-C) create
+
+  // ================== UPDATE ==================
+  // (rellenar en ISS-03-D) updatePut, updatePatch
+
+  // ================== DELETE ==================
+  // (rellenar en ISS-03-E) deletePhysical, deleteLogical
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `clients.service.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `ClientsService`, que recibe `ClientsRepository` y reserva secciones para las operaciones CRUD que se completarán en ISS-03-B a ISS-03-E.
+- **Estado:** Cumple el criterio de esqueleto.
+- **Evidencia:** [`E-ISS03A-P14-01-clients-service.png`](trazabilidad/E-ISS03A-P14-01-clients-service.png).
+
+![Captura del esqueleto de ClientsService](trazabilidad/E-ISS03A-P14-01-clients-service.png)
+
+**Conclusión:** Creé el esqueleto del service con inyección del repository y reservé las operaciones de negocio para las ISS posteriores.
+
+### Paso 15 — Crear esqueleto del controller *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — Controller.  
+**Acción:** crear desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/clients.controller.ts <<'EOF'
+import { Request, Response } from "express";
+import { BaseController } from "../../../shared/http/base-controller";
+import { ClientsService } from "./clients.service";
+
+/**
+ * Capa Controller del feature Clients.
+ * Solo HTTP: lee req, llama al service y arma res.
+ */
+export class ClientsController extends BaseController {
+  public constructor(
+    private readonly service: ClientsService = new ClientsService()
+  ) {
+    super();
+  }
+
+  // ================== READ ==================
+  // (rellenar en ISS-03-B) getAll, getOne
+
+  // ================== CREATE ==================
+  // (rellenar en ISS-03-C) create
+
+  // ================== UPDATE ==================
+  // (rellenar en ISS-03-D) updatePut, updatePatch
+
+  // ================== DELETE ==================
+  // (rellenar en ISS-03-E) deletePhysical, deleteLogical
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `clients.controller.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `ClientsController`, que extiende `BaseController`, recibe `ClientsService` y reserva las operaciones para ISS-03-B a ISS-03-E.
+- **Estado:** Cumple el criterio de esqueleto.
+- **Evidencia:** [`E-ISS03A-P15-01-clients-controller.png`](trazabilidad/E-ISS03A-P15-01-clients-controller.png).
+
+![Captura del esqueleto de ClientsController](trazabilidad/E-ISS03A-P15-01-clients-controller.png)
+
+**Conclusión:** Creé el esqueleto del controller con su dependencia del service y las áreas de operaciones pendientes.
+
+### Paso 16 — Crear esqueleto de rutas *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.2 — Routes.  
+**Acción:** crear desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/features/business/clients/clients.routes.ts <<'EOF'
+import { Application } from "express";
+import { ClientsController } from "./clients.controller";
+
+export class ClientsRoutes {
+  public clientsController: ClientsController = new ClientsController();
+
+  public routes(app: Application): void {
+    // Rutas del feature, sin autenticación ni middleware JWT en esta fase.
+    // Se completarán en ISS-03-B a ISS-03-E.
+  }
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `clients.routes.ts` en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `ClientsRoutes` con una instancia de `ClientsController` y el método `routes(app)` reservado, sin endpoints ni middleware JWT en esta fase.
+- **Estado:** Cumple el criterio de esqueleto.
+- **Evidencia:** [`E-ISS03A-P16-01-clients-routes.png`](trazabilidad/E-ISS03A-P16-01-clients-routes.png).
+
+![Captura del esqueleto de ClientsRoutes](trazabilidad/E-ISS03A-P16-01-clients-routes.png)
+
+**Conclusión:** Reservé la estructura de rutas del feature para completarla en las ISS siguientes, manteniendo la indicación del manual de no añadir autenticación en esta fase.
+
+### Paso 17 — Crear agregador de rutas *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.3 — Agregador Routes.  
+**Acción:** crear desde `Proyecto Backend-2026`:
+
+```bash
+cat > src/routes/index.ts <<'EOF'
+import { ClientsRoutes } from "../features/business/clients/clients.routes";
+
+export class Routes {
+  public clientsRoutes: ClientsRoutes = new ClientsRoutes();
+}
+EOF
+```
+
+**Captura:** mostrar `src/routes/index.ts` completo y el árbol de archivos.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `src/routes/index.ts` con la clase `Routes` y una instancia de `ClientsRoutes`.
+- **Estado:** Cumple el criterio del subítem 4.3.
+- **Evidencia:** [`E-ISS03A-P17-01-routes-index.png`](trazabilidad/E-ISS03A-P17-01-routes-index.png).
+
+![Captura del agregador Routes](trazabilidad/E-ISS03A-P17-01-routes-index.png)
+
+**Conclusión:** Creé el agregador del feature Clients; queda pendiente cablearlo a `App`.
+
+### Paso 18 — Cablear rutas e inicialización de base de datos *(completado)*
+
+**Referencia:** ISS-03-A, subítem 4.3 — integración con `src/config/index.ts`.
+
+El manual indica importar el modelo y la configuración Sequelize, registrar `Routes` en la aplicación y ejecutar `sequelize.sync({ force: false, alter: true })` durante el arranque. La opción `alter: true` puede alterar el esquema existente de la base de datos. El usuario autorizó seguir el manual con esta opción; debe ejecutarse únicamente sobre una base de desarrollo respaldada.
+
+**Adaptación aplicada:** el manual parte de una variante de `src/config/index.ts` con `var cors = require(...)`; el proyecto ya utiliza imports ES (`import cors from "cors"`). Se conservó la estructura e imports actuales y se añadieron el registro de rutas y la inicialización Sequelize.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** Sequelize autenticó correctamente en MySQL; `sequelize.sync({ force: false, alter: true })` sincronizó `clients`, incluida la incorporación de `createdAt` y `updatedAt`; el servidor inició en el puerto 3002.
+- **Estado:** Cumple. La opción `alter: true` se ejecutó con autorización del usuario; las modificaciones observables del esquema quedan registradas.
+- **Evidencia:** [`E-ISS03A-P18-01-db-sync-server.png`](trazabilidad/E-ISS03A-P18-01-db-sync-server.png).
+
+![Captura de conexión MySQL, sincronización de clients e inicio del servidor](trazabilidad/E-ISS03A-P18-01-db-sync-server.png)
+
+**Conclusión:** Conecté la aplicación a la base seleccionada, sincronicé el modelo Client y comprobé que el servidor inició en el puerto 3002.
+
+### Paso 19 — Detener el servidor de desarrollo *(completado)*
+
+**Acción:** en la terminal donde se ejecuta `npm run dev`, presionar `Ctrl+C` una vez y esperar a que vuelva el prompt.
+
+**Captura:** mostrar la terminación del proceso y el prompt de la terminal.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se presionó `Ctrl+C`; el proceso terminó y la terminal devolvió el prompt.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P19-01-detener-servidor.png`](trazabilidad/E-ISS03A-P19-01-detener-servidor.png).
+
+![Captura de la detención del servidor con Ctrl+C](trazabilidad/E-ISS03A-P19-01-detener-servidor.png)
+
+**Conclusión:** Detuve el servidor después de comprobar la conexión a la base de datos y el inicio exitoso.
+
+### Paso 20 — Verificación final TypeScript de ISS-03-A *(completado)*
+
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npx tsc --noEmit
+```
+
+**Captura:** mostrar el comando y su resultado final en la terminal.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `npx tsc --noEmit` terminó y devolvió el prompt sin reportar errores.
+- **Estado:** Cumple.
+- **Evidencia:** [`E-ISS03A-P20-01-verificacion-final.png`](trazabilidad/E-ISS03A-P20-01-verificacion-final.png).
+
+![Captura de la compilación final sin errores](trazabilidad/E-ISS03A-P20-01-verificacion-final.png)
+
+**Conclusión:** Verifiqué la compilación de ISS-03-A con TypeScript y el comando terminó sin mostrar errores.
+
+### Criterios de cierre ISS-03-A
+
+- [x] Carpetas `dto/` y `http/` creadas.
+- [x] DTOs create/update/patch/response e índice de exportación creados.
+- [x] Esqueletos de repository, service, controller y routes creados.
+- [x] Agregador de rutas conectado a `App`.
+- [x] Modelo Client importado y sincronización de base verificada.
+- [x] Servidor detenido y compilación TypeScript verificada.
+
+**Estado de ISS-03-A:** completado según verificaciones ejecutadas. La implementación de operaciones CRUD queda para ISS-03-B a ISS-03-E.

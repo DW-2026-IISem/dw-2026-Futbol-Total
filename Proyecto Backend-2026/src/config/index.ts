@@ -2,11 +2,15 @@ import dotenv from "dotenv";
 import express, { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
+import { sequelize, getDatabaseInfo, testConnection } from "../database/db";
+import "../features/business/clients/client.model";
+import { Routes } from "../routes/index";
 
 dotenv.config();
 
 export class App {
   public app: Application;
+  public routePrv: Routes = new Routes();
 
   constructor(private port?: number | string) {
     this.app = express();
@@ -26,9 +30,30 @@ export class App {
     this.app.use(express.urlencoded({ extended: false }));
   }
 
-  private routes(): void {}
+  private routes(): void {
+    this.routePrv.clientsRoutes.routes(this.app);
+  }
 
-  private async dbConnection(): Promise<void> {}
+  private async dbConnection(): Promise<void> {
+    try {
+      const dbInfo = getDatabaseInfo();
+      console.log(`Intentando conectar a: ${dbInfo.engine.toUpperCase()}`);
+
+      const isConnected = await testConnection();
+
+      if (!isConnected) {
+        throw new Error(
+          `No se pudo conectar a la base de datos ${dbInfo.engine.toUpperCase()}`,
+        );
+      }
+
+      await sequelize.sync({ force: false, alter: true });
+      console.log("Base de datos sincronizada exitosamente");
+    } catch (error) {
+      console.error("Error al conectar con la base de datos:", error);
+      process.exit(1);
+    }
+  }
 
   async listen(): Promise<void> {
     await this.dbConnection();
