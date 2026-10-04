@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "nodemon --watch src --ext ts --exec ts-node -- src/server.ts"
+    "dev": "nodemon --watch src --ext ts --exec ts-node -- src/server.ts",
+    "db:seed": "ts-node -- src/database/seeders/index.ts"
   },
   "keywords": [],
   "type": "commonjs",
@@ -27,6 +28,7 @@
     "tedious": "^20.3.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
     "@types/bcryptjs": "^3.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

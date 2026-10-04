@@ -1947,3 +1947,127 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![Verificación npx tsc --noEmit sin errores para ISS-03-E](trazabilidad/E-ISS03E-P52-01-typescript.png)
 
 **Cierre ISS-03-E:** repository, service, controller, rutas públicas de eliminación física y lógica, plantilla HTTP y pruebas de ambas modalidades completadas. La desactivación lógica respondió HTTP 200 y quedó oculta del GET con HTTP 404; la eliminación física del registro descartable respondió HTTP 200. La compilación TypeScript terminó sin errores.
+
+**Publicación local de ISS-03-B a ISS-03-E:** el usuario ejecutó `git push origin main`; la terminal confirmó la actualización de `main` desde `d080878` hasta `9c7b615`.  
+**Evidencia:** [`E-ISS03E-P53-01-push-main.png`](trazabilidad/E-ISS03E-P53-01-push-main.png).
+
+![Push de los commits ISS-03-B a ISS-03-E a origin/main](trazabilidad/E-ISS03E-P53-01-push-main.png)
+
+### Paso 54 — Instalar Faker *(completado)*
+
+**Referencia:** ISS-04, seeder del feature Client.  
+**Acción:** instalar `@faker-js/faker@^10.6.0` como dependencia de desarrollo.
+
+**Resultado observado:** npm agregó el paquete y `package.json` declara `@faker-js/faker` con el rango `^10.6.0`. La salida reporta vulnerabilidades en el árbol de dependencias; no se ejecutó `npm audit fix`.
+
+**Estado:** Cumple; Faker está disponible para el seeder.  
+**Evidencia:** [`E-ISS04-P54-01-faker-install.png`](trazabilidad/E-ISS04-P54-01-faker-install.png).
+
+![Instalación de Faker como dependencia de desarrollo](trazabilidad/E-ISS04-P54-01-faker-install.png)
+
+### Paso 55 — Crear el seeder del feature Client *(completado)*
+
+**Referencia:** ISS-04, sección 9.1 — seeder dentro del feature Client.  
+**Objetivo:** crear `src/features/business/clients/clients.seeder.ts` con `seedClients(count)`, generación Faker e idempotencia basada en el conteo existente.
+
+**Adaptación prevista respecto al ejemplo del manual:** en lugar de usar una contraseña fija compartida (`Password123!`), generar una contraseña sintética independiente con Faker por cada fila. El modelo aplica su hook de hashing en `bulkCreate`; así no se incorpora una contraseña de prueba reutilizable al código fuente.
+
+**Resultado observado:** `clients.seeder.ts` exporta `seedClients(count)`, omite conteo no positivo y no vuelve a insertar cuando ya existen clientes. Los datos se generan con Faker y la contraseña se genera por registro. El archivo compila pendiente de la verificación conjunta del ISS-04.
+
+**Estado:** Implementado; falta evidencia visual específica del archivo y pruebas.
+**Evidencia:** [`E-ISS04-P55-01-clients-seeder.png`](trazabilidad/E-ISS04-P55-01-clients-seeder.png).
+
+![Seeder de clientes con Faker e idempotencia](trazabilidad/E-ISS04-P55-01-clients-seeder.png)
+
+### Paso 56 — Configurar conteos por entidad *(completado)*
+
+**Referencia:** ISS-04, sección 9.2.1 — conteos para el SeedersRunner.  
+**Acción:** crear `src/database/seeders/counts.ts` para definir el conteo por defecto y resolver valores desde entorno y argumentos CLI.
+
+**Resultado observado:** `SeedCounts` incluye `clients`, el valor por defecto es 10 y `resolveSeedCounts` aplica la prioridad CLI > `SEED_CLIENTS` > default.
+
+**Estado:** Implementado; pendiente de validación junto con el runner.  
+**Evidencia:** [`E-ISS04-P56-01-seed-counts.png`](trazabilidad/E-ISS04-P56-01-seed-counts.png).
+
+![Conteos de seed configurables para clientes](trazabilidad/E-ISS04-P56-01-seed-counts.png)
+
+### Paso 57 — Crear el SeedersRunner *(completado)*
+
+**Referencia:** ISS-04, sección 9.2.2 — orquestador de seeders.  
+**Acción:** crear `src/database/seeders/index.ts` para resolver conteos, probar la conexión, sincronizar el esquema sin forzar y ejecutar el seeder de clientes; cerrar Sequelize al finalizar correctamente o ante error.
+
+**Resultado observado:** el runner importa `sequelize`, `testConnection`, el modelo Client, `seedClients` y `resolveSeedCounts`. La captura muestra la ejecución y el cierre de recursos. Se mantiene el patrón del proyecto con `testConnection()` que devuelve booleano; si falla, el runner genera un error explícito.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS04-P57-01-seeders-runner.png`](trazabilidad/E-ISS04-P57-01-seeders-runner.png).
+
+![SeedersRunner con conexión, conteos y cierre de Sequelize](trazabilidad/E-ISS04-P57-01-seeders-runner.png)
+
+### Paso 58 — Agregar comando npm para el runner *(completado)*
+
+**Acción:** agregar `db:seed` en `package.json` para ejecutar `src/database/seeders/index.ts` con ts-node.
+
+**Resultado observado:** el script `db:seed` quedó configurado y fue listado por `npm run`.
+
+**Estado:** Configurado y verificado en la lista de scripts.
+
+### Paso 59 — Validar TypeScript y el script npm *(completado)*
+
+**Acción:** ejecutar `npx tsc --noEmit` y `npm run` desde el proyecto.
+
+**Resultado observado:** TypeScript terminó sin errores y npm listó `db:seed` junto con los demás scripts.
+
+**Estado:** Cumple la comprobación estática y la configuración del comando.  
+**Evidencia:** [`E-ISS04-P59-01-typescript-scripts.png`](trazabilidad/E-ISS04-P59-01-typescript-scripts.png).
+
+![Compilación TypeScript sin errores y script db:seed visible](trazabilidad/E-ISS04-P59-01-typescript-scripts.png)
+
+### Paso 60 — Ejecutar el seeder con el conteo predeterminado *(completado)*
+
+**Acción:** ejecutar `npm run db:seed` con el conteo predeterminado de 10 clientes.
+
+**Resultado observado:** el runner se conectó a MySQL y completó `sequelize.sync({ force: false, alter: true })`, mostrando sentencias `ALTER TABLE` para la tabla `clients`. El conteo existente fue de 110 registros, por lo que el seeder informó que omitía la inserción; no creó filas. El runner finalizó y cerró la conexión correctamente.
+
+**Adaptación y precaución:** el manual también usa `alter: true`; esta ejecución lo aplicó a la base MySQL seleccionada por el `.env` local. Aunque el esquema se sincronizó correctamente, futuras ejecuciones del runner repetirán esta sincronización.
+
+**Estado:** Cumple conexión, sincronización y omisión idempotente ante registros existentes.  
+**Evidencia:** [`E-ISS04-P60-01-seed-default-skip.png`](trazabilidad/E-ISS04-P60-01-seed-default-skip.png).
+
+![Runner conectado, sincronización de clients y seeder omitido por registros existentes](trazabilidad/E-ISS04-P60-01-seed-default-skip.png)
+
+### Paso 61 — Verificar conteo configurado por CLI *(completado)*
+
+**Acción:** ejecutar `npm run db:seed -- --clients=20`.
+
+**Resultado observado:** el runner resolvió y mostró `clients: 20`, confirmando que el argumento CLI prevalece sobre el default. Se conectó a MySQL, volvió a sincronizar el esquema y detectó 110 registros, por lo que omitió nuevas inserciones.
+
+**Estado:** Cumple precedencia CLI sobre el valor por defecto e idempotencia con registros existentes.  
+**Evidencia:** [`E-ISS04-P61-01-seed-cli-count.png`](trazabilidad/E-ISS04-P61-01-seed-cli-count.png).
+
+![Runner con clients 20 resuelto desde CLI y seeder omitido](trazabilidad/E-ISS04-P61-01-seed-cli-count.png)
+
+### Paso 62 — Verificar conteo por variable de entorno *(completado)*
+
+**Acción:** ejecutar `SEED_CLIENTS=5 npm run db:seed`.
+
+**Resultado observado:** el runner resolvió y mostró `clients: 5`, se conectó a MySQL, sincronizó la tabla y omitió la inserción porque ya existen 110 registros. Esto verifica que `SEED_CLIENTS` se utiliza cuando no se especifica un argumento CLI.
+
+**Estado:** Cumple precedencia de entorno sobre default e idempotencia con registros existentes.  
+**Evidencia:** [`E-ISS04-P62-01-seed-env-count.png`](trazabilidad/E-ISS04-P62-01-seed-env-count.png).
+
+![Runner con clients 5 desde SEED_CLIENTS y seeder omitido](trazabilidad/E-ISS04-P62-01-seed-env-count.png)
+
+### Paso 63 — Verificar arranque del servidor al cerrar ISS-04 *(completado)*
+
+**Referencia:** ISS-04, cierre del ISS.  
+**Acción:** ejecutar `npm run dev`, confirmar el arranque y detener el servidor con Ctrl+C.
+
+**Resultado observado:** el servidor sincronizó la base de datos y arrancó en el puerto 3002. Después se interrumpió con Ctrl+C y la terminal volvió al prompt.
+
+**Estado:** Cumple el paso de cierre del manual.  
+**Evidencia de arranque:** [`E-ISS04-P63-01-server-start.png`](trazabilidad/E-ISS04-P63-01-server-start.png).  
+**Evidencia de detención:** [`E-ISS04-P64-01-server-stop.png`](trazabilidad/E-ISS04-P64-01-server-stop.png).
+
+![Servidor iniciado y luego detenido con Ctrl+C](trazabilidad/E-ISS04-P64-01-server-stop.png)
+
+**Cierre ISS-04:** se implementaron el seeder de clientes con Faker, conteos configurables por default/entorno/CLI, SeedersRunner y script npm. Las tres ejecuciones del runner probaron resolución de cantidades e idempotencia ante 110 registros existentes; no se verificó la ruta de inserción sobre base vacía. TypeScript compiló sin errores y el servidor arrancó y se detuvo correctamente.
