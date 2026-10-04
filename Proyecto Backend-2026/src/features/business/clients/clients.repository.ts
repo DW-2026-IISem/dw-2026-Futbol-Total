@@ -33,5 +33,8 @@ export class ClientsRepository {
   }
 
   // ================== DELETE ==================
-  // (rellenar en ISS-03-E) delete
+  /** Elimina físicamente una instancia. */
+  public async delete(client: Client): Promise<void> {
+    await client.destroy();
+  }
 }

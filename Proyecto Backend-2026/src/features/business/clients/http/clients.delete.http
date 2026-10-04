@@ -1,0 +1,11 @@
+### Solicitudes públicas de eliminación; usar solo IDs creados para pruebas.
+@baseUrl = http://localhost:3002
+@logicalId = 113
+@physicalId = 114
+
+### Eliminación lógica - cambia status a inactive
+PATCH {{baseUrl}}/api/clientes/{{logicalId}}/deactivate
+
+### Eliminación física - elimina permanentemente la fila
+# Ejecutar solo sobre un ID de prueba que ya no se necesite.
+DELETE {{baseUrl}}/api/clientes/{{physicalId}}

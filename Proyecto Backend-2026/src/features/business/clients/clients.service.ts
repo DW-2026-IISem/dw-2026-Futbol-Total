@@ -74,7 +74,18 @@ export class ClientsService {
   }
 
   // ================== DELETE ==================
-  // (rellenar en ISS-03-E) deletePhysical, deleteLogical
+  /** Eliminación física. */
+  public async deletePhysical(id: number): Promise<void> {
+    const client = await this.findOrFail(id, false);
+    await this.repository.delete(client);
+  }
+
+  /** Eliminación lógica -> status = inactive. */
+  public async deleteLogical(id: number): Promise<ClientResponseDto> {
+    const client = await this.findOrFail(id);
+    await this.repository.update(client, { status: "inactive" });
+    return toClientResponse(client);
+  }
 
   // ================== HELPERS ==================
   private async findOrFail(id: number, onlyActive = true): Promise<Client> {

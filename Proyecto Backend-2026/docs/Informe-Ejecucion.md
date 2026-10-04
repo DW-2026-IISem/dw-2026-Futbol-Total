@@ -1831,3 +1831,119 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![Verificación npx tsc --noEmit sin errores](trazabilidad/E-ISS03D-P42-01-typescript.png)
 
 **Cierre ISS-03-D:** las operaciones PUT y PATCH quedaron conectadas, ambas respondieron HTTP 200 en el cliente de prueba y la compilación TypeScript terminó sin errores. No se modificó la política de autenticación; se mantuvo el criterio público aplicado en los endpoints anteriores.
+
+### Paso 43 — Agregar eliminación física al repository *(completado)*
+
+**Referencia:** ISS-03-E, operación de eliminación del repository.  
+**Acción:** agregar `delete(client)` para eliminar físicamente la instancia recibida.
+
+**Resultado observado:** `ClientsRepository.delete` espera la operación `client.destroy()`. La eliminación lógica se manejará por separado desde el service mediante el estado `inactive`.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS03E-P43-01-repository-delete.png`](trazabilidad/E-ISS03E-P43-01-repository-delete.png).
+
+![Repository con eliminación física mediante client.destroy](trazabilidad/E-ISS03E-P43-01-repository-delete.png)
+
+### Paso 44 — Implementar eliminación física y lógica en el service *(completado)*
+
+**Referencia:** ISS-03-E, métodos del service.  
+**Acción:** implementar `deletePhysical` y `deleteLogical`, reutilizando `findOrFail` y el repository.
+
+**Resultado observado:** `deletePhysical` permite localizar también clientes inactivos antes de purgarlos; `deleteLogical` marca como `inactive` un cliente activo y devuelve el DTO de respuesta.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS03E-P44-01-service-delete.png`](trazabilidad/E-ISS03E-P44-01-service-delete.png).
+
+![Service con operaciones de eliminación física y lógica](trazabilidad/E-ISS03E-P44-01-service-delete.png)
+
+### Paso 45 — Conectar eliminaciones física y lógica en el controller *(completado)*
+
+**Referencia:** ISS-03-E, handlers de eliminación.  
+**Acción:** agregar `deletePhysical` y `deleteLogical`, validar el ID con `paramId` y ejecutar ambos dentro de `BaseController.run`.
+
+**Resultado observado:** el handler físico responde con un mensaje y el ID eliminado; el lógico responde con un mensaje y el DTO del cliente desactivado. Ambos están preparados para responder HTTP 200.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS03E-P45-01-controller-delete.png`](trazabilidad/E-ISS03E-P45-01-controller-delete.png).
+
+![Handlers deletePhysical y deleteLogical del controller](trazabilidad/E-ISS03E-P45-01-controller-delete.png)
+
+### Paso 46 — Registrar rutas de eliminación *(completado)*
+
+**Referencia:** ISS-03-E, rutas públicas de eliminación.  
+**Acción:** conectar `DELETE /api/clientes/:id` con `deletePhysical` y `PATCH /api/clientes/:id/deactivate` con `deleteLogical`, sin agregar middleware de autenticación.
+
+**Resultado observado:** ambas rutas quedaron registradas; la ruta de detalle conserva GET, PUT, PATCH y DELETE. La verificación funcional se realizará en las pruebas HTTP.
+
+**Estado:** Implementado; falta evidencia visual específica de la plantilla y las pruebas.  
+**Evidencia:** [`E-ISS03E-P46-01-routes-delete.png`](trazabilidad/E-ISS03E-P46-01-routes-delete.png).
+
+![Rutas DELETE física y PATCH de desactivación lógica](trazabilidad/E-ISS03E-P46-01-routes-delete.png)
+
+### Paso 47 — Preparar plantilla HTTP para eliminaciones *(archivo preparado)*
+
+**Acción:** crear `clients.delete.http` con los endpoints públicos de eliminación lógica y física.
+
+**Resultado observado:** la plantilla incluye `PATCH /api/clientes/:id/deactivate` con el ID 113, cliente de prueba usado en ISS-03-D, y separa el ID del borrado físico mediante un marcador que requiere un registro descartable distinto. Incluye una advertencia de que el borrado físico elimina permanentemente la fila; no se han ejecutado estas solicitudes.
+
+**Estado:** Plantilla preparada; el ID 113 se reserva para probar la eliminación lógica. El borrado físico queda pendiente de un ID descartable y autorización antes de ejecutarlo.  
+**Evidencia:** [`E-ISS03E-P47-01-delete-http.png`](trazabilidad/E-ISS03E-P47-01-delete-http.png).
+
+![Plantilla REST Client de eliminación lógica y física con IDs separados](trazabilidad/E-ISS03E-P47-01-delete-http.png)
+
+### Paso 48 — Probar la eliminación lógica *(completado)*
+
+**Acción:** enviar `PATCH /api/clientes/113/deactivate` sobre el cliente de prueba.
+
+**Resultado observado:** el servidor respondió `HTTP/1.1 200 OK`. El cuerpo confirma `Client deactivated (logical delete)` y muestra `status: inactive` para el cliente 113.
+
+**Estado:** Cumple; el registro fue desactivado lógicamente, sin borrarlo físicamente.  
+**Evidencia:** [`E-ISS03E-P48-01-deactivate-200.png`](trazabilidad/E-ISS03E-P48-01-deactivate-200.png).
+
+![Respuesta HTTP 200 y status inactive de la eliminación lógica](trazabilidad/E-ISS03E-P48-01-deactivate-200.png)
+
+### Paso 49 — Verificar que el cliente inactivo no es visible por GET *(completado)*
+
+**Acción:** consultar `GET /api/clientes/113` después de la eliminación lógica.
+
+**Resultado observado:** el endpoint respondió `HTTP/1.1 404 Not Found` con `{"error":"Client not found"}`, confirmando que el cliente inactivo deja de estar disponible mediante la consulta individual.
+
+**Estado:** Cumple la política de ocultar clientes inactivos en lecturas públicas.  
+**Evidencia:** [`E-ISS03E-P49-01-inactive-not-found.png`](trazabilidad/E-ISS03E-P49-01-inactive-not-found.png).
+
+![GET devuelve HTTP 404 para el cliente inactivo](trazabilidad/E-ISS03E-P49-01-inactive-not-found.png)
+
+### Paso 50 — Crear cliente descartable para la prueba física *(completado)*
+
+**Acción:** crear un cliente de prueba destinado exclusivamente a validar la eliminación física.
+
+**Resultado observado:** el POST respondió `HTTP/1.1 201 Created` y devolvió el ID 114 para `Cliente descartable ISS-03-E`. Se actualizó `@physicalId` a 114 en la plantilla de eliminación. La captura se redactó para ocultar el comando, que contenía una contraseña temporal; esa contraseña no debe reutilizarse y no se conserva en el informe ni en la evidencia.
+
+**Estado:** Cliente descartable creado; pendiente ejecutar DELETE sobre el ID 114, lo que eliminará permanentemente esa fila.  
+**Evidencia:** [`E-ISS03E-P50-01-disposable-client-created-redacted.png`](trazabilidad/E-ISS03E-P50-01-disposable-client-created-redacted.png).
+
+![Respuesta HTTP 201 e ID 114, con el comando sensible redactado](trazabilidad/E-ISS03E-P50-01-disposable-client-created-redacted.png)
+
+### Paso 51 — Probar la eliminación física *(completado)*
+
+**Acción:** enviar `DELETE /api/clientes/114` sobre el registro descartable creado para esta prueba.
+
+**Resultado observado:** el endpoint respondió `HTTP/1.1 200 OK` con `{"message":"Client permanently deleted","id":114}`.
+
+**Estado:** Cumple; el endpoint eliminó físicamente el cliente descartable.  
+**Evidencia:** [`E-ISS03E-P51-01-delete-200.png`](trazabilidad/E-ISS03E-P51-01-delete-200.png).
+
+![Respuesta HTTP 200 de la eliminación física del cliente descartable](trazabilidad/E-ISS03E-P51-01-delete-200.png)
+
+### Paso 52 — Verificar compilación de ISS-03-E *(completado)*
+
+**Acción:** ejecutar `npx tsc --noEmit` desde `Proyecto Backend-2026`.
+
+**Resultado observado:** TypeScript finalizó y devolvió el prompt sin errores.
+
+**Estado:** Cumple; la implementación de ISS-03-E compila correctamente.  
+**Evidencia:** [`E-ISS03E-P52-01-typescript.png`](trazabilidad/E-ISS03E-P52-01-typescript.png).
+
+![Verificación npx tsc --noEmit sin errores para ISS-03-E](trazabilidad/E-ISS03E-P52-01-typescript.png)
+
+**Cierre ISS-03-E:** repository, service, controller, rutas públicas de eliminación física y lógica, plantilla HTTP y pruebas de ambas modalidades completadas. La desactivación lógica respondió HTTP 200 y quedó oculta del GET con HTTP 404; la eliminación física del registro descartable respondió HTTP 200. La compilación TypeScript terminó sin errores.

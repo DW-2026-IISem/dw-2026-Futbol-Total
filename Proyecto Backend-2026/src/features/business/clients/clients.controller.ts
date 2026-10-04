@@ -58,6 +58,20 @@ export class ClientsController extends BaseController {
     });
   }
 
-  // ================== DELETE ==================
-  // (rellenar en ISS-03-E) deletePhysical, deleteLogical
+  /** Eliminación física. */
+  public async deletePhysical(req: Request, res: Response): Promise<void> {
+    await this.run(res, async () => {
+      const id = this.paramId(req);
+      await this.service.deletePhysical(id);
+      res.status(200).json({ message: "Client permanently deleted", id });
+    });
+  }
+
+  /** Eliminación lógica -> status = inactive. */
+  public async deleteLogical(req: Request, res: Response): Promise<void> {
+    await this.run(res, async () => {
+      const client = await this.service.deleteLogical(this.paramId(req));
+      res.status(200).json({ message: "Client deactivated (logical delete)", client });
+    });
+  }
 }

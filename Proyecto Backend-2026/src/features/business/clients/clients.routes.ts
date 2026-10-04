@@ -14,6 +14,11 @@ export class ClientsRoutes {
       .route("/api/clientes/:id")
       .get(this.clientsController.getOne.bind(this.clientsController))
       .put(this.clientsController.updatePut.bind(this.clientsController))
-      .patch(this.clientsController.updatePatch.bind(this.clientsController));
+      .patch(this.clientsController.updatePatch.bind(this.clientsController))
+      .delete(this.clientsController.deletePhysical.bind(this.clientsController));
+
+    app
+      .route("/api/clientes/:id/deactivate")
+      .patch(this.clientsController.deleteLogical.bind(this.clientsController));
   }
 }
