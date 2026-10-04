@@ -1,0 +1,22 @@
+### Sustituye el ID por el de un cliente creado para pruebas.
+@baseUrl = http://localhost:3002
+@id = 113
+
+### PUT - actualización de campos del cliente (no cambia la contraseña)
+PUT {{baseUrl}}/api/clientes/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Cliente de prueba actualizado",
+  "address": "Dirección de prueba",
+  "phone": "5550000000",
+  "email": "iss03c.prueba.20261004@example.com"
+}
+
+### PATCH - actualización parcial del teléfono
+PATCH {{baseUrl}}/api/clientes/{{id}}
+Content-Type: application/json
+
+{
+  "phone": "5550000001"
+}

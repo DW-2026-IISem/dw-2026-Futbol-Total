@@ -1327,3 +1327,507 @@ npx tsc --noEmit
 - [x] Servidor detenido y compilación TypeScript verificada.
 
 **Estado de ISS-03-A:** completado según verificaciones ejecutadas. La implementación de operaciones CRUD queda para ISS-03-B a ISS-03-E.
+
+## ISS-03-B — Lectura de clientes (GetAll y GetOne)
+
+**Objetivo:** implementar la consulta de clientes activos y la búsqueda por identificador, ocultando siempre la contraseña en las respuestas.  
+**Dependencia:** ISS-03-A, completado.
+
+**Nota de revisión del manual:** los criterios de ISS-03-B indican rutas sin autenticación, pero el ejemplo de `clients.get.http` más adelante documenta JWT y RBAC. Resolver esa discrepancia antes de configurar la autorización de las rutas; no incluir credenciales reales en capturas ni archivos de evidencia.
+
+### Paso 21 — Implementar consultas del repository *(pendiente)*
+
+**Referencia:** ISS-03-B — `clients.repository.ts`.  
+**Acción:** reemplazar el contenido del archivo con el siguiente esqueleto ampliado:
+
+```bash
+cat > src/features/business/clients/clients.repository.ts <<'EOF'
+import { Transaction } from "sequelize";
+import { Client } from "./client.model";
+
+/**
+ * Capa Repository del feature Clients.
+ * Única responsable de hablar con Sequelize (el modelo `Client`).
+ */
+export class ClientsRepository {
+  // ================== READ ==================
+  /** Todos los clientes activos. */
+  public async findAllActive(): Promise<Client[]> {
+    return Client.findAll({ where: { status: "active" } });
+  }
+
+  /** Un cliente por PK (o `null`). Acepta transacción para flujos de ventas. */
+  public async findById(id: number, transaction?: Transaction): Promise<Client | null> {
+    return Client.findByPk(id, { transaction });
+  }
+
+  // ================== CREATE ==================
+  // (rellenar en ISS-03-C) create
+
+  // ================== UPDATE ==================
+  // (rellenar en ISS-03-D) update
+
+  // ================== DELETE ==================
+  // (rellenar en ISS-03-E) delete
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `ClientsRepository` implementa `findAllActive` filtrando `status: "active"` y `findById` por clave primaria, con parámetro opcional de transacción.
+- **Estado:** Cumple el criterio de repository para lectura.
+- **Evidencia:** [`E-ISS03B-P21-01-clients-repository-read.png`](trazabilidad/E-ISS03B-P21-01-clients-repository-read.png).
+
+![Captura de las consultas de lectura de ClientsRepository](trazabilidad/E-ISS03B-P21-01-clients-repository-read.png)
+
+**Conclusión:** Implementé las consultas del repository para listar sólo clientes activos y buscar un cliente por ID.
+
+### Paso 22 — Implementar consultas de lectura del service *(completado)*
+
+**Referencia:** ISS-03-B — `ClientsService.getAll`, `getOne` y helper `findOrFail`.  
+**Acción:** reemplazar el contenido de `src/features/business/clients/clients.service.ts`:
+
+```bash
+cat > src/features/business/clients/clients.service.ts <<'EOF'
+import { AppError } from "../../../shared/errors/app-error";
+import { Client } from "./client.model";
+import { ClientResponseDto, toClientResponse } from "./dto";
+import { ClientsRepository } from "./clients.repository";
+
+/**
+ * Capa Service del feature Clients.
+ * Reglas de negocio; no conoce req/res ni Sequelize (delega en el repository).
+ */
+export class ClientsService {
+  public constructor(
+    private readonly repository: ClientsRepository = new ClientsRepository()
+  ) {}
+
+  // ================== READ ==================
+  public async getAll(): Promise<ClientResponseDto[]> {
+    const clients = await this.repository.findAllActive();
+    return clients.map((client) => toClientResponse(client));
+  }
+
+  public async getOne(id: number): Promise<ClientResponseDto> {
+    return toClientResponse(await this.findOrFail(id));
+  }
+
+  // ================== CREATE ==================
+  // (rellenar en ISS-03-C) create
+
+  // ================== UPDATE ==================
+  // (rellenar en ISS-03-D) updatePut, updatePatch
+
+  // ================== DELETE ==================
+  // (rellenar en ISS-03-E) deletePhysical, deleteLogical
+
+  // ================== HELPERS ==================
+  private async findOrFail(id: number, onlyActive = true): Promise<Client> {
+    const client = await this.repository.findById(id);
+    if (!client || (onlyActive && client.status !== "active")) {
+      throw new AppError(404, "Client not found");
+    }
+    return client;
+  }
+}
+EOF
+```
+
+**Captura:** mostrar `clients.service.ts` completo en el editor.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** el service lista clientes activos, transforma las respuestas para omitir la contraseña y centraliza la regla 404 para clientes inexistentes o inactivos en `findOrFail`.
+- **Estado:** Cumple el criterio de service para lectura.
+- **Evidencia:** [`E-ISS03B-P22-01-clients-service-read.png`](trazabilidad/E-ISS03B-P22-01-clients-service-read.png).
+
+![Captura del service con consultas getAll y getOne](trazabilidad/E-ISS03B-P22-01-clients-service-read.png)
+
+**Conclusión:** Implementé las operaciones de lectura y dejé en un único helper la regla de visibilidad de clientes inactivos.
+
+### Paso 23 — Implementar controladores de lectura *(completado)*
+
+**Referencia:** ISS-03-B — `ClientsController.getAll` y `getOne`.  
+**Acción:** reemplazar el contenido de `src/features/business/clients/clients.controller.ts`:
+
+```bash
+cat > src/features/business/clients/clients.controller.ts <<'EOF'
+import { Request, Response } from "express";
+import { BaseController } from "../../../shared/http/base-controller";
+import { ClientsService } from "./clients.service";
+
+/**
+ * Capa Controller del feature Clients.
+ * Solo HTTP: lee req, llama al service y arma res.
+ */
+export class ClientsController extends BaseController {
+  public constructor(
+    private readonly service: ClientsService = new ClientsService()
+  ) {
+    super();
+  }
+
+  // ================== READ ==================
+  public async getAll(_req: Request, res: Response): Promise<void> {
+    await this.run(res, async () => {
+      const clients = await this.service.getAll();
+      res.status(200).json({ clients });
+    });
+  }
+
+  public async getOne(req: Request, res: Response): Promise<void> {
+    await this.run(res, async () => {
+      const client = await this.service.getOne(this.paramId(req));
+      res.status(200).json({ client });
+    });
+  }
+
+  // ================== CREATE ==================
+  // (rellenar en ISS-03-C) create
+
+  // ================== UPDATE ==================
+  // (rellenar en ISS-03-D) updatePut, updatePatch
+
+  // ================== DELETE ==================
+  // (rellenar en ISS-03-E) deletePhysical, deleteLogical
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `clients.controller.ts`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** el controller implementa `getAll` y `getOne`; ambos ejecutan el service dentro de `run()` y responden con estado 200.
+- **Estado:** Cumple el criterio de controller para lectura.
+- **Evidencia:** [`E-ISS03B-P23-01-clients-controller-read.png`](trazabilidad/E-ISS03B-P23-01-clients-controller-read.png).
+
+![Captura de los controladores getAll y getOne](trazabilidad/E-ISS03B-P23-01-clients-controller-read.png)
+
+**Conclusión:** Implementé los controladores de lectura y delegué el manejo de errores en `BaseController.run()`.
+
+### Paso 24 — Registrar rutas GET *(completado)*
+
+**Referencia:** ISS-03-B — endpoints GET sin auth según los criterios de aceptación.  
+**Acción:** reemplazar el contenido de `src/features/business/clients/clients.routes.ts`:
+
+```bash
+cat > src/features/business/clients/clients.routes.ts <<'EOF'
+import { Application } from "express";
+import { ClientsController } from "./clients.controller";
+
+export class ClientsRoutes {
+  public clientsController: ClientsController = new ClientsController();
+
+  public routes(app: Application): void {
+    // Lecturas públicas según los criterios de ISS-03-B.
+    app
+      .route("/api/clientes")
+      .get(this.clientsController.getAll.bind(this.clientsController));
+
+    app
+      .route("/api/clientes/:id")
+      .get(this.clientsController.getOne.bind(this.clientsController));
+  }
+}
+EOF
+```
+
+**Captura:** mostrar el archivo completo `clients.routes.ts`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `clients.routes.ts` registra `GET /api/clientes` y `GET /api/clientes/:id` y enlaza cada endpoint con su controlador.
+- **Estado:** Cumple según los criterios de aceptación de ISS-03-B, que especifican estas rutas sin autenticación.
+- **Evidencia:** [`E-ISS03B-P24-01-clients-routes-get.png`](trazabilidad/E-ISS03B-P24-01-clients-routes-get.png).
+
+![Captura de las rutas GET de clientes](trazabilidad/E-ISS03B-P24-01-clients-routes-get.png)
+
+**Conclusión:** Registré las rutas GET de colección y de recurso individual sin middleware JWT, conforme al criterio de la sección ISS-03-B.
+
+### Paso 25 — Crear archivo HTTP para probar GET *(completado)*
+
+**Referencia:** ISS-03-B — `http/clients.get.http`.
+
+**Discrepancia del manual:** los criterios establecen GET sin autenticación; sin embargo, el ejemplo HTTP posterior solicita login, tokens JWT y validaciones RBAC. Además, usa cuentas de ejemplo que no se han verificado en este proyecto y puerto 4000, mientras la aplicación observada arrancó en 3002. La inspección del código fuente no encontró endpoints de sesión ni middleware JWT/RBAC en este proyecto.
+
+**Adaptación acordada:** documentar y ejecutar lecturas públicas sin token. Se puede agregar una solicitud con `Authorization: Bearer` cuando exista un token válido; como las rutas actuales son públicas y no tienen middleware, esa segunda solicitud sólo verifica la respuesta del endpoint y no prueba autenticación ni RBAC. No usar cuentas inventadas ni afirmar que los criterios JWT/RBAC están verificados. El puerto se adapta de 4000 a 3002 según el servidor ejecutado.
+
+**Acción:** crear `src/features/business/clients/http/clients.get.http`:
+
+```bash
+cat > src/features/business/clients/http/clients.get.http <<'EOF'
+### Feature Clients - GET ALL (público, sin token)
+@baseUrl = http://localhost:3002
+@id = 1
+
+# @name getAllClientsPublic
+GET {{baseUrl}}/api/clientes
+
+### Feature Clients - GET ONE (público, sin token)
+# @name getOneClientPublic
+GET {{baseUrl}}/api/clientes/{{id}}
+
+### Solicitud con Bearer opcional (la ruta pública no valida el token en ISS-03-B)
+# Define un token válido en el entorno de REST Client antes de habilitar esta solicitud.
+# No guardar ni capturar el valor del token.
+# GET {{baseUrl}}/api/clientes
+# Authorization: Bearer {{accessToken}}
+EOF
+```
+
+**Captura:** mostrar la plantilla sin secretos. Para evidencia de respuesta, ejecutar las solicitudes públicas mientras el servidor está activo y capturar status/body; no incluir valores de tokens.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** se creó `clients.get.http` con solicitudes GET públicas a `localhost:3002` y una solicitud Bearer opcional comentada, sin incluir tokens.
+- **Estado:** Cumple la adaptación acordada; el ejemplo original con JWT/RBAC no se considera verificado porque el proyecto no tiene esos endpoints/middleware.
+- **Evidencia:** [`E-ISS03B-P25-01-clients-get-http.png`](trazabilidad/E-ISS03B-P25-01-clients-get-http.png).
+
+![Captura de la plantilla HTTP para GET sin secretos](trazabilidad/E-ISS03B-P25-01-clients-get-http.png)
+
+**Conclusión:** Preparé solicitudes públicas para las rutas actuales y dejé documentado que una cabecera Bearer no prueba autorización mientras no exista middleware JWT/RBAC.
+
+### Paso 26 — Verificar compilación de ISS-03-B *(completado)*
+
+**Acción:** desde `Proyecto Backend-2026`, ejecutar:
+
+```bash
+npx tsc --noEmit
+```
+
+**Captura:** mostrar el comando y el resultado de la compilación.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `npx tsc --noEmit` terminó y devolvió el prompt sin reportar errores.
+- **Estado:** Cumple la verificación de compilación.
+- **Evidencia:** [`E-ISS03B-P26-01-typescript.png`](trazabilidad/E-ISS03B-P26-01-typescript.png).
+
+![Captura de compilación TypeScript de ISS-03-B](trazabilidad/E-ISS03B-P26-01-typescript.png)
+
+**Conclusión:** Verifiqué que las implementaciones de lectura compilan sin errores de TypeScript.
+
+### Paso 27 — Probar endpoints GET *(en curso)*
+
+**Acción:** iniciar el servidor desde `Proyecto Backend-2026`:
+
+```bash
+npm run dev
+```
+
+Con el servidor activo, abrir `src/features/business/clients/http/clients.get.http` y ejecutar `GET ALL` y `GET ONE` con REST Client. Registrar los códigos HTTP y cuerpos realmente observados; no asumir si existe un cliente con ID 1.
+
+**Capturas:** registrar por separado el servidor activo y la respuesta de cada solicitud. No mostrar tokens, secretos ni datos personales.
+
+**Registro de ejecución — completar después de realizar el paso:**
+
+- **Fecha:** —
+- **Resultado observado:** —
+- **Fecha:** 2026-10-04.
+- **Resultado observado:** `GET /api/clientes` respondió HTTP 200 y devolvió 56 clientes; `GET /api/clientes/1` respondió HTTP 200. Se comprobó estructuralmente que ninguna respuesta expone el campo `password`. Una solicitud de colección con una cabecera Bearer de marcador también respondió HTTP 200; al no existir middleware de autenticación, esto no demuestra validación JWT/RBAC.
+- **Estado:** Parcial. GET ALL y GET ONE (para ID existente e inexistente) están verificados sin token. La solicitud con cabecera Bearer de prueba respondió HTTP 200; por tanto, la ruta no valida autenticación. JWT/RBAC no está implementado ni probado.
+- **Evidencia de arranque:** [`E-ISS03B-P27-01-servidor-activo.png`](trazabilidad/E-ISS03B-P27-01-servidor-activo.png).
+- **Evidencia de GET ALL:** [`E-ISS03B-P27-02-get-all-http-200.png`](trazabilidad/E-ISS03B-P27-02-get-all-http-200.png).
+- **Evidencia de GET ONE existente:** [`E-ISS03B-P27-03-get-one-200.png`](trazabilidad/E-ISS03B-P27-03-get-one-200.png).
+- **Evidencia de GET ONE inexistente:** [`E-ISS03B-P27-04-get-one-404.png`](trazabilidad/E-ISS03B-P27-04-get-one-404.png).
+- **Evidencia de solicitud con Bearer:** no se adjunta, según lo acordado.
+
+![Servidor conectado a MySQL y escuchando en el puerto 3002](trazabilidad/E-ISS03B-P27-01-servidor-activo.png)
+
+![Respuesta HTTP 200 de GET ALL](trazabilidad/E-ISS03B-P27-02-get-all-http-200.png)
+
+![Respuesta HTTP 200 de GET ONE para un cliente existente](trazabilidad/E-ISS03B-P27-03-get-one-200.png)
+
+![Respuesta HTTP 404 de GET ONE para un ID inexistente](trazabilidad/E-ISS03B-P27-04-get-one-404.png)
+
+**Conclusión:** GET ALL respondió HTTP 200; GET ONE respondió HTTP 200 para el ID 1 y HTTP 404 para el ID 999999. También ejecuté la solicitud con una cabecera Bearer de prueba y respondió HTTP 200. Registro ese resultado sin evidencia visual adicional. La respuesta no demuestra autenticación: estas rutas no tienen middleware JWT/RBAC.
+
+**Aclaración de trazabilidad:** las capturas de GET ONE muestran solicitudes sin token: `/api/clientes/1` devolvió HTTP 200 y `/api/clientes/999999` devolvió HTTP 404. La solicitud con cabecera Bearer de prueba respondió HTTP 200 y queda registrada sin evidencia visual, según se acordó.
+
+![GET ONE con ID existente: HTTP 200](trazabilidad/E-ISS03B-P27-03-get-one-200.png)
+
+![GET ONE con ID inexistente: HTTP 404](trazabilidad/E-ISS03B-P27-04-get-one-404.png)
+
+## ISS-03-C — Creación de clientes
+
+### Paso 28 — Implementar creación en el repository *(completado)*
+
+**Referencia:** ISS-03-C — `ClientsRepository.create`.  
+**Resultado observado:** el repository importa `CreationAttributes` y su método `create(data)` delega en `Client.create(data)`. La captura muestra el método y las consultas de lectura de ISS-03-B que se conservaron.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Código agregado; compilación pendiente de verificación.
+- **Evidencia:** [`E-ISS03C-P28-01-clients-repository-create.png`](trazabilidad/E-ISS03C-P28-01-clients-repository-create.png).
+
+![ClientsRepository con el método create](trazabilidad/E-ISS03C-P28-01-clients-repository-create.png)
+
+### Paso 29 — Implementar creación en el service *(completado)*
+
+**Referencia:** ISS-03-C — `ClientsService.create`.  
+**Resultado observado:** el service recibe `CreateClientDto`, delega la creación al repository, asigna `active` cuando no se especifica estado y transforma la entidad con `toClientResponse` para excluir la contraseña.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Código agregado; compilación pendiente de verificación.
+- **Evidencia:** [`E-ISS03C-P29-01-clients-service-create.png`](trazabilidad/E-ISS03C-P29-01-clients-service-create.png).
+
+![ClientsService con el método create y estado predeterminado](trazabilidad/E-ISS03C-P29-01-clients-service-create.png)
+
+### Paso 30 — Implementar controller create *(completado)*
+
+**Referencia:** ISS-03-C — `ClientsController.create`.  
+**Resultado observado:** el controller convierte el cuerpo de la solicitud en `CreateClientDto`, ejecuta el service dentro de `run()` y responde con HTTP 201 al completar la creación.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Código agregado; compilación pendiente de verificación.
+- **Evidencia:** [`E-ISS03C-P30-01-clients-controller-create.png`](trazabilidad/E-ISS03C-P30-01-clients-controller-create.png).
+
+![ClientsController con el método create y respuesta 201](trazabilidad/E-ISS03C-P30-01-clients-controller-create.png)
+
+### Paso 31 — Registrar ruta POST *(completado)*
+
+**Referencia:** ISS-03-C — `POST /api/clientes`, indicada sin autenticación en los criterios de aceptación.  
+**Resultado observado:** `clients.routes.ts` registra POST en `/api/clientes` y lo vincula al método `create`; conserva las dos rutas GET de ISS-03-B.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Código agregado; compilación pendiente de verificación.
+- **Evidencia:** [`E-ISS03C-P31-01-clients-routes-post.png`](trazabilidad/E-ISS03C-P31-01-clients-routes-post.png).
+
+![ClientsRoutes con GET y POST en la colección de clientes](trazabilidad/E-ISS03C-P31-01-clients-routes-post.png)
+
+### Paso 32 — Crear solicitud HTTP para POST *(completado)*
+
+**Referencia:** ISS-03-C — `http/clients.create.http`.  
+**Resultado observado:** se creó una solicitud POST a `http://localhost:3002/api/clientes`, con los campos requeridos y estado activo. La captura archivada oculta el valor de contraseña para no exponerlo en el informe.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Plantilla creada; su ejecución se registra en el paso 34.
+- **Evidencia:** [`E-ISS03C-P32-01-create-http-redacted.png`](trazabilidad/E-ISS03C-P32-01-create-http-redacted.png).
+
+![Plantilla HTTP POST de creación con el campo de contraseña oculto](trazabilidad/E-ISS03C-P32-01-create-http-redacted.png)
+
+### Paso 33 — Verificar compilación de ISS-03-C *(completado)*
+
+**Resultado observado:** `npx tsc --noEmit` terminó y devolvió el prompt sin errores.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Cumple la verificación de compilación de los cambios implementados hasta este paso.
+- **Evidencia:** [`E-ISS03C-P33-01-typescript-redacted.png`](trazabilidad/E-ISS03C-P33-01-typescript-redacted.png). Se archivó solo el recorte de la terminal; la captura completa se omitió porque exponía la contraseña del payload de ejemplo.
+
+![Compilación TypeScript sin errores, con el editor excluido del recorte](trazabilidad/E-ISS03C-P33-01-typescript-redacted.png)
+
+### Paso 34 — Ejecutar POST de creación *(completado)*
+
+**Resultado observado:** `POST /api/clientes` respondió `HTTP/1.1 201 Created`. La terminal confirma la creación exitosa del recurso; la captura archivada se limita al resultado HTTP y no conserva el cuerpo de la solicitud.
+
+- **Fecha:** 2026-10-04.
+- **Estado:** Cumple la respuesta HTTP 201 esperada.
+- **Evidencia:** [`E-ISS03C-P34-01-post-created-redacted.png`](trazabilidad/E-ISS03C-P34-01-post-created-redacted.png).
+
+![Respuesta HTTP 201 Created de POST, sin datos del payload](trazabilidad/E-ISS03C-P34-01-post-created-redacted.png)
+
+**Cierre ISS-03-C:** repository, service, controller, ruta POST, plantilla HTTP, compilación y respuesta HTTP 201 completados. La creación se probó como endpoint público según el criterio de aceptación; la plantilla JWT/RBAC del manual no aplica porque este proyecto no cuenta con ese middleware.
+
+### Paso 35 — Agregar persistencia de actualización al repository *(completado)*
+
+**Referencia:** ISS-03-D, actualización del repository.  
+**Acción:** agregar `update(client, data)` al repository para persistir los cambios sobre la instancia de cliente ya localizada por las capas superiores.
+
+**Resultado observado:** `ClientsRepository.update` recibe una instancia `Client` y `Partial<ClientI>`, y delega la persistencia a `client.update(data)`. Se conservaron las operaciones existentes de lectura y creación.
+
+**Estado:** Implementado; la compilación conjunta se verificará en el paso de validación del ISS-03-D.  
+**Evidencia:** [`E-ISS03D-P35-01-repository-update.png`](trazabilidad/E-ISS03D-P35-01-repository-update.png).
+
+![Repository de clientes con el método update](trazabilidad/E-ISS03D-P35-01-repository-update.png)
+
+### Paso 36 — Implementar PUT y PATCH en el service *(completado)*
+
+**Referencia:** ISS-03-D, actualización de la capa de servicio.  
+**Acción:** implementar `updatePut` para actualizar los campos recibidos como reemplazo y `updatePatch` para modificar únicamente las propiedades presentes en la solicitud. Ambos métodos buscan primero un cliente activo, delegan la persistencia al repository y convierten el resultado a `ClientResponseDto`.
+
+**Resultado observado:** ambos métodos están implementados en `ClientsService`. PATCH construye un objeto con las propiedades definidas; PUT asigna los campos requeridos por `UpdateClientDto` y solo modifica la contraseña cuando se envía. La captura confirma el código del service; la compilación se verificará más adelante.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS03D-P36-01-service-update.png`](trazabilidad/E-ISS03D-P36-01-service-update.png).
+
+![Métodos updatePut y updatePatch del service de clientes](trazabilidad/E-ISS03D-P36-01-service-update.png)
+
+### Paso 37 — Conectar PUT y PATCH en el controller *(completado)*
+
+**Referencia:** ISS-03-D, actualización de la capa de controller.  
+**Acción:** agregar handlers que validan el identificador de ruta, envían el body al método correspondiente del service y responden con el cliente actualizado.
+
+**Resultado observado:** `updatePut` y `updatePatch` quedaron implementados dentro de `BaseController.run`; ambos devuelven HTTP 200 con el cliente. La captura muestra ambos métodos y el manejo de sus DTO.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS03D-P37-01-controller-update.png`](trazabilidad/E-ISS03D-P37-01-controller-update.png).
+
+![Handlers PUT y PATCH en el controller de clientes](trazabilidad/E-ISS03D-P37-01-controller-update.png)
+
+### Paso 38 — Registrar rutas PUT y PATCH *(completado)*
+
+**Referencia:** ISS-03-D, registro de endpoints de actualización.  
+**Acción:** asociar PUT y PATCH de `/api/clientes/:id` con sus handlers del controller.
+
+**Resultado observado:** la ruta de detalle conserva GET y ahora registra PUT y PATCH. La captura muestra los tres métodos y sus handlers enlazados.
+
+**Estado:** Implementado; pendiente de validación conjunta.  
+**Evidencia:** [`E-ISS03D-P38-01-routes-put-patch.png`](trazabilidad/E-ISS03D-P38-01-routes-put-patch.png).
+
+![Rutas GET, PUT y PATCH en /api/clientes/:id](trazabilidad/E-ISS03D-P38-01-routes-put-patch.png)
+
+### Paso 39 — Preparar solicitudes HTTP para PUT y PATCH *(archivo preparado)*
+
+**Acción:** crear una plantilla REST Client con solicitudes PUT y PATCH contra `/api/clientes/:id`.
+
+**Resultado observado:** `clients.update.http` contiene ejemplos de actualización con datos sintéticos y usa el ID 113, identificado por consulta de solo lectura como el cliente creado en ISS-03-C. La plantilla no incluye contraseña. En PUT se conserva el correo existente del cliente para evitar una posible colisión con la restricción de unicidad; ambas operaciones modifican datos persistentes al enviarse.
+
+**Estado:** Plantilla preparada para el cliente de prueba.  
+**Evidencia:** [`E-ISS03D-P39-01-update-http-template.png`](trazabilidad/E-ISS03D-P39-01-update-http-template.png) documenta la plantilla inicial antes de asignar el ID; posteriormente se actualizó a 113, identificado por consulta de solo lectura.
+
+![Plantilla REST Client para probar PUT y PATCH con datos sintéticos](trazabilidad/E-ISS03D-P39-01-update-http-template.png)
+
+### Paso 40 — Probar la actualización PUT *(completado)*
+
+**Acción:** enviar PUT a `/api/clientes/113` con los campos de perfil del cliente de prueba, conservando el correo existente para respetar la unicidad.
+
+**Resultado observado:** la respuesta fue `HTTP/1.1 200 OK` y el JSON devolvió el cliente con nombre, dirección y teléfono actualizados. No se incluyó contraseña en la solicitud ni en la respuesta visible.
+
+**Estado:** Cumple; el endpoint actualizó el registro de prueba.  
+**Evidencia:** [`E-ISS03D-P40-01-put-200.png`](trazabilidad/E-ISS03D-P40-01-put-200.png).
+
+![Respuesta HTTP 200 de la prueba PUT sobre el cliente de prueba](trazabilidad/E-ISS03D-P40-01-put-200.png)
+
+### Paso 41 — Probar la actualización PATCH *(completado)*
+
+**Acción:** enviar PATCH a `/api/clientes/113` con únicamente el campo `phone`.
+
+**Resultado observado:** la respuesta fue `HTTP/1.1 200 OK`. El JSON muestra el teléfono nuevo y conserva el nombre, dirección y correo establecidos en la prueba PUT, confirmando una actualización parcial.
+
+**Estado:** Cumple; el endpoint PATCH modificó únicamente el campo solicitado.  
+**Evidencia:** [`E-ISS03D-P41-01-patch-200.png`](trazabilidad/E-ISS03D-P41-01-patch-200.png).
+
+![Respuesta HTTP 200 de PATCH y los campos del cliente de prueba](trazabilidad/E-ISS03D-P41-01-patch-200.png)
+
+### Paso 42 — Verificar compilación de ISS-03-D *(completado)*
+
+**Acción:** ejecutar `npx tsc --noEmit` desde `Proyecto Backend-2026`.
+
+**Resultado observado:** TypeScript finalizó y devolvió el prompt sin errores. La captura muestra el comando ejecutado y la terminal disponible nuevamente.
+
+**Estado:** Cumple; los cambios implementados hasta ISS-03-D compilan correctamente.  
+**Evidencia:** [`E-ISS03D-P42-01-typescript.png`](trazabilidad/E-ISS03D-P42-01-typescript.png).
+
+![Verificación npx tsc --noEmit sin errores](trazabilidad/E-ISS03D-P42-01-typescript.png)
+
+**Cierre ISS-03-D:** las operaciones PUT y PATCH quedaron conectadas, ambas respondieron HTTP 200 en el cliente de prueba y la compilación TypeScript terminó sin errores. No se modificó la política de autenticación; se mantuvo el criterio público aplicado en los endpoints anteriores.

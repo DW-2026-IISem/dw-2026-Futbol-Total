@@ -5,7 +5,15 @@ export class ClientsRoutes {
   public clientsController: ClientsController = new ClientsController();
 
   public routes(app: Application): void {
-    // Rutas del feature, sin autenticación ni middleware JWT en esta fase.
-    // Se completarán en ISS-03-B a ISS-03-E.
+    app
+      .route("/api/clientes")
+      .get(this.clientsController.getAll.bind(this.clientsController))
+      .post(this.clientsController.create.bind(this.clientsController));
+
+    app
+      .route("/api/clientes/:id")
+      .get(this.clientsController.getOne.bind(this.clientsController))
+      .put(this.clientsController.updatePut.bind(this.clientsController))
+      .patch(this.clientsController.updatePatch.bind(this.clientsController));
   }
 }
