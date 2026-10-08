@@ -2180,3 +2180,25 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS06-P01-01-product-type-model.png`](trazabilidad/E-ISS06-P01-01-product-type-model.png).
 
 ![Modelo Sequelize ProductType para la tabla product_types](trazabilidad/E-ISS06-P01-01-product-type-model.png)
+
+### Paso 2 — Crear DTOs de ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.2 — DTOs del feature ProductType.  
+**Acción:** definir los contratos de entrada create/update/patch, el DTO de respuesta con mapper y el agregador `dto/index.ts`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** se crearon `CreateProductTypeDto`, `UpdateProductTypeDto`, `PatchProductTypeDto` y `ProductTypeResponseDto`, además del mapper `toProductTypeResponse` y las exportaciones en `index.ts`. El estado no forma parte del DTO de actualización y se reserva para el borrado lógico.
+- **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
+- **Evidencias:** [`E-ISS06-P02-01-create-product-type-dto.png`](trazabilidad/E-ISS06-P02-01-create-product-type-dto.png), [`E-ISS06-P02-02-product-type-dto-index.png`](trazabilidad/E-ISS06-P02-02-product-type-dto-index.png), [`E-ISS06-P02-03-patch-product-type-dto.png`](trazabilidad/E-ISS06-P02-03-patch-product-type-dto.png), [`E-ISS06-P02-04-product-type-response-dto.png`](trazabilidad/E-ISS06-P02-04-product-type-response-dto.png) y [`E-ISS06-P02-05-update-product-type-dto.png`](trazabilidad/E-ISS06-P02-05-update-product-type-dto.png).
+
+![DTO de creación de ProductType](trazabilidad/E-ISS06-P02-01-create-product-type-dto.png)
+
+![Agregador de exports de los DTOs de ProductType](trazabilidad/E-ISS06-P02-02-product-type-dto-index.png)
+
+![DTO de actualización parcial de ProductType](trazabilidad/E-ISS06-P02-03-patch-product-type-dto.png)
+
+![DTO y mapper de respuesta de ProductType](trazabilidad/E-ISS06-P02-04-product-type-response-dto.png)
+
+![DTO de actualización completa de ProductType](trazabilidad/E-ISS06-P02-05-update-product-type-dto.png)
