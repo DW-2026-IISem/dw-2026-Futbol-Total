@@ -2516,3 +2516,25 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS07-P07-01-products-server-start.png`](trazabilidad/E-ISS07-P07-01-products-server-start.png).
 
 ![En esta captura confirmé que la aplicación sincronizó products y arrancó en el puerto 3002](trazabilidad/E-ISS07-P07-01-products-server-start.png)
+
+## ISS-08 — Feature Sale + ProductSale
+
+**Objetivo del manual:** implementar ventas con ítems asociados a productos, usando las tablas `sales` y `product_sales`.  
+**Dependencias:** ISS-07 — Feature Product e ISS-03 — Feature Client.  
+**Referencia:** `Guia-unificada.md`, ISS-08, secciones 13.1 en adelante. El manual indica construir primero el detalle ProductSale y después las operaciones de Sale.
+
+### Paso 1 — Crear los modelos Sale y ProductSale *(modelos implementados; arranque pendiente)*
+
+**Referencia:** ISS-08, sección 13.1 — Modelos Sale y feature ProductSale.  
+**Acción:** definí los modelos Sequelize para la cabecera de venta y sus líneas de detalle.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `Sale` declara fecha, subtotal, impuestos, descuentos, total, cliente y estado. `ProductSale` declara las referencias `sale_id` y `product_id`, cantidad, precio unitario capturado al vender y total de línea.
+- **Estado:** Modelos implementados. La captura del terminal muestra que un intento de iniciar otra instancia encontró `EADDRINUSE` en el puerto `3002`; nodemon quedó esperando cambios. Por ello, ese intento no cuenta como una nueva verificación de arranque.
+- **Evidencias:** [`E-ISS08-P01-01-sale-model.png`](trazabilidad/E-ISS08-P01-01-sale-model.png) y [`E-ISS08-P01-02-product-sale-model.png`](trazabilidad/E-ISS08-P01-02-product-sale-model.png).
+
+![En esta captura definí Sale con fecha, importes, cliente y estado para la cabecera de una venta](trazabilidad/E-ISS08-P01-01-sale-model.png)
+
+![En esta captura definí ProductSale con sale_id, product_id, quantity, unit_price y line_total para el detalle de venta](trazabilidad/E-ISS08-P01-02-product-sale-model.png)
