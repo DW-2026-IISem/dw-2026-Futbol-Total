@@ -2327,3 +2327,18 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura se ve cómo agregué el conteo predeterminado y la variable SEED_PRODUCT_TYPES](trazabilidad/E-ISS06-P10-02-seed-counts.png)
 
 ![En esta captura se ve cómo registré el seeder ProductType en SeedersRunner](trazabilidad/E-ISS06-P10-03-seeders-runner.png)
+
+### Paso 11 — Ejecutar SeedersRunner con ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.5 — ejecución del seeder desde SeedersRunner.  
+**Acción:** ejecuté `npm run db:seed` con el conteo predeterminado.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el runner resolvió `clients: 10` y `product_types: 25`, se conectó a MySQL y sincronizó el esquema. Detectó 1 cliente y 1 tipo de producto existente; omitió la inserción de ambos seeders y terminó correctamente.
+- **Adaptación/alcance:** no se probó la inserción de datos Faker en una tabla vacía, ya que `product_types` ya contenía el registro de prueba creado en el paso 9.
+- **Estado:** Cumple conexión, sincronización, resolución del conteo predeterminado e idempotencia con registros existentes.
+- **Evidencia:** [`E-ISS06-P11-01-seeder-existing-skip.png`](trazabilidad/E-ISS06-P11-01-seeder-existing-skip.png).
+
+![En esta captura se ve cómo ejecuté SeedersRunner y omitió la inserción porque ya había un tipo de producto](trazabilidad/E-ISS06-P11-01-seeder-existing-skip.png)
