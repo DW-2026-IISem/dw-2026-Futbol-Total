@@ -2112,3 +2112,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS05-P02-01-clients-openapi.png`](trazabilidad/E-ISS05-P02-01-clients-openapi.png).
 
 ![Documentación OpenAPI del feature Client](trazabilidad/E-ISS05-P02-01-clients-openapi.png)
+
+### Paso 3 — Crear el registry OpenAPI *(completado)*
+
+**Referencia:** ISS-05, sección 10.2 — registry externo.
+**Acción:** crear `src/swagger/index.ts` para agregar la documentación del feature Client y exponer Swagger UI y el JSON OpenAPI.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `featureSwaggerModules` registra `clientsSwagger`; `buildOpenApiDocument()` reúne tags, paths y schemas, y `setupSwagger(app)` monta `/api/docs` y `/api/docs.json`.
+- **Estado:** Implementado; falta la validación conjunta del ISS-05.
+- **Evidencia:** [`E-ISS05-P03-01-openapi-registry.png`](trazabilidad/E-ISS05-P03-01-openapi-registry.png).
+
+![Registry OpenAPI, generación del documento y montaje de Swagger UI](trazabilidad/E-ISS05-P03-01-openapi-registry.png)
