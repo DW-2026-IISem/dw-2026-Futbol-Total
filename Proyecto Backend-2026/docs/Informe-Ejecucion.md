@@ -2397,3 +2397,25 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS07-P01-01-product-model.png`](trazabilidad/E-ISS07-P01-01-product-model.png).
 
 ![En esta captura se ve cómo definí el modelo Product con product_type_id y timestamps](trazabilidad/E-ISS07-P01-01-product-model.png)
+
+### Paso 2 — Definir los DTOs de Product *(completado)*
+
+**Referencia:** ISS-07, sección 12.2 — DTOs.  
+**Acción:** definí los contratos de entrada para crear, reemplazar y actualizar parcialmente un producto, además de su DTO de respuesta y el índice de exportación.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `CreateProductDto` declara los datos de creación y el estado opcional; `UpdateProductDto` define el reemplazo completo sin permitir cambiar `status`; `PatchProductDto` reutiliza el contrato de actualización completa para la entrada parcial; `ProductResponseDto` y `toProductResponse` representan la respuesta plana del modelo.
+- **Estado:** Implementado.
+- **Evidencias:** [`E-ISS07-P02-01-create-product-dto.png`](trazabilidad/E-ISS07-P02-01-create-product-dto.png), [`E-ISS07-P02-02-dto-index.png`](trazabilidad/E-ISS07-P02-02-dto-index.png), [`E-ISS07-P02-03-patch-product-dto.png`](trazabilidad/E-ISS07-P02-03-patch-product-dto.png), [`E-ISS07-P02-04-product-response-dto.png`](trazabilidad/E-ISS07-P02-04-product-response-dto.png) y [`E-ISS07-P02-05-update-product-dto.png`](trazabilidad/E-ISS07-P02-05-update-product-dto.png).
+
+![En esta captura definí CreateProductDto con los campos de entrada y el estado opcional para POST /api/productos](trazabilidad/E-ISS07-P02-01-create-product-dto.png)
+
+![En esta captura exporté los DTOs de Product desde el índice de la carpeta dto](trazabilidad/E-ISS07-P02-02-dto-index.png)
+
+![En esta captura definí PatchProductDto como una actualización parcial basada en UpdateProductDto](trazabilidad/E-ISS07-P02-03-patch-product-dto.png)
+
+![En esta captura definí ProductResponseDto y el mapper que convierte el modelo Product en un objeto plano](trazabilidad/E-ISS07-P02-04-product-response-dto.png)
+
+![En esta captura definí UpdateProductDto para PUT y excluí status para reservar su cambio al borrado lógico](trazabilidad/E-ISS07-P02-05-update-product-dto.png)
