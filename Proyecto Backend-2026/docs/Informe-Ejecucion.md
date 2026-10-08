@@ -2377,3 +2377,23 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura se ve cómo inicié el servidor y atendió las solicitudes de Swagger](trazabilidad/E-ISS06-P13-02-server-start.png)
 
 **Cierre ISS-06:** implementé el modelo, DTOs, repository, service, controller, rutas, plantillas HTTP, cableado, seeder y documentación OpenAPI de ProductType. Verifiqué la creación y listado mediante POST/GET, ejecuté el SeedersRunner y confirmé que Swagger UI muestra el feature. No probé la inserción del seeder sobre una tabla vacía, porque ya existía el registro de prueba.
+
+## ISS-07 — Feature Product
+
+**Objetivo del manual:** implementar el CRUD de Product con FK `product_type_id`.  
+**Dependencia:** ISS-06, GATE cumplido.  
+**Referencia:** `Guia-unificada.md`, ISS-07, secciones 12.1 a 12.6.
+
+### Paso 1 — Crear el modelo Product *(completado)*
+
+**Referencia:** ISS-07, sección 12.1 — Modelo Product.  
+**Acción:** definí el modelo Sequelize `Product` para la tabla `products`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** declaré los campos `name`, `brand`, `price`, `min_stock`, `quantity`, `product_type_id` y `status`; configuré `status` con valor predeterminado `inactive` y activé `timestamps: true`.
+- **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
+- **Evidencia:** [`E-ISS07-P01-01-product-model.png`](trazabilidad/E-ISS07-P01-01-product-model.png).
+
+![En esta captura se ve cómo definí el modelo Product con product_type_id y timestamps](trazabilidad/E-ISS07-P01-01-product-model.png)
