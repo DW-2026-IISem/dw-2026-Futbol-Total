@@ -2479,3 +2479,25 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura cargué el modelo y las asociaciones de Product y monté sus rutas en App](trazabilidad/E-ISS07-P05-02-products-app-wiring.png)
 
 ![En esta captura declaré la relación belongsTo/hasMany entre Product y ProductType mediante product_type_id](trazabilidad/E-ISS07-P05-03-product-type-associations.png)
+
+### Paso 6 — Agregar el seeder y documentar Product en OpenAPI *(completado)*
+
+**Referencia:** ISS-07, sección 12.6 — Seeder + Swagger Product.  
+**Acción:** incorporé el seeder de productos al SeedersRunner y añadí los endpoints y esquemas de Product al registro OpenAPI.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** preparé un seeder idempotente que requiere tipos activos; añadí `products` al conteo con valor predeterminado `15`, configurable mediante `SEED_PRODUCTS` o `--products=N`, y conecté su ejecución después de ProductType. Registré `productsSwagger` en el agregador OpenAPI con los esquemas de Product y las operaciones CRUD.
+- **Estado:** Implementado; la ejecución del seeder y la visualización en Swagger quedan para las verificaciones de cierre.
+- **Evidencias:** [`E-ISS07-P06-01-products-seeder.png`](trazabilidad/E-ISS07-P06-01-products-seeder.png), [`E-ISS07-P06-02-product-seed-counts.png`](trazabilidad/E-ISS07-P06-02-product-seed-counts.png), [`E-ISS07-P06-03-seeders-runner.png`](trazabilidad/E-ISS07-P06-03-seeders-runner.png), [`E-ISS07-P06-04-products-openapi-schemas.png`](trazabilidad/E-ISS07-P06-04-products-openapi-schemas.png) y [`E-ISS07-P06-05-openapi-registry.png`](trazabilidad/E-ISS07-P06-05-openapi-registry.png).
+
+![En esta captura implementé seedProducts con datos sintéticos, tipos activos e inserción idempotente](trazabilidad/E-ISS07-P06-01-products-seeder.png)
+
+![En esta captura agregué el conteo de Product con valor predeterminado de 15 y configuración por ambiente o CLI](trazabilidad/E-ISS07-P06-02-product-seed-counts.png)
+
+![En esta captura conecté seedProducts al SeedersRunner después de ejecutar el seeder de ProductType](trazabilidad/E-ISS07-P06-03-seeders-runner.png)
+
+![En esta captura documenté los esquemas Product, ProductCreate, ProductUpdate y ProductPatch para OpenAPI](trazabilidad/E-ISS07-P06-04-products-openapi-schemas.png)
+
+![En esta captura registré productsSwagger en el agregador del documento OpenAPI](trazabilidad/E-ISS07-P06-05-openapi-registry.png)
