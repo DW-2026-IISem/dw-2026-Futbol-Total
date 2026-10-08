@@ -2126,3 +2126,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS05-P03-01-openapi-registry.png`](trazabilidad/E-ISS05-P03-01-openapi-registry.png).
 
 ![Registry OpenAPI, generación del documento y montaje de Swagger UI](trazabilidad/E-ISS05-P03-01-openapi-registry.png)
+
+### Paso 4 — Montar Swagger desde `App` *(completado)*
+
+**Referencia:** ISS-05, sección 10.2 — cableado en Config.
+**Acción:** importar `setupSwagger`, llamarlo al construir `App` y definir el método `docs()` para montar la documentación sobre Express.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `App` importa `setupSwagger`, invoca `this.docs()` después de registrar las rutas y `docs()` llama a `setupSwagger(this.app)`.
+- **Estado:** Implementado; falta la validación de los endpoints documentados.
+- **Evidencia:** [`E-ISS05-P04-01-app-swagger-wiring.png`](trazabilidad/E-ISS05-P04-01-app-swagger-wiring.png).
+
+![Cableado de Swagger UI en la clase App](trazabilidad/E-ISS05-P04-01-app-swagger-wiring.png)

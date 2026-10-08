@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { sequelize, getDatabaseInfo, testConnection } from "../database/db";
 import "../features/business/clients/client.model";
 import { Routes } from "../routes/index";
+import { setupSwagger } from "../swagger/index";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ export class App {
     this.settings();
     this.middlewares();
     this.routes();
+    this.docs();
   }
 
   private settings(): void {
@@ -32,6 +34,10 @@ export class App {
 
   private routes(): void {
     this.routePrv.clientsRoutes.routes(this.app);
+  }
+
+  private docs(): void {
+    setupSwagger(this.app);
   }
 
   private async dbConnection(): Promise<void> {
