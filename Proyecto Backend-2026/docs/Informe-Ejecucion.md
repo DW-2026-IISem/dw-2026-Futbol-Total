@@ -2216,3 +2216,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS06-P03-01-product-types-repository.png`](trazabilidad/E-ISS06-P03-01-product-types-repository.png).
 
 ![Repository del feature ProductTypes](trazabilidad/E-ISS06-P03-01-product-types-repository.png)
+
+### Paso 4 — Implementar el service de ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.2 — Service.  
+**Acción:** implementar las operaciones de negocio sobre `ProductType`, delegando persistencia en el repository y devolviendo DTOs.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `ProductTypesService` implementa consultas, creación con `status` activo por defecto, actualización completa y parcial, eliminación física y lógica, y el helper `findOrFail` para los registros inexistentes o inactivos.
+- **Evidencia:** [`E-ISS06-P04-01-product-types-service.png`](trazabilidad/E-ISS06-P04-01-product-types-service.png). La captura muestra la clase, las operaciones de lectura y creación y el comienzo de `updatePut`.
+- **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
+
+![Service del feature ProductTypes](trazabilidad/E-ISS06-P04-01-product-types-service.png)
