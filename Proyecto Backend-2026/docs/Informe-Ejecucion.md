@@ -2278,3 +2278,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![Solicitudes HTTP GET all y GET one de ProductType](trazabilidad/E-ISS06-P07-03-product-types-get-http.png)
 
 ![Solicitudes HTTP PUT y PATCH de ProductType](trazabilidad/E-ISS06-P07-04-product-types-update-http.png)
+
+### Paso 8 — Conectar ProductType a Routes y Config *(completado)*
+
+**Referencia:** ISS-06, sección 11.4 — Cableado Routes + Config.
+**Acción:** registrar `ProductTypesRoutes` en el agregador `Routes`, importar el modelo ProductType para Sequelize y montar las rutas desde `App`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** agregué `productTypesRoutes` a `Routes`; en `App` importé `product-type.model` y registré las rutas de ProductTypes junto con las de Clients.
+- **Estado:** Implementado; la verificación HTTP indicada en la guía queda pendiente.
+- **Evidencia:** [`E-ISS06-P08-01-product-types-app-wiring.png`](trazabilidad/E-ISS06-P08-01-product-types-app-wiring.png).
+
+![En esta captura se ve cómo importé el modelo ProductType y registré sus rutas en App](trazabilidad/E-ISS06-P08-01-product-types-app-wiring.png)
