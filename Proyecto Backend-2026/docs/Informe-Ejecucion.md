@@ -2358,3 +2358,22 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura se ve cómo documenté las rutas y esquemas de ProductType en OpenAPI](trazabilidad/E-ISS06-P12-01-product-types-openapi.png)
 
 ![En esta captura se ve cómo registré el módulo ProductTypes junto a Clients](trazabilidad/E-ISS06-P12-02-product-types-openapi-registry.png)
+
+### Paso 13 — Cerrar ISS-06 y revisar Swagger UI *(completado)*
+
+**Referencia:** ISS-06, cierre del ISS.
+**Acción:** inicié el servidor con `npm run dev` y abrí Swagger UI en `http://localhost:3002/api/docs/`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el servidor arrancó y sincronizó la base de datos. En Swagger UI confirmé que aparecen Clientes y TiposProducto con sus operaciones y esquemas.
+- **Estado:** Cumple el paso de cierre del manual. Con este resultado, el GATE de ISS-06 queda cumplido y se habilita ISS-07 — Feature Product.
+- **Evidencia de Swagger UI:** [`E-ISS06-P13-01-swagger-product-types-ui.png`](trazabilidad/E-ISS06-P13-01-swagger-product-types-ui.png).
+- **Evidencia de arranque:** [`E-ISS06-P13-02-server-start.png`](trazabilidad/E-ISS06-P13-02-server-start.png).
+
+![En esta captura se ve Swagger UI con Clientes y TiposProducto documentados](trazabilidad/E-ISS06-P13-01-swagger-product-types-ui.png)
+
+![En esta captura se ve cómo inicié el servidor y atendió las solicitudes de Swagger](trazabilidad/E-ISS06-P13-02-server-start.png)
+
+**Cierre ISS-06:** implementé el modelo, DTOs, repository, service, controller, rutas, plantillas HTTP, cableado, seeder y documentación OpenAPI de ProductType. Verifiqué la creación y listado mediante POST/GET, ejecuté el SeedersRunner y confirmé que Swagger UI muestra el feature. No probé la inserción del seeder sobre una tabla vacía, porque ya existía el registro de prueba.
