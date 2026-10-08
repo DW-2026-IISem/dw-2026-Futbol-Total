@@ -2419,3 +2419,25 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura definí ProductResponseDto y el mapper que convierte el modelo Product en un objeto plano](trazabilidad/E-ISS07-P02-04-product-response-dto.png)
 
 ![En esta captura definí UpdateProductDto para PUT y excluí status para reservar su cambio al borrado lógico](trazabilidad/E-ISS07-P02-05-update-product-dto.png)
+
+### Paso 3 — Implementar Repository, Service, Controller y Routes *(completado)*
+
+**Referencia:** ISS-07, sección 12.2 — capas del feature Product.  
+**Acción:** implementé el acceso a datos, las reglas de negocio, el controlador HTTP y las rutas del CRUD de Product.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el repository contiene operaciones de consulta, creación, actualización y eliminación; el service expone productos activos y aplica borrado lógico, además de comprobar que el tipo asociado exista y esté activo tanto en la creación como en PUT y cuando PATCH cambia `product_type_id`; el controller entrega las respuestas HTTP y Routes publica los endpoints `/api/productos`.
+- **Estado:** Implementado.
+- **Evidencias:** [`E-ISS07-P03-01-products-repository.png`](trazabilidad/E-ISS07-P03-01-products-repository.png), [`E-ISS07-P03-02-product-model.png`](trazabilidad/E-ISS07-P03-02-product-model.png), [`E-ISS07-P03-03-products-controller.png`](trazabilidad/E-ISS07-P03-03-products-controller.png), [`E-ISS07-P03-04-products-routes.png`](trazabilidad/E-ISS07-P03-04-products-routes.png) y [`E-ISS07-P03-05-products-service.png`](trazabilidad/E-ISS07-P03-05-products-service.png).
+
+![En esta captura implementé ProductsRepository con consultas por ID y operaciones de persistencia para Product](trazabilidad/E-ISS07-P03-01-products-repository.png)
+
+![En esta captura definí la interfaz ProductI, la clase Product y sus campos Sequelize](trazabilidad/E-ISS07-P03-02-product-model.png)
+
+![En esta captura implementé ProductsController para dirigir las solicitudes CRUD al service y responder por HTTP](trazabilidad/E-ISS07-P03-03-products-controller.png)
+
+![En esta captura declaré las rutas GET, POST, PUT, PATCH y DELETE del endpoint /api/productos](trazabilidad/E-ISS07-P03-04-products-routes.png)
+
+![En esta captura implementé ProductsService con las operaciones del CRUD y la validación del ProductType activo](trazabilidad/E-ISS07-P03-05-products-service.png)
