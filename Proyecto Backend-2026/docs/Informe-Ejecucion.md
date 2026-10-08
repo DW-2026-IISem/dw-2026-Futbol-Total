@@ -2515,3 +2515,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS07-P07-01-products-server-start.png`](trazabilidad/E-ISS07-P07-01-products-server-start.png).
 
 ![En esta captura confirmé que la aplicación sincronizó products y arrancó en el puerto 3002](trazabilidad/E-ISS07-P07-01-products-server-start.png)
+
+### Paso 7 — Iniciar la aplicación *(completado)*
+
+**Referencia:** ISS-07, cierre de la unidad — ejecutar `npm run dev` y confirmar que el servidor inicia sin error.  
+**Acción:** inicié el servidor de desarrollo para comprobar el arranque de la aplicación con Product cableado.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el proceso conectó con MySQL, sincronizó las tablas `clients`, `product_types` y `products`, y anunció que el servidor se ejecuta en el puerto `3002`.
+- **Estado:** Arranque verificado.
+- **Evidencia:** [`E-ISS07-P07-01-products-server-start.png`](trazabilidad/E-ISS07-P07-01-products-server-start.png).
+
+![En esta captura confirmé que la aplicación sincronizó products y arrancó en el puerto 3002](trazabilidad/E-ISS07-P07-01-products-server-start.png)
