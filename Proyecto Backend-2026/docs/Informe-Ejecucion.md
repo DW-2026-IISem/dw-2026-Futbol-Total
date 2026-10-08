@@ -2309,3 +2309,21 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura se ve cómo envié el POST y recibí el tipo Bebidas ISS-06 creado](trazabilidad/E-ISS06-P09-01-post-product-type.png)
 
 ![En esta captura se ve el servidor iniciado y el GET que devuelve el tipo creado](trazabilidad/E-ISS06-P09-02-server-and-get-product-types.png)
+
+### Paso 10 — Agregar el seeder de ProductType al runner *(completado)*
+
+**Referencia:** ISS-06, sección 11.5 — Seeder ProductType.  
+**Acción:** implementé `seedProductTypes(count)` con Faker e idempotencia; añadí `product_types` a `SeedCounts`, fijé el conteo predeterminado en 25 y agregué la lectura de `SEED_PRODUCT_TYPES`. También registré el modelo y ejecuté el seeder desde `SeedersRunner`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el seeder omite la inserción si el conteo es no positivo o si ya existen registros. El runner invoca `seedProductTypes(counts.product_types)` después de `seedClients(counts.clients)`.
+- **Estado:** Implementado; la ejecución del runner y su resultado se registrarán en el siguiente paso.
+- **Evidencias:** [`E-ISS06-P10-01-product-types-seeder.png`](trazabilidad/E-ISS06-P10-01-product-types-seeder.png), [`E-ISS06-P10-02-seed-counts.png`](trazabilidad/E-ISS06-P10-02-seed-counts.png) y [`E-ISS06-P10-03-seeders-runner.png`](trazabilidad/E-ISS06-P10-03-seeders-runner.png).
+
+![En esta captura se ve cómo definí el seeder de ProductType con Faker e idempotencia](trazabilidad/E-ISS06-P10-01-product-types-seeder.png)
+
+![En esta captura se ve cómo agregué el conteo predeterminado y la variable SEED_PRODUCT_TYPES](trazabilidad/E-ISS06-P10-02-seed-counts.png)
+
+![En esta captura se ve cómo registré el seeder ProductType en SeedersRunner](trazabilidad/E-ISS06-P10-03-seeders-runner.png)
