@@ -2292,3 +2292,20 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS06-P08-01-product-types-app-wiring.png`](trazabilidad/E-ISS06-P08-01-product-types-app-wiring.png).
 
 ![En esta captura se ve cómo importé el modelo ProductType y registré sus rutas en App](trazabilidad/E-ISS06-P08-01-product-types-app-wiring.png)
+
+### Paso 9 — Verificar creación y listado de ProductTypes *(completado)*
+
+**Referencia:** ISS-06, sección 11.4 — Verificación.  
+**Acción:** inicié el servidor y envié las solicitudes POST y GET a `/api/tipos-producto`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el servidor arrancó en el puerto `3002`. El POST respondió `201 Created` y creó el tipo `Bebidas ISS-06` con estado `active`; el GET respondió `200` y mostró ese registro en la colección `product_types`.
+- **Estado:** Cumple la verificación de creación y listado indicada en la guía.
+- **Evidencia POST:** [`E-ISS06-P09-01-post-product-type.png`](trazabilidad/E-ISS06-P09-01-post-product-type.png).
+- **Evidencia del servidor y GET:** [`E-ISS06-P09-02-server-and-get-product-types.png`](trazabilidad/E-ISS06-P09-02-server-and-get-product-types.png).
+
+![En esta captura se ve cómo envié el POST y recibí el tipo Bebidas ISS-06 creado](trazabilidad/E-ISS06-P09-01-post-product-type.png)
+
+![En esta captura se ve el servidor iniciado y el GET que devuelve el tipo creado](trazabilidad/E-ISS06-P09-02-server-and-get-product-types.png)
