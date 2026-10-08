@@ -2098,3 +2098,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS05-P01-01-swagger-install.png`](trazabilidad/E-ISS05-P01-01-swagger-install.png).
 
 ![Salida de npm al instalar los paquetes requeridos por Swagger](trazabilidad/E-ISS05-P01-01-swagger-install.png)
+
+### Paso 2 — Documentar el feature Client en OpenAPI *(completado)*
+
+**Referencia:** ISS-05, sección 10.1 — OpenAPI dentro del feature Client.  
+**Acción:** crear `src/features/business/clients/clients.swagger.ts` con el tag Clientes, las operaciones HTTP del feature y los esquemas de entrada y respuesta.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el módulo `clientsSwagger` documenta las rutas de clientes y los esquemas de Client. La documentación identifica los endpoints como **SIN AUTH**, de acuerdo con el comportamiento actual de Pedalibre.
+- **Estado:** Implementado; falta la validación conjunta del ISS-05.
+- **Evidencia:** [`E-ISS05-P02-01-clients-openapi.png`](trazabilidad/E-ISS05-P02-01-clients-openapi.png).
+
+![Documentación OpenAPI del feature Client](trazabilidad/E-ISS05-P02-01-clients-openapi.png)
