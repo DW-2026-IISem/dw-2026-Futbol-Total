@@ -2071,3 +2071,30 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![Servidor iniciado y luego detenido con Ctrl+C](trazabilidad/E-ISS04-P64-01-server-stop.png)
 
 **Cierre ISS-04:** se implementaron el seeder de clientes con Faker, conteos configurables por default/entorno/CLI, SeedersRunner y script npm. Las tres ejecuciones del runner probaron resolución de cantidades e idempotencia ante 110 registros existentes; no se verificó la ruta de inserción sobre base vacía. TypeScript compiló sin errores y el servidor arrancó y se detuvo correctamente.
+
+**Publicación de ISS-04:** el usuario ejecutó `git push origin main`; la terminal confirmó la actualización de `main` desde `9c7b615` hasta `2701d63`.  
+**Evidencia:** [`E-ISS04-P65-01-push-main.png`](trazabilidad/E-ISS04-P65-01-push-main.png).
+
+![Push de ISS-04 a origin/main](trazabilidad/E-ISS04-P65-01-push-main.png)
+
+## ISS-05 — Swagger / OpenAPI
+
+**Objetivo del manual:** documentar el feature Client con OpenAPI 3 y montar Swagger UI desde un registry externo.  
+**Dependencia:** ISS-03-E, completado.  
+**Referencia:** `Guia-unificada.md`, ISS-05, secciones 10.1 y 10.2.
+
+### Paso 1 — Instalar paquetes de Swagger *(completado)*
+
+**Referencia:** ISS-05, sección 10.1 — paquetes.
+**Acción:** instalar `swagger-ui-express@^5.0.1` y `@types/swagger-ui-express@^4.1.8`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** npm terminó las instalaciones. `package.json` declara `swagger-ui-express` en dependencias y `@types/swagger-ui-express` en dependencias de desarrollo.
+- **Advertencias observadas:** npm reportó 21 vulnerabilidades (14 moderadas y 7 altas) en el árbol de dependencias. También indicó que bloqueó scripts de instalación de tres paquetes por la configuración `allowScripts`.
+- **Adaptación/precaución:** no se ejecutó `npm audit fix` ni se aprobaron scripts de instalación; no forman parte de este paso de la guía.
+- **Estado:** Cumple la instalación de los paquetes requeridos.
+- **Evidencia:** [`E-ISS05-P01-01-swagger-install.png`](trazabilidad/E-ISS05-P01-01-swagger-install.png).
+
+![Salida de npm al instalar los paquetes requeridos por Swagger](trazabilidad/E-ISS05-P01-01-swagger-install.png)
