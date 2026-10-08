@@ -2441,3 +2441,23 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura declaré las rutas GET, POST, PUT, PATCH y DELETE del endpoint /api/productos](trazabilidad/E-ISS07-P03-04-products-routes.png)
 
 ![En esta captura implementé ProductsService con las operaciones del CRUD y la validación del ProductType activo](trazabilidad/E-ISS07-P03-05-products-service.png)
+
+### Paso 4 — Crear las plantillas HTTP de Product *(completado)*
+
+**Referencia:** ISS-07, sección 12.3 — HTTP.  
+**Acción:** preparé las solicitudes REST Client para consultar, crear, actualizar y eliminar productos.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** configuré las plantillas con la URL base `http://localhost:3002`; incluí GET ALL/GET ONE, POST, PUT/PATCH y DELETE físico/lógico. Dejé identificadores marcadores en las solicitudes destructivas para sustituirlos por IDs de prueba antes de ejecutarlas.
+- **Estado:** Implementado; pendiente ejecutar las solicitudes en las verificaciones indicadas por la guía.
+- **Evidencias:** [`E-ISS07-P04-01-products-create-http.png`](trazabilidad/E-ISS07-P04-01-products-create-http.png), [`E-ISS07-P04-02-products-delete-http.png`](trazabilidad/E-ISS07-P04-02-products-delete-http.png), [`E-ISS07-P04-03-products-get-http.png`](trazabilidad/E-ISS07-P04-03-products-get-http.png) y [`E-ISS07-P04-04-products-update-http.png`](trazabilidad/E-ISS07-P04-04-products-update-http.png).
+
+![En esta captura preparé la solicitud POST de Product con sus campos de creación y el tipo asociado](trazabilidad/E-ISS07-P04-01-products-create-http.png)
+
+![En esta captura preparé las solicitudes DELETE físico y lógico, con marcadores para usar IDs de prueba](trazabilidad/E-ISS07-P04-02-products-delete-http.png)
+
+![En esta captura preparé las solicitudes GET para listar productos y consultar uno por ID](trazabilidad/E-ISS07-P04-03-products-get-http.png)
+
+![En esta captura preparé las solicitudes PUT y PATCH y omití status, reservado para el borrado lógico](trazabilidad/E-ISS07-P04-04-products-update-http.png)

@@ -1,0 +1,29 @@
+### Feature Product - UPDATE (PUT) / UPDATE (PATCH) (público, sin token)
+### Sustituye @id por el ID de un producto destinado a pruebas.
+### `status` no se envía: el estado cambia mediante el borrado lógico.
+@baseUrl = http://localhost:3002
+@id = REPLACE_WITH_TEST_ID
+
+# @name updateProductPut
+PUT {{baseUrl}}/api/productos/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Balón de fútbol actualizado ISS-07",
+  "brand": "Marca de prueba",
+  "price": 27.5,
+  "min_stock": 5,
+  "quantity": 18,
+  "product_type_id": 1
+}
+
+###
+
+# @name updateProductPatch
+PATCH {{baseUrl}}/api/productos/{{id}}
+Content-Type: application/json
+
+{
+  "price": 26.5,
+  "quantity": 19
+}

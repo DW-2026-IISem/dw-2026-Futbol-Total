@@ -1,0 +1,16 @@
+### Feature Product - CREATE (público, sin token)
+@baseUrl = http://localhost:3002
+
+# @name createProductPublic
+POST {{baseUrl}}/api/productos
+Content-Type: application/json
+
+{
+  "name": "Balón de fútbol ISS-07",
+  "brand": "Marca de prueba",
+  "price": 25.5,
+  "min_stock": 5,
+  "quantity": 20,
+  "product_type_id": 1,
+  "status": "active"
+}
