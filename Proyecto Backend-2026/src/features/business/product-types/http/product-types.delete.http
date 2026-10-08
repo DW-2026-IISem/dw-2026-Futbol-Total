@@ -1,0 +1,15 @@
+### Feature ProductType - DELETE físico / DELETE lógico (público, sin token)
+### Sustituye ambos IDs por tipos de producto de prueba antes de ejecutar.
+@baseUrl = http://localhost:3002
+@physicalId = REPLACE_WITH_DISPOSABLE_TEST_ID
+@logicalId = REPLACE_WITH_TEST_ID
+
+# @name deleteProductTypePhysical
+# Elimina permanentemente la fila; usar exclusivamente un registro descartable.
+DELETE {{baseUrl}}/api/tipos-producto/{{physicalId}}
+
+###
+
+# @name deleteProductTypeLogical
+# Cambia status a inactive y oculta el registro de las consultas activas.
+PATCH {{baseUrl}}/api/tipos-producto/{{logicalId}}/deactivate

@@ -2258,3 +2258,23 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS06-P06-01-product-types-routes.png`](trazabilidad/E-ISS06-P06-01-product-types-routes.png).
 
 ![Rutas CRUD de ProductTypes](trazabilidad/E-ISS06-P06-01-product-types-routes.png)
+
+### Paso 7 — Preparar solicitudes HTTP de ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.3 — HTTP (REST Client).  
+**Acción:** preparar solicitudes para GET all/one, create, update PUT/PATCH y delete físico/lógico.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** se crearon cuatro archivos `.http` para las operaciones de ProductType. Las solicitudes usan `http://localhost:3002` y reflejan que la API es pública, sin flujo de login ni token. Las plantillas de actualización y eliminación incluyen marcadores de ID para evitar operar accidentalmente sobre registros reales.
+- **Estado:** Plantillas preparadas; sus ejecuciones se registrarán cuando se realicen.
+- **Evidencias:** [`E-ISS06-P07-01-product-types-create-http.png`](trazabilidad/E-ISS06-P07-01-product-types-create-http.png), [`E-ISS06-P07-02-product-types-delete-http.png`](trazabilidad/E-ISS06-P07-02-product-types-delete-http.png), [`E-ISS06-P07-03-product-types-get-http.png`](trazabilidad/E-ISS06-P07-03-product-types-get-http.png) y [`E-ISS06-P07-04-product-types-update-http.png`](trazabilidad/E-ISS06-P07-04-product-types-update-http.png).
+
+![Solicitud HTTP de creación de ProductType](trazabilidad/E-ISS06-P07-01-product-types-create-http.png)
+
+![Solicitudes HTTP de eliminación física y lógica de ProductType](trazabilidad/E-ISS06-P07-02-product-types-delete-http.png)
+
+![Solicitudes HTTP GET all y GET one de ProductType](trazabilidad/E-ISS06-P07-03-product-types-get-http.png)
+
+![Solicitudes HTTP PUT y PATCH de ProductType](trazabilidad/E-ISS06-P07-04-product-types-update-http.png)

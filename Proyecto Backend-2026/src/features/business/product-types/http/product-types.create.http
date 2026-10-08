@@ -1,0 +1,12 @@
+### Feature ProductType - CREATE (público, sin token)
+@baseUrl = http://localhost:3002
+
+# @name createProductTypePublic
+POST {{baseUrl}}/api/tipos-producto
+Content-Type: application/json
+
+{
+  "name": "Accesorios ISS-06",
+  "description": "Tipo de producto de prueba para el feature ProductType",
+  "status": "active"
+}
