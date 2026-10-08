@@ -2160,3 +2160,23 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![Respuesta JSON de /api/docs.json](trazabilidad/E-ISS05-P06-01-openapi-json.png)
 
 **Cierre ISS-05:** completé la documentación OpenAPI del feature Client, el registry externo y el montaje de Swagger desde `App`. Confirmé visualmente la UI en `/api/docs` y obtuve el documento OpenAPI en `/api/docs.json`. El GATE de ISS-05 queda cumplido y habilita ISS-06 — Feature ProductType.
+
+## ISS-06 — Feature ProductType
+
+**Objetivo del manual:** implementar el CRUD, seeder y documentación Swagger del feature ProductType.  
+**Dependencia:** ISS-05, GATE cumplido.  
+**Referencia:** `Guia-unificada.md`, ISS-06, secciones 11.1 a 11.6.
+
+### Paso 1 — Crear el modelo ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.1 — Modelo ProductType.  
+**Acción:** crear `src/features/business/product-types/product-type.model.ts` con el modelo Sequelize asociado a `product_types`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `ProductTypeI` y `ProductType` declaran `name`, `description`, `status` (`active`/`inactive`) y timestamps; `status` tiene `defaultValue: "inactive"` y el modelo activa `timestamps: true`.
+- **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
+- **Evidencia:** [`E-ISS06-P01-01-product-type-model.png`](trazabilidad/E-ISS06-P01-01-product-type-model.png).
+
+![Modelo Sequelize ProductType para la tabla product_types](trazabilidad/E-ISS06-P01-01-product-type-model.png)
