@@ -2461,3 +2461,21 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura preparé las solicitudes GET para listar productos y consultar uno por ID](trazabilidad/E-ISS07-P04-03-products-get-http.png)
 
 ![En esta captura preparé las solicitudes PUT y PATCH y omití status, reservado para el borrado lógico](trazabilidad/E-ISS07-P04-04-products-update-http.png)
+
+### Paso 5 — Cablear Product y registrar la relación con ProductType *(completado)*
+
+**Referencia:** ISS-07, secciones 12.4 — Cableado y 12.5 — Relación ProductType ↔ Product.  
+**Acción:** conecté las rutas de Product en la aplicación y declaré la asociación Sequelize entre Product y ProductType.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** agregué `ProductsRoutes` al registro `Routes`, monté sus endpoints en `App` y cargué el modelo Product junto con el archivo de asociaciones. Definí `Product.belongsTo(ProductType)` y `ProductType.hasMany(Product)` con la clave `product_type_id`.
+- **Estado:** Implementado; la verificación de las solicitudes se realizará en los pasos de ejecución indicados por la guía.
+- **Evidencias:** [`E-ISS07-P05-01-products-routes-registry.png`](trazabilidad/E-ISS07-P05-01-products-routes-registry.png), [`E-ISS07-P05-02-products-app-wiring.png`](trazabilidad/E-ISS07-P05-02-products-app-wiring.png) y [`E-ISS07-P05-03-product-type-associations.png`](trazabilidad/E-ISS07-P05-03-product-type-associations.png).
+
+![En esta captura registré ProductsRoutes en Routes para incluir el feature Product en la aplicación](trazabilidad/E-ISS07-P05-01-products-routes-registry.png)
+
+![En esta captura cargué el modelo y las asociaciones de Product y monté sus rutas en App](trazabilidad/E-ISS07-P05-02-products-app-wiring.png)
+
+![En esta captura declaré la relación belongsTo/hasMany entre Product y ProductType mediante product_type_id](trazabilidad/E-ISS07-P05-03-product-type-associations.png)
