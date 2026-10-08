@@ -2230,3 +2230,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
 
 ![Service del feature ProductTypes](trazabilidad/E-ISS06-P04-01-product-types-service.png)
+
+### Paso 5 — Crear el controller de ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.2 — Controller.  
+**Acción:** implementar los handlers HTTP del feature ProductTypes delegando la lógica al service y el manejo de errores a `BaseController.run()`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `ProductTypesController` contiene handlers para getAll, getOne, create, updatePut, updatePatch, deletePhysical y deleteLogical; usa los códigos HTTP y estructuras JSON definidos en el manual.
+- **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
+- **Evidencia:** [`E-ISS06-P05-01-product-types-controller.png`](trazabilidad/E-ISS06-P05-01-product-types-controller.png).
+
+![Controller del feature ProductTypes](trazabilidad/E-ISS06-P05-01-product-types-controller.png)
