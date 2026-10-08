@@ -2342,3 +2342,19 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS06-P11-01-seeder-existing-skip.png`](trazabilidad/E-ISS06-P11-01-seeder-existing-skip.png).
 
 ![En esta captura se ve cómo ejecuté SeedersRunner y omitió la inserción porque ya había un tipo de producto](trazabilidad/E-ISS06-P11-01-seeder-existing-skip.png)
+
+### Paso 12 — Documentar ProductType en OpenAPI *(completado)*
+
+**Referencia:** ISS-06, sección 11.6 — Swagger ProductType.  
+**Acción:** documenté las operaciones y esquemas de ProductType en `product-types.swagger.ts` y registré el módulo en `src/swagger/index.ts`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** documenté GET all/one, POST, PUT, PATCH, DELETE físico y desactivación lógica, junto con los esquemas ProductType. Adapté la documentación al API público actual de Pedalibre, sin requisitos de autenticación JWT/RBAC.
+- **Estado:** Implementado; falta la validación conjunta y el cierre del ISS-06.
+- **Evidencias:** [`E-ISS06-P12-01-product-types-openapi.png`](trazabilidad/E-ISS06-P12-01-product-types-openapi.png) y [`E-ISS06-P12-02-product-types-openapi-registry.png`](trazabilidad/E-ISS06-P12-02-product-types-openapi-registry.png).
+
+![En esta captura se ve cómo documenté las rutas y esquemas de ProductType en OpenAPI](trazabilidad/E-ISS06-P12-01-product-types-openapi.png)
+
+![En esta captura se ve cómo registré el módulo ProductTypes junto a Clients](trazabilidad/E-ISS06-P12-02-product-types-openapi-registry.png)
