@@ -2140,3 +2140,23 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS05-P04-01-app-swagger-wiring.png`](trazabilidad/E-ISS05-P04-01-app-swagger-wiring.png).
 
 ![Cableado de Swagger UI en la clase App](trazabilidad/E-ISS05-P04-01-app-swagger-wiring.png)
+
+### Paso 5 — Verificar Swagger UI y el documento OpenAPI *(completado)*
+
+**Referencia:** ISS-05, “Verificación ISS-05”.
+**Acción:** abrir Swagger UI y solicitar el JSON OpenAPI con `curl`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `http://localhost:3002/api/docs/` muestra Swagger UI con las operaciones documentadas del feature Clientes y sus esquemas. `curl -s http://localhost:3002/api/docs.json | head` devolvió el documento OpenAPI, incluyendo `openapi: "3.0.3"`, el título Pedalibre API y los paths de clientes.
+- **Adaptación:** se usó el puerto `3002` configurado para Pedalibre en `.env`, en lugar del puerto `4000` del ejemplo de la guía.
+- **Estado:** Cumple ambos endpoints requeridos.
+- **Evidencia UI:** [`E-ISS05-P05-01-swagger-ui.png`](trazabilidad/E-ISS05-P05-01-swagger-ui.png).
+- **Evidencia JSON:** [`E-ISS05-P06-01-openapi-json.png`](trazabilidad/E-ISS05-P06-01-openapi-json.png).
+
+![Swagger UI sirviendo la documentación de Pedalibre](trazabilidad/E-ISS05-P05-01-swagger-ui.png)
+
+![Respuesta JSON de /api/docs.json](trazabilidad/E-ISS05-P06-01-openapi-json.png)
+
+**Cierre ISS-05:** completé la documentación OpenAPI del feature Client, el registry externo y el montaje de Swagger desde `App`. Confirmé visualmente la UI en `/api/docs` y obtuve el documento OpenAPI en `/api/docs.json`. El GATE de ISS-05 queda cumplido y habilita ISS-06 — Feature ProductType.
