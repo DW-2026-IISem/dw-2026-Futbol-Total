@@ -2202,3 +2202,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![DTO y mapper de respuesta de ProductType](trazabilidad/E-ISS06-P02-04-product-type-response-dto.png)
 
 ![DTO de actualización completa de ProductType](trazabilidad/E-ISS06-P02-05-update-product-type-dto.png)
+
+### Paso 3 — Crear el repository de ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.2 — Repository.  
+**Acción:** implementar la capa responsable de consultar y persistir mediante el modelo `ProductType`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `ProductTypesRepository` implementa `findAllActive`, `findById`, `create`, `update` y `delete`, delegando las operaciones en el modelo Sequelize.
+- **Estado:** Implementado; la compilación se verificará en el paso de validación correspondiente.
+- **Evidencia:** [`E-ISS06-P03-01-product-types-repository.png`](trazabilidad/E-ISS06-P03-01-product-types-repository.png).
+
+![Repository del feature ProductTypes](trazabilidad/E-ISS06-P03-01-product-types-repository.png)
