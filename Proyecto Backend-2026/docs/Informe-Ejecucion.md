@@ -2244,3 +2244,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS06-P05-01-product-types-controller.png`](trazabilidad/E-ISS06-P05-01-product-types-controller.png).
 
 ![Controller del feature ProductTypes](trazabilidad/E-ISS06-P05-01-product-types-controller.png)
+
+### Paso 6 — Registrar las rutas de ProductType *(completado)*
+
+**Referencia:** ISS-06, sección 11.2 — routes.  
+**Acción:** asociar los endpoints de `/api/tipos-producto` con los handlers de `ProductTypesController`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `ProductTypesRoutes` registra GET all/one, POST, PUT, PATCH, DELETE físico y PATCH de desactivación lógica. Las rutas son públicas, sin autenticación ni middleware JWT, conforme al proyecto.
+- **Estado:** Implementado; la integración del agregador y la aplicación se registrará en la sección 11.4.
+- **Evidencia:** [`E-ISS06-P06-01-product-types-routes.png`](trazabilidad/E-ISS06-P06-01-product-types-routes.png).
+
+![Rutas CRUD de ProductTypes](trazabilidad/E-ISS06-P06-01-product-types-routes.png)
