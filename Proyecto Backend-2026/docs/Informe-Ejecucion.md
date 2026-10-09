@@ -2841,7 +2841,7 @@ curl -sS http://localhost:3002/api/ventas
 curl -sS http://localhost:3002/api/detalle-ventas
 ```
 
-- **Estado:** Pendiente. Al reiniciar la aplicación, MySQL rechazó el `ALTER TABLE clients ... email ... UNIQUE` generado por `sequelize.sync({ force: false, alter: true })`, con `ER_TOO_MANY_KEYS` (límite de 64 índices únicos/claves). La sincronización `alter` repetida estaba intentando agregar nuevamente el índice único del email; el servidor no alcanzó a iniciar. Para evitar más cambios acumulativos en índices, cambié la sincronización de la aplicación y del runner a `sequelize.sync({ force: false })`, que conserva los datos y crea las tablas faltantes sin alterar tablas ya existentes. La verificación de endpoints y la creación de venta siguen pendientes hasta confirmar el arranque.
+- **Estado:** Pendiente. Al reiniciar la aplicación, MySQL rechazó el `ALTER TABLE clients ... email ... UNIQUE` generado por `sequelize.sync({ force: false, alter: true })`, con `ER_TOO_MANY_KEYS` (límite de 64 índices únicos/claves). Cambié la sincronización de la aplicación y del runner a `sequelize.sync({ force: false })`, que conserva los datos y crea las tablas faltantes sin alterar tablas ya existentes. En el siguiente arranque, MySQL indicó que el `clients.id` existente es `BIGINT`, incompatible con el `sales.client_id` declarado como `INTEGER`; ajusté el atributo `client_id` de Sale a `DataTypes.BIGINT` para que la FK coincida con la columna referenciada. Las pruebas HTTP siguen pendientes de confirmar un arranque exitoso.
 - **Comando para iniciar después del ajuste:**
 
 ```bash
