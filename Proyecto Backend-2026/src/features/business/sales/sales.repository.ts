@@ -1,12 +1,29 @@
 import { CreationAttributes, Transaction } from "sequelize";
 import { Sale, SaleI } from "./sale.model";
+import { ProductSale } from "../product-sales/product-sale.model";
 
 export class SalesRepository {
-  public async findAllActive(): Promise<Sale[]> {
-    return Sale.findAll({ where: { status: "active" } });
+  public async findAllActiveWithItems(): Promise<Sale[]> {
+    return Sale.findAll({
+      where: { status: "active" },
+      include: [{ model: ProductSale, as: "items" }],
+    });
   }
 
-  public async findById(id: number, transaction?: Transaction): Promise<Sale | null> {
+  public async findWithItemsById(
+    id: number,
+    transaction?: Transaction,
+  ): Promise<Sale | null> {
+    return Sale.findByPk(id, {
+      include: [{ model: ProductSale, as: "items" }],
+      transaction,
+    });
+  }
+
+  public async findById(
+    id: number,
+    transaction?: Transaction,
+  ): Promise<Sale | null> {
     return Sale.findByPk(id, { transaction });
   }
 
