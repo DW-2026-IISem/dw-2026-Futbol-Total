@@ -2818,6 +2818,6 @@ const featureSwaggerModules = [
 
 ![En esta captura documenté las rutas y esquemas públicos de Sale en OpenAPI](trazabilidad/E-ISS08-P10-02-sales-openapi.png)
 
-![En esta captura registré los seeders de Sale y ProductSale y sus conteos en los agregadores](trazabilidad/E-ISS08-P10-03-sales-seeder-wiring.png)
+![En esta captura integré la documentación OpenAPI de Sale con los módulos de la aplicación](trazabilidad/E-ISS08-P10-03-sales-swagger-registry.png)
 
-![En esta captura integré la documentación OpenAPI de Sale con los módulos de la aplicación](trazabilidad/E-ISS08-P10-04-sales-swagger-registry.png)
+![En esta captura registré los seeders de Sale y ProductSale para ejecutarlos en orden junto con los demás datos de prueba](trazabilidad/E-ISS08-P10-04-sales-seeder-wiring.png)
