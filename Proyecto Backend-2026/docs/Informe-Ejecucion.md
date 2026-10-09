@@ -2965,3 +2965,37 @@ export function generateOpaqueToken(): string {
 - **Compatibilidad con la guía:** exporté `verifyPassword`, que solicita el criterio de aceptación, y `comparePassword`, que usa el ejemplo de implementación y el login de un paso posterior.
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** paso 14.2 implementado y con tipado verificado.
+
+![En esta captura se observan las funciones hashPassword, comparePassword, verifyPassword, sha256Hex y generateOpaqueToken](trazabilidad/E-ISS09-P14-02-password-helpers.png)
+
+### Paso 15 — Firmar y verificar access tokens *(14.3 implementado)*
+
+**Referencia:** ISS-09, sección 14.3 — `jwt.ts`.  
+**Acción:** implementé la emisión y verificación de access tokens JWT con algoritmo HS256 fijado, emisor, audiencia, vencimiento e identificador `jti`. La verificación valida los claims requeridos y convierte tokens inválidos o vencidos en `AppError(401)`.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/shared/auth/jwt.ts
+```
+
+**Configuración y firma del token:**
+
+```typescript
+const ALGORITHM = "HS256";
+export const TOKEN_ISSUER = "app-storelab-express";
+export const TOKEN_AUDIENCE = "app-storelab-api";
+
+const options: SignOptions = {
+  algorithm: ALGORITHM,
+  subject: String(user.id),
+  issuer: TOKEN_ISSUER,
+  audience: TOKEN_AUDIENCE,
+  expiresIn,
+  jwtid: randomUUID(),
+};
+const token = jwt.sign({ username: user.username }, getSecret(), options);
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 14.3 implementado; el payload no incluye roles ni permisos.
