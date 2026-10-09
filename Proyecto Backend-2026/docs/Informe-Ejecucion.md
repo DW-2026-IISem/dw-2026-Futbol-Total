@@ -2822,6 +2822,12 @@ const featureSwaggerModules = [
 
 ![En esta captura registré los seeders de Sale y ProductSale para ejecutarlos en orden junto con los demás datos de prueba](trazabilidad/E-ISS08-P10-04-sales-seeder-wiring.png)
 
+![En esta captura consulté Swagger UI y observé la documentación general de Pedalibre API](trazabilidad/E-ISS08-P10-05-sales-openapi-runtime.png)
+
+![En esta captura consulté Swagger UI y observé las operaciones documentadas para Ventas y DetalleVentas](trazabilidad/E-ISS08-P10-06-sales-endpoints-runtime.png)
+
+![En esta captura consulté los esquemas Sale y ProductSale publicados en Swagger UI](trazabilidad/E-ISS08-P10-07-sales-schemas-runtime.png)
+
 ### Paso 11 — Verificar los endpoints de venta *(pruebas funcionales completadas; captura pendiente)*
 
 **Referencia:** ISS-08, sección 13.5 — Verificación venta.  
@@ -2830,7 +2836,7 @@ const featureSwaggerModules = [
 **Registro de ejecución:**
 
 - **Fecha:** 2026-10-08.
-- **Resultado observado:** el servidor inició correctamente; `GET /api/ventas`, `GET /api/detalle-ventas` y `/api/docs.json` respondieron `200`. Preparé un producto de prueba y creé una venta con su detalle; la respuesta incluyó la cabecera y la línea. Después, `GET /api/ventas` devolvió la venta con sus líneas, `GET /api/detalle-ventas` mostró el detalle y el stock se actualizó según la cantidad vendida. La venta de prueba permanece temporalmente para documentar la respuesta; la eliminaré físicamente después de recibir la captura, lo que restaura el stock.
+- **Resultado observado:** el servidor inició correctamente; `GET /api/ventas`, `GET /api/detalle-ventas` y `/api/docs.json` respondieron `200`. Preparé un producto de prueba y creé una venta con su detalle; la respuesta incluyó la cabecera y la línea. Después, `GET /api/ventas` devolvió la venta con sus líneas, `GET /api/detalle-ventas` mostró el detalle y el stock se actualizó según la cantidad vendida. Finalmente eliminé físicamente la venta de prueba: las consultas de ventas y líneas quedaron vacías, y el inventario volvió a la cantidad previa.
 - **Comandos de verificación indicados en la guía, adaptados al puerto del proyecto:**
 
 ```bash
@@ -2845,7 +2851,7 @@ curl -sS http://localhost:3002/api/docs.json
 ```
 
 - **Evidencia de arranque:** [`E-ISS08-P11-01-sales-server-start.png`](trazabilidad/E-ISS08-P11-01-sales-server-start.png).
-- **Estado:** Servidor iniciado y pruebas funcionales ejecutadas; falta adjuntar la captura con las respuestas de los endpoints.
+- **Estado:** Servidor iniciado y pruebas funcionales ejecutadas; queda pendiente la captura de las respuestas HTTP de Sale y ProductSale.
 
 ![En esta captura inicié el servidor con las rutas de Sale y ProductSale cargadas y observé que quedó ejecutándose en el puerto 3002](trazabilidad/E-ISS08-P11-01-sales-server-start.png)
 
