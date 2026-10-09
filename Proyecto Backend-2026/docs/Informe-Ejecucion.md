@@ -2900,6 +2900,14 @@ curl -sS http://localhost:3002/api/detalle-ventas | head
 
 ![En esta captura consulté los endpoints de tipos de producto, productos, ventas y detalles de venta y observé sus respuestas JSON](trazabilidad/E-CIERRE-BUSINESS-02-get-endpoints.png)
 
+## Fase II — ISS-09: Auth base (seguridad y modelos)
+
+**Objetivo de la unidad:** preparé la infraestructura de seguridad compartida antes de crear los endpoints de autenticación: hash seguro de contraseñas, generación y hash de tokens opacos, firma y validación JWT, normalización de rutas para RBAC, identidad autenticada en Express, traducción centralizada de errores HTTP y esquema Bearer para OpenAPI. También definí los seis modelos de Auth y su grafo de relaciones.
+
+**Alcance:** secciones 14.1–14.10 de la guía: dependencias y entorno, primitivas de seguridad, matcher de recursos, tipos compartidos, respuestas HTTP, Swagger, modelos Sequelize, asociaciones y cableado en la aplicación y el runner de seeders.
+
+**Dependencia y resultado esperado:** ISS-09 parte del cierre de Fase I (CIERRE-BUSINESS) y habilita ISS-10 — Feature Users. En esta unidad no se agregan endpoints ni se protegen todavía las rutas Business; eso se abordará en unidades posteriores.
+
 ### Paso 13 — Preparar dependencias y entorno de ISS-09 *(14.1 completado)*
 
 **Referencia:** ISS-09, sección 14.1 — Dependencias y variables de entorno.  
@@ -3107,6 +3115,14 @@ RefreshToken.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 ![En esta captura consulté los endpoints de tipos de producto, productos, ventas y detalles y observé que los cuatro devolvieron HTTP 200](trazabilidad/E-ISS09-P14-10-business-get-verification.png)
 
+## Fase II — ISS-10: Feature Users (identidad y contraseña)
+
+**Objetivo de la unidad:** construir el CRUD de identidades como un feature completo, manteniendo el flujo `Routes → Controller → Service → Repository → Model`. La contraseña se almacena como hash y nunca se incluye en las respuestas; el cambio de contraseña requiere verificar la credencial actual.
+
+**Alcance:** secciones 15.1–15.8 de la guía: DTOs, Repository, Service, Controller, rutas JWT + RBAC, seeder de usuarios canónicos, Swagger y solicitudes HTTP.
+
+**Dependencia y resultado esperado:** ISS-10 se apoya en ISS-09 (modelos User y asociaciones RBAC) y habilita los features Roles y Resources de ISS-11. Las operaciones de usuarios quedan protegidas por `authenticate` y `authorize`.
+
 ### Paso 21 — Definir los DTOs del feature Users *(ISS-10, 15.1 completado)*
 
 **Referencia:** ISS-10, sección 15.1 — DTOs del feature.  
@@ -3154,3 +3170,17 @@ export type UserResponseDto = Omit<UserI, "password">;
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** paso 15.1 implementado y con tipado verificado; continúo después con el repository.
+
+**Evidencias del paso 15.1:**
+
+![En esta captura documenté el DTO para cambiar contraseña, con la credencial actual, la nueva y la opción de revocar sesiones](trazabilidad/E-ISS10-P15-01-change-password-dto.png)
+
+![En esta captura documenté el DTO de creación de usuario](trazabilidad/E-ISS10-P15-02-create-user-dto.png)
+
+![En esta captura registré el agregador de los DTOs de Users](trazabilidad/E-ISS10-P15-03-dto-index.png)
+
+![En esta captura documenté el DTO para actualización parcial de usuario](trazabilidad/E-ISS10-P15-04-patch-user-dto.png)
+
+![En esta captura documenté el DTO para reemplazar los datos editables del usuario](trazabilidad/E-ISS10-P15-05-update-user-dto.png)
+
+![En esta captura documenté el DTO de respuesta que excluye la contraseña](trazabilidad/E-ISS10-P15-06-user-response-dto.png)
