@@ -1,4 +1,5 @@
 import { CreationAttributes, Transaction } from "sequelize";
+import { RefreshToken } from "../refresh-tokens/refresh-token.model";
 import { User, UserI } from "./user.model";
 
 export class UsersRepository {
@@ -53,5 +54,15 @@ export class UsersRepository {
     transaction?: Transaction,
   ): Promise<User> {
     return user.update({ status: "inactive" }, { transaction });
+  }
+
+  public async deactivateActiveRefreshTokens(
+    userId: number,
+    transaction?: Transaction,
+  ): Promise<void> {
+    await RefreshToken.update(
+      { status: "inactive" },
+      { where: { user_id: userId, status: "active" }, transaction },
+    );
   }
 }

@@ -3217,3 +3217,30 @@ deactivate(user: User, transaction?: Transaction): Promise<User>
 ![En esta captura se observan las consultas de Users por id, username y correo, además del método findAll](trazabilidad/E-ISS10-P15-07-users-repository-queries.png)
 
 ![En esta captura se observan las operaciones de creación, actualización y desactivación lógica de Users](trazabilidad/E-ISS10-P15-08-users-repository-mutations.png)
+
+### Paso 23 — Implementar el service de Users *(ISS-10, 15.3 completado)*
+
+**Referencia:** ISS-10, sección 15.3 — `users.service.ts`.
+
+**Acción:** implementé las operaciones de consulta, creación, actualización completa y parcial, cambio de contraseña y desactivación lógica. El service convierte los modelos al DTO público que omite la contraseña, detecta usernames y correos duplicados, verifica la contraseña actual antes de cambiarla y traduce la ausencia de usuario a `AppError(404)`. El cambio de contraseña y la desactivación usan una transacción; el primero revoca los refresh tokens activos solo si se solicita, y la desactivación lógica los revoca siempre.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/features/auth/users/users.service.ts
+```
+
+**Operaciones del service:**
+
+```typescript
+getAll(): Promise<UserResponseDto[]>
+getOne(id: number): Promise<UserResponseDto>
+create(body: CreateUserDto): Promise<UserResponseDto>
+updatePut(id: number, body: UpdateUserDto): Promise<UserResponseDto>
+updatePatch(id: number, body: PatchUserDto): Promise<UserResponseDto>
+changePassword(id: number, body: ChangePasswordDto): Promise<void>
+deleteLogical(id: number): Promise<UserResponseDto>
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 15.3 implementado y con tipado verificado.
