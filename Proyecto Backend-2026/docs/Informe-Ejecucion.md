@@ -2828,7 +2828,7 @@ const featureSwaggerModules = [
 
 ![En esta captura consulté los esquemas Sale y ProductSale publicados en Swagger UI](trazabilidad/E-ISS08-P10-07-sales-schemas-runtime.png)
 
-### Paso 11 — Verificar los endpoints de venta *(pruebas funcionales completadas; captura pendiente)*
+### Paso 11 — Verificar los endpoints de venta *(completado)*
 
 **Referencia:** ISS-08, sección 13.5 — Verificación venta.  
 **Acción:** consulté las rutas de venta y preparé la solicitud de creación indicada por la guía, adaptando el puerto al `3002` usado por este proyecto.
