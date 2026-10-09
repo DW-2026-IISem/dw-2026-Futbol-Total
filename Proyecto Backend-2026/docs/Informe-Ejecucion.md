@@ -2922,3 +2922,46 @@ JWT_REFRESH_TTL_DAYS=7
 
 - **Resultado:** dependencias instaladas y configuración local preparada. El secreto se generó aleatoriamente y se mantuvo fuera del informe y del repositorio.
 - **Estado de ISS-09:** completado el paso 14.1; continúo con las primitivas compartidas de seguridad del paso 14.2.
+
+### Paso 14 — Crear las primitivas de contraseñas y tokens *(14.2 implementado)*
+
+**Referencia:** ISS-09, sección 14.2 — `password.ts`.  
+**Acción:** centralicé el hash bcrypt de contraseñas con 12 rondas, la comparación, el hash SHA-256 para tokens persistibles y la generación de tokens opacos URL-safe.
+
+**Comandos de creación indicados en la guía:**
+
+```bash
+mkdir -p src/shared/auth
+: > src/shared/auth/password.ts
+```
+
+**Código implementado en `src/shared/auth/password.ts`:**
+
+```typescript
+const SALT_ROUNDS = 12;
+
+export async function hashPassword(plain: string): Promise<string> {
+  return hash(plain, SALT_ROUNDS);
+}
+
+export async function comparePassword(
+  plain: string,
+  passwordHash: string,
+): Promise<boolean> {
+  return compare(plain, passwordHash);
+}
+
+export const verifyPassword = comparePassword;
+
+export function sha256Hex(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+export function generateOpaqueToken(): string {
+  return randomBytes(64).toString("base64url");
+}
+```
+
+- **Compatibilidad con la guía:** exporté `verifyPassword`, que solicita el criterio de aceptación, y `comparePassword`, que usa el ejemplo de implementación y el login de un paso posterior.
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 14.2 implementado y con tipado verificado.
