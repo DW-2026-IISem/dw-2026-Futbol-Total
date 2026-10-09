@@ -2699,3 +2699,55 @@ mkdir -p src/features/business/sales/http
 ![En esta captura preparé las solicitudes PUT y PATCH para actualizar la cabecera de una venta](trazabilidad/E-ISS08-P08-03-sales-update-http.png)
 
 ![En esta captura preparé las solicitudes para eliminar una venta de forma física o lógica](trazabilidad/E-ISS08-P08-04-sales-delete-http.png)
+
+### Paso 9 — Cablear Sale y registrar sus asociaciones *(implementado; capturas pendientes)*
+
+**Referencia:** ISS-08, secciones 13.4 y 13.5 — Cableado y relaciones Sale / ProductSale / Client / Product.  
+**Acción:** conecté las rutas de Sale con la aplicación, cargué los modelos y asociaciones de venta, y asocié Sale con Client mediante `client_id`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** registré `SalesRoutes` en el agregador de rutas y en `App` monté `/api/ventas`. Añadí la carga de `Sale` y `ProductSale`, e importé las asociaciones de Sale-Client y ProductSale-Sale-Product para que Sequelize las registre antes de sincronizar la base de datos.
+- **Comandos indicados en la guía para crear las asociaciones:**
+
+```bash
+: > src/features/business/sales/sales.associations.ts
+```
+
+- **Código de `src/features/business/sales/sales.associations.ts`:**
+
+```typescript
+import { Sale } from "./sale.model";
+import { Client } from "../clients/client.model";
+
+Sale.belongsTo(Client, { foreignKey: "client_id", as: "client" });
+Client.hasMany(Sale, { foreignKey: "client_id", as: "sales" });
+```
+
+- **Código añadido a `src/routes/index.ts`:**
+
+```typescript
+import { SalesRoutes } from "../features/business/sales/sales.routes";
+
+public salesRoutes: SalesRoutes = new SalesRoutes();
+```
+
+- **Código añadido a `src/config/index.ts`:**
+
+```typescript
+import "../features/business/sales/sale.model";
+import "../features/business/product-sales/product-sale.model";
+import "../features/business/sales/sales.associations";
+import "../features/business/product-sales/product-sales.associations";
+
+this.routePrv.salesRoutes.routes(this.app);
+```
+
+- **Estado:** Cableado y asociaciones implementados; falta incorporar las capturas.
+
+![En esta captura registré SalesRoutes en el agregador de rutas de la aplicación](trazabilidad/E-ISS08-P09-01-sales-routes-wiring.png)
+
+![En esta captura cargué los modelos Sale y ProductSale y registré sus asociaciones en App](trazabilidad/E-ISS08-P09-02-sales-model-wiring.png)
+
+![En esta captura asocié Sale con Client mediante client_id y declaré la relación inversa](trazabilidad/E-ISS08-P09-03-sales-client-associations.png)

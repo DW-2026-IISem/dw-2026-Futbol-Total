@@ -7,6 +7,10 @@ import "../features/business/clients/client.model";
 import "../features/business/product-types/product-type.model";
 import "../features/business/products/product.model";
 import "../features/business/products/products.associations";
+import "../features/business/sales/sale.model";
+import "../features/business/product-sales/product-sale.model";
+import "../features/business/sales/sales.associations";
+import "../features/business/product-sales/product-sales.associations";
 import { Routes } from "../routes/index";
 import { setupSwagger } from "../swagger/index";
 
@@ -39,6 +43,7 @@ export class App {
     this.routePrv.clientsRoutes.routes(this.app);
     this.routePrv.productTypesRoutes.routes(this.app);
     this.routePrv.productsRoutes.routes(this.app);
+    this.routePrv.salesRoutes.routes(this.app);
   }
 
   private docs(): void {
