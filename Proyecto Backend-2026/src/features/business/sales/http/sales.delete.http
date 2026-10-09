@@ -1,0 +1,15 @@
+### Feature Sale - DELETE físico / DELETE lógico (público, sin token)
+### Sustituye ambos IDs por ventas destinadas a pruebas antes de ejecutar.
+@baseUrl = http://localhost:3002
+@physicalId = REPLACE_WITH_DISPOSABLE_TEST_ID
+@logicalId = REPLACE_WITH_TEST_ID
+
+# @name deleteSalePhysical
+# Elimina la venta y sus líneas; restaura el stock de líneas activas.
+DELETE {{baseUrl}}/api/ventas/{{physicalId}}
+
+###
+
+# @name deleteSaleLogical
+# Desactiva la venta y sus líneas, y restaura el stock correspondiente.
+PATCH {{baseUrl}}/api/ventas/{{logicalId}}/deactivate
