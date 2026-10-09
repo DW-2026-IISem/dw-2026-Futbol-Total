@@ -3211,3 +3211,9 @@ deactivate(user: User, transaction?: Transaction): Promise<User>
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** paso 15.2 implementado; la desactivación conserva el registro y marca `status: "inactive"`.
+
+**Evidencias del paso 15.2:**
+
+![En esta captura se observan las consultas de Users por id, username y correo, además del método findAll](trazabilidad/E-ISS10-P15-07-users-repository-queries.png)
+
+![En esta captura se observan las operaciones de creación, actualización y desactivación lógica de Users](trazabilidad/E-ISS10-P15-08-users-repository-mutations.png)
