@@ -2634,7 +2634,7 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 
 ![En esta captura documenté los esquemas ProductSale, ProductSaleCreate, ProductSaleUpdate y ProductSalePatch en OpenAPI](trazabilidad/E-ISS08-P06-05-product-sales-openapi.png)
 
-### Paso 7 — Implementar DTOs y capas de Sale *(implementado; evidencias pendientes)*
+### Paso 7 — Implementar DTOs y capas de Sale *(implementado)*
 
 **Referencia:** ISS-08, sección 13.2 — DTO, Repository, Service, Controller y Routes de Sale.  
 **Acción:** definí los contratos de entrada y respuesta de la venta e implementé las capas para consultar, crear, actualizar y eliminar ventas y sus detalles.
@@ -2643,6 +2643,7 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 
 - **Fecha:** 2026-10-08.
 - **Resultado observado:** `SalesService` crea la cabecera y sus líneas en una sola transacción, valida el cliente y los productos activos, controla el stock, calcula subtotal, impuestos, descuentos y total, y restaura existencias al eliminar una venta. También incorporé consultas de ventas con sus detalles y las rutas públicas de `/api/ventas`.
+- **Evidencias:** [`E-ISS08-P07-01-sales-controller.png`](trazabilidad/E-ISS08-P07-01-sales-controller.png), [`E-ISS08-P07-02-sales-repository.png`](trazabilidad/E-ISS08-P07-02-sales-repository.png), [`E-ISS08-P07-03-sales-routes.png`](trazabilidad/E-ISS08-P07-03-sales-routes.png) y [`E-ISS08-P07-04-sales-service.png`](trazabilidad/E-ISS08-P07-04-sales-service.png). La captura del modelo Sale quedó registrada en el Paso 1.
 - **Comandos indicados en la guía para crear los archivos:**
 
 ```bash
@@ -2658,5 +2659,12 @@ mkdir -p src/features/business/sales/dto
 : > src/features/business/sales/sales.routes.ts
 ```
 
-- **Estado:** Implementado; falta incorporar las capturas de este paso.
-- **Evidencia pendiente:** capturas de los DTOs, Repository, Service, Controller y Routes de Sale.
+- **Estado:** Implementado y documentado.
+
+![En esta captura implementé SalesController para atender las operaciones HTTP de ventas](trazabilidad/E-ISS08-P07-01-sales-controller.png)
+
+![En esta captura implementé SalesRepository con consultas de ventas y sus detalles, además de operaciones transaccionales](trazabilidad/E-ISS08-P07-02-sales-repository.png)
+
+![En esta captura declaré las rutas públicas GET, POST, PUT, PATCH y DELETE de /api/ventas](trazabilidad/E-ISS08-P07-03-sales-routes.png)
+
+![En esta captura implementé SalesService para crear ventas y sus líneas con control transaccional de clientes, inventario y totales](trazabilidad/E-ISS08-P07-04-sales-service.png)
