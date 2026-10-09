@@ -3244,3 +3244,11 @@ deleteLogical(id: number): Promise<UserResponseDto>
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** paso 15.3 implementado y con tipado verificado.
+
+**Evidencias del paso 15.3:**
+
+![En esta captura se observan las consultas y creación de usuarios en UsersService](trazabilidad/E-ISS10-P15-09-users-service-read-create.png)
+
+![En esta captura se observan las operaciones de actualización completa y parcial del usuario](trazabilidad/E-ISS10-P15-10-users-service-update.png)
+
+![En esta captura se observan el cambio de contraseña, la desactivación y las validaciones del service](trazabilidad/E-ISS10-P15-11-users-service-password-delete-validation.png)
