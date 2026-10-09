@@ -2821,3 +2821,24 @@ const featureSwaggerModules = [
 ![En esta captura integré la documentación OpenAPI de Sale con los módulos de la aplicación](trazabilidad/E-ISS08-P10-03-sales-swagger-registry.png)
 
 ![En esta captura registré los seeders de Sale y ProductSale para ejecutarlos en orden junto con los demás datos de prueba](trazabilidad/E-ISS08-P10-04-sales-seeder-wiring.png)
+
+### Paso 11 — Verificar los endpoints de venta *(pendiente; requiere reiniciar la aplicación)*
+
+**Referencia:** ISS-08, sección 13.5 — Verificación venta.  
+**Acción:** consulté las rutas de venta y preparé la solicitud de creación indicada por la guía, adaptando el puerto al `3002` usado por este proyecto.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `GET /api/ventas` y `GET /api/detalle-ventas` respondieron `404 Cannot GET`. El proceso que escucha en el puerto `3002` fue iniciado antes de que se incorporaran las rutas nuevas y no ha cargado la configuración actualizada. No envié el POST para evitar crear una venta contra una instancia antigua y modificar el inventario sin verificar la ruta.
+- **Comandos de verificación indicados en la guía, adaptados al puerto del proyecto:**
+
+```bash
+curl -sS -X POST http://localhost:3002/api/ventas \
+  -H 'Content-Type: application/json' \
+  -d '{"client_id":1,"tax":0,"discounts":0,"items":[{"product_id":1,"quantity":2}],"status":"active"}'
+curl -sS http://localhost:3002/api/ventas
+curl -sS http://localhost:3002/api/detalle-ventas
+```
+
+- **Estado:** Pendiente. Reiniciar la aplicación para cargar el cableado de Sale y ProductSale; luego repetir las solicitudes y documentar las respuestas.
