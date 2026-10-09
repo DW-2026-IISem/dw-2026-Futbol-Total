@@ -2861,7 +2861,7 @@ curl -sS http://localhost:3002/api/docs.json
 
 ![En esta captura ejecuté GET /api/ventas en Swagger UI y observé la venta de prueba con su línea de detalle](trazabilidad/E-ISS08-P11-03-sales-api-verification.png)
 
-### Paso 12 — Cerrar la Fase I: Business *(GATE técnico parcialmente verificado)*
+### Paso 12 — Cerrar la Fase I: Business *(GATE técnico completado)*
 
 **Referencia:** CIERRE-BUSINESS — DoD del laboratorio Business sin autenticación.  
 **Acción:** contrasté el backend con el DoD de cierre y ejecuté las verificaciones de TypeScript y seeders indicadas por la guía.
@@ -2880,16 +2880,22 @@ npx tsc --noEmit
 npm run db:seed
 ```
 
-- **Resultado observado:** `npx tsc --noEmit` finalizó correctamente. `npm run db:seed` conectó a MySQL, sincronizó sin recrear las tablas y terminó correctamente; encontró registros existentes en las cinco tablas y omitió duplicarlos.
+- **Resultado observado:** `npx tsc --noEmit` finalizó correctamente. `npm run db:seed` conectó a MySQL, sincronizó sin recrear las tablas y terminó correctamente. Los registros base existentes se conservaron; el runner creó cinco ventas y doce detalles, actualizando el inventario según las cantidades de los detalles.
+- **Evidencia:** [`E-CIERRE-BUSINESS-01-seeders.png`](trazabilidad/E-CIERRE-BUSINESS-01-seeders.png).
 
-**Comandos pendientes para completar la verificación runtime y su evidencia, adaptados al puerto del proyecto:**
+**Comandos de verificación runtime indicados en la guía, adaptados al puerto del proyecto:**
 
 ```bash
 curl -sS http://localhost:3002/api/tipos-producto | head
 curl -sS http://localhost:3002/api/productos | head
 curl -sS http://localhost:3002/api/ventas | head
 curl -sS http://localhost:3002/api/detalle-ventas | head
-npm run dev
 ```
 
-- **Pendiente:** iniciar el servidor y capturar las respuestas de los cuatro `GET` en el puerto `3002`. Cuando reciba la captura, la agregaré como evidencia y actualizaré el estado del GATE.
+- **Resultado observado:** las cuatro consultas devolvieron respuestas JSON con los registros disponibles de tipos de producto, productos, ventas y detalles de venta.
+- **Evidencia:** [`E-CIERRE-BUSINESS-02-get-endpoints.png`](trazabilidad/E-CIERRE-BUSINESS-02-get-endpoints.png).
+- **Cierre:** el servidor respondió a las rutas de negocio; el DoD técnico de CIERRE-BUSINESS queda verificado. El siguiente bloque habilitado por la guía es ISS-09 — Auth base.
+
+![En esta captura ejecuté npm run db:seed y observé que el runner completó la sincronización y carga de datos de prueba](trazabilidad/E-CIERRE-BUSINESS-01-seeders.png)
+
+![En esta captura consulté los endpoints de tipos de producto, productos, ventas y detalles de venta y observé sus respuestas JSON](trazabilidad/E-CIERRE-BUSINESS-02-get-endpoints.png)
