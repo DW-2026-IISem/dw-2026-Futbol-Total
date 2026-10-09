@@ -3100,6 +3100,9 @@ RefreshToken.belongsTo(User, { foreignKey: "user_id", as: "user" });
 - **Seeder:** `npm run db:seed` sincronizó el esquema sin recrear las tablas existentes y completó la carga inicial configurada: 10 clientes, 25 tipos de producto, 15 productos, 5 ventas y 12 detalles.
 - **Verificación de esquema:** están presentes las seis tablas RBAC (`users`, `roles`, `resources`, `role_users`, `resource_roles`, `refresh_tokens`) con sus índices únicos. La tabla preexistente `user` permanece separada y conserva sus columnas.
 - **Verificación runtime:** inicié la API en el puerto `3002`; los endpoints `/api/tipos-producto`, `/api/productos`, `/api/ventas` y `/api/detalle-ventas` respondieron `HTTP 200`.
+- **Evidencia runtime:** [`E-ISS09-P14-10-business-get-verification.png`](trazabilidad/E-ISS09-P14-10-business-get-verification.png) muestra las cuatro consultas GET y sus respuestas `HTTP 200`.
 - **Estado:** pasos 14.8, 14.9 y 14.10 implementados y sincronizados en `Pedalibre-DW`. Las rutas Business permanecen sin autenticación, como requiere ISS-09; la protección se agrega en ISS-13.
 
 ![En esta captura identifiqué la tabla heredada user de Pedalibre-DW y confirmé que es distinta de la nueva tabla users](trazabilidad/E-ISS09-P14-08-Pedalibre-DW-schema.png)
+
+![En esta captura consulté los endpoints de tipos de producto, productos, ventas y detalles y observé que los cuatro devolvieron HTTP 200](trazabilidad/E-ISS09-P14-10-business-get-verification.png)
