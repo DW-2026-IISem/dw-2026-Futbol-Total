@@ -2633,3 +2633,30 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura preparé las solicitudes PUT y PATCH para actualizar la cantidad de una línea de venta](trazabilidad/E-ISS08-P06-04-product-sales-update-http.png)
 
 ![En esta captura documenté los esquemas ProductSale, ProductSaleCreate, ProductSaleUpdate y ProductSalePatch en OpenAPI](trazabilidad/E-ISS08-P06-05-product-sales-openapi.png)
+
+### Paso 7 — Implementar DTOs y capas de Sale *(implementado; evidencias pendientes)*
+
+**Referencia:** ISS-08, sección 13.2 — DTO, Repository, Service, Controller y Routes de Sale.  
+**Acción:** definí los contratos de entrada y respuesta de la venta e implementé las capas para consultar, crear, actualizar y eliminar ventas y sus detalles.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `SalesService` crea la cabecera y sus líneas en una sola transacción, valida el cliente y los productos activos, controla el stock, calcula subtotal, impuestos, descuentos y total, y restaura existencias al eliminar una venta. También incorporé consultas de ventas con sus detalles y las rutas públicas de `/api/ventas`.
+- **Comandos indicados en la guía para crear los archivos:**
+
+```bash
+mkdir -p src/features/business/sales/dto
+: > src/features/business/sales/dto/create-sale.dto.ts
+: > src/features/business/sales/dto/update-sale.dto.ts
+: > src/features/business/sales/dto/patch-sale.dto.ts
+: > src/features/business/sales/dto/sale-response.dto.ts
+: > src/features/business/sales/dto/index.ts
+: > src/features/business/sales/sales.repository.ts
+: > src/features/business/sales/sales.service.ts
+: > src/features/business/sales/sales.controller.ts
+: > src/features/business/sales/sales.routes.ts
+```
+
+- **Estado:** Implementado; falta incorporar las capturas de este paso.
+- **Evidencia pendiente:** capturas de los DTOs, Repository, Service, Controller y Routes de Sale.
