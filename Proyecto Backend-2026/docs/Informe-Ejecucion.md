@@ -3021,3 +3021,44 @@ pathMatches("/api/productos/:id", "/api/productos"); // false
 - **Compatibilidad:** el módulo exporta `pathMatches` e `isOperationGranted`, usados en la implementación de la guía, y `pathsMatch` para el nombre del criterio de aceptación.
 - **Validación:** `npx tsc --noEmit` finalizó correctamente y probé el caso requerido `/api/productos/:id` con `/api/productos/42`, además de confirmar que no coincide con `/api/productos`.
 - **Estado:** paso 14.4 implementado y verificado.
+
+### Paso 17 — Tipar la identidad autenticada de Express *(14.5 completado)*
+
+**Referencia:** ISS-09, sección 14.5 — `auth-user.ts`.  
+**Acción:** definí `AuthUser`, amplié el `Request` de Express con la propiedad opcional `auth` y agregué `requireAuthUser`, que responde con un error 401 de aplicación cuando aún no hay identidad en la solicitud.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/shared/auth/auth-user.ts
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente después de ampliar el tipo `Request`.
+- **Estado:** paso 14.5 implementado y con tipado verificado.
+
+### Paso 18 — Centralizar respuestas de error HTTP *(14.6 completado)*
+
+**Referencia:** ISS-09, sección 14.6 — `error-response.ts` y parche de `BaseController`.  
+**Acción:** extraje el mapeo de `AppError` a HTTP a `sendError`; el `BaseController` delega ahora en este mapper compartido para conservar el mismo formato de respuesta.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/shared/http/error-response.ts
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** los controllers mantienen su comportamiento actual y el mapper queda disponible para los middlewares de autenticación/autorización.
+
+### Paso 19 — Reutilizar componentes de seguridad OpenAPI *(14.7 implementado)*
+
+**Referencia:** ISS-09, sección 14.7 — `swagger-security.ts`.  
+**Acción:** definí el esquema Bearer JWT y las respuestas reutilizables 401, 403, 400 y 404, además de las configuraciones de seguridad OPEN y Bearer.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/shared/http/swagger-security.ts
+```
+
+- **Estado:** paso 14.7 implementado; validación TypeScript agrupada con las seis definiciones de modelos RBAC del paso 14.8.

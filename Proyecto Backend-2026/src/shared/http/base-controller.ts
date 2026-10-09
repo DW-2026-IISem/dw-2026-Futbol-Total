@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AppError } from "../errors/app-error";
+import { sendError } from "./error-response";
 
 export abstract class BaseController {
   protected async run(res: Response, work: () => Promise<void>): Promise<void> {
@@ -21,10 +22,6 @@ export abstract class BaseController {
   }
 
   protected handleError(res: Response, error: unknown): void {
-    if (error instanceof AppError) {
-      res.status(error.statusCode).json({ error: error.message });
-      return;
-    }
-    res.status(500).json({ error: "Internal server error", detail: String(error) });
+    sendError(res, error);
   }
 }
