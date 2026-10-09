@@ -3061,4 +3061,45 @@ pathMatches("/api/productos/:id", "/api/productos"); // false
 : > src/shared/http/swagger-security.ts
 ```
 
-- **Estado:** paso 14.7 implementado; validación TypeScript agrupada con las seis definiciones de modelos RBAC del paso 14.8.
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 14.7 implementado y con tipado verificado.
+
+### Paso 20 — Crear modelos y relaciones RBAC *(14.8–14.9 implementados)*
+
+**Referencia:** ISS-09, secciones 14.8 y 14.9 — seis modelos Sequelize y `rbac.associations.ts`.  
+**Acción:** definí User, Role, Resource, RoleUser, ResourceRole y RefreshToken. El modelo User normaliza username/correo y aplica el helper de hash al guardar; Resource normaliza método y path. Registré las relaciones de usuarios, roles, recursos, concesiones y refresh tokens en un módulo único.
+
+**Comandos de creación indicados en la guía (rutas principales):**
+
+```bash
+mkdir -p src/features/auth/{users,roles,resources,role-users,resource-roles,refresh-tokens}
+: > src/features/auth/users/user.model.ts
+: > src/features/auth/roles/role.model.ts
+: > src/features/auth/resources/resource.model.ts
+: > src/features/auth/role-users/role-user.model.ts
+: > src/features/auth/resource-roles/resource-role.model.ts
+: > src/features/auth/refresh-tokens/refresh-token.model.ts
+: > src/features/auth/rbac.associations.ts
+```
+
+**Relaciones declaradas:**
+
+```typescript
+ResourceRole.belongsTo(Role, { foreignKey: "role_id", as: "role" });
+ResourceRole.belongsTo(Resource, { foreignKey: "resource_id", as: "resource" });
+RoleUser.belongsTo(User, { foreignKey: "user_id", as: "user" });
+RoleUser.belongsTo(Role, { foreignKey: "role_id", as: "role" });
+RefreshToken.belongsTo(User, { foreignKey: "user_id", as: "user" });
+```
+
+**Cableado de modelos (14.10):** cargué los seis modelos antes de sus asociaciones tanto en `src/config/index.ts` como en `src/database/seeders/index.ts`, para que `sequelize.sync` registre las tablas y claves foráneas también al ejecutar el runner.
+
+**Base de datos del proyecto:** confirmé con el usuario que el backend debe conectarse a `Pedalibre-DW`. Actualicé solamente `DB_MYSQL_NAME` en el `.env` local, que no se versiona. La tabla existente `user` (singular) conserva su esquema; el modelo de autenticación utiliza `users` (plural), una tabla distinta. En esta base, `clients.id` es `INTEGER`, por lo que `Sale.client_id` mantiene el mismo tipo para la FK.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente con los seis modelos, sus asociaciones y el cableado de aplicación y seeders.
+- **Seeder:** `npm run db:seed` sincronizó el esquema sin recrear las tablas existentes y completó la carga inicial configurada: 10 clientes, 25 tipos de producto, 15 productos, 5 ventas y 12 detalles.
+- **Verificación de esquema:** están presentes las seis tablas RBAC (`users`, `roles`, `resources`, `role_users`, `resource_roles`, `refresh_tokens`) con sus índices únicos. La tabla preexistente `user` permanece separada y conserva sus columnas.
+- **Verificación runtime:** inicié la API en el puerto `3002`; los endpoints `/api/tipos-producto`, `/api/productos`, `/api/ventas` y `/api/detalle-ventas` respondieron `HTTP 200`.
+- **Estado:** pasos 14.8, 14.9 y 14.10 implementados y sincronizados en `Pedalibre-DW`. Las rutas Business permanecen sin autenticación, como requiere ISS-09; la protección se agrega en ISS-13.
+
+![En esta captura identifiqué la tabla heredada user de Pedalibre-DW y confirmé que es distinta de la nueva tabla users](trazabilidad/E-ISS09-P14-08-Pedalibre-DW-schema.png)

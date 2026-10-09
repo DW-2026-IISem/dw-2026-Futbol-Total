@@ -55,7 +55,7 @@ Sale.init(
       defaultValue: 0,
     },
     client_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     status: {
