@@ -27,7 +27,7 @@ export async function runAllSeeders(): Promise<void> {
     throw new Error("No hay conexión a la base de datos");
   }
 
-  await sequelize.sync({ force: false, alter: true });
+  await sequelize.sync({ force: false });
   await seedClients(counts.clients);
   await seedProductTypes(counts.product_types);
   await seedProducts(counts.products);

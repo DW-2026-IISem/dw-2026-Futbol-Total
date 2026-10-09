@@ -64,7 +64,7 @@ export class App {
         );
       }
 
-      await sequelize.sync({ force: false, alter: true });
+      await sequelize.sync({ force: false });
       console.log("Base de datos sincronizada exitosamente");
     } catch (error) {
       console.error("Error al conectar con la base de datos:", error);
