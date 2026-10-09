@@ -3184,3 +3184,30 @@ export type UserResponseDto = Omit<UserI, "password">;
 ![En esta captura documenté el DTO para reemplazar los datos editables del usuario](trazabilidad/E-ISS10-P15-05-update-user-dto.png)
 
 ![En esta captura documenté el DTO de respuesta que excluye la contraseña](trazabilidad/E-ISS10-P15-06-user-response-dto.png)
+
+### Paso 22 — Implementar el repository de Users *(ISS-10, 15.2 completado)*
+
+**Referencia:** ISS-10, sección 15.2 — `users.repository.ts`.
+
+**Acción:** centralicé en `UsersRepository` las consultas por id, username y correo, la consulta de todos los usuarios y las operaciones de creación, actualización y desactivación. Las búsquedas de username y correo normalizan espacios y mayúsculas para coincidir con el comportamiento del modelo. Las operaciones que pueden participar en un flujo transaccional aceptan una `Transaction` opcional.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/features/auth/users/users.repository.ts
+```
+
+**Operaciones principales implementadas:**
+
+```typescript
+findAll(): Promise<User[]>
+findById(id: number, transaction?: Transaction): Promise<User | null>
+findByUsername(username: string, transaction?: Transaction): Promise<User | null>
+findByEmail(email: string, transaction?: Transaction): Promise<User | null>
+create(data: CreationAttributes<User>, transaction?: Transaction): Promise<User>
+update(user: User, data: Partial<UserI>, transaction?: Transaction): Promise<User>
+deactivate(user: User, transaction?: Transaction): Promise<User>
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 15.2 implementado; la desactivación conserva el registro y marca `status: "inactive"`.
