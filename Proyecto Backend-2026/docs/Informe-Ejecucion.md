@@ -2899,3 +2899,26 @@ curl -sS http://localhost:3002/api/detalle-ventas | head
 ![En esta captura ejecuté npm run db:seed y observé que el runner completó la sincronización y carga de datos de prueba](trazabilidad/E-CIERRE-BUSINESS-01-seeders.png)
 
 ![En esta captura consulté los endpoints de tipos de producto, productos, ventas y detalles de venta y observé sus respuestas JSON](trazabilidad/E-CIERRE-BUSINESS-02-get-endpoints.png)
+
+### Paso 13 — Preparar dependencias y entorno de ISS-09 *(14.1 completado)*
+
+**Referencia:** ISS-09, sección 14.1 — Dependencias y variables de entorno.  
+**Acción:** instalé la librería JWT y sus tipos de TypeScript, y agregué al `.env` privado las variables de seguridad de Fase II sin reemplazar la configuración de Fase I.
+
+**Comandos indicados en la guía:**
+
+```bash
+npm install jsonwebtoken@^9.0.3
+npm install -D @types/jsonwebtoken@^9.0.10
+```
+
+**Variables agregadas al `.env` local (no versionado):**
+
+```dotenv
+JWT_SECRET=<secreto aleatorio local de 48 bytes>
+JWT_ACCESS_TTL=900
+JWT_REFRESH_TTL_DAYS=7
+```
+
+- **Resultado:** dependencias instaladas y configuración local preparada. El secreto se generó aleatoriamente y se mantuvo fuera del informe y del repositorio.
+- **Estado de ISS-09:** completado el paso 14.1; continúo con las primitivas compartidas de seguridad del paso 14.2.
