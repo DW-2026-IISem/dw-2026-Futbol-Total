@@ -2852,8 +2852,11 @@ curl -sS http://localhost:3002/api/docs.json
 
 - **Evidencia de arranque:** [`E-ISS08-P11-01-sales-server-start.png`](trazabilidad/E-ISS08-P11-01-sales-server-start.png).
 - **Evidencia GET:** [`E-ISS08-P11-02-sales-list-empty.png`](trazabilidad/E-ISS08-P11-02-sales-list-empty.png); la respuesta fue `200` y el arreglo `sales` estaba vacío al momento de la captura.
-- **Estado:** Servidor iniciado y pruebas funcionales ejecutadas; queda pendiente una captura de GET con la venta de prueba activa y sus líneas.
+- **Evidencia de listado con venta:** [`E-ISS08-P11-03-sales-api-verification.png`](trazabilidad/E-ISS08-P11-03-sales-api-verification.png). La respuesta `200` muestra la venta de prueba y su línea asociada.
+- **Estado:** Verificación funcional completada y evidencias registradas.
 
 ![En esta captura inicié el servidor con las rutas de Sale y ProductSale cargadas y observé que quedó ejecutándose en el puerto 3002](trazabilidad/E-ISS08-P11-01-sales-server-start.png)
 
 ![En esta captura ejecuté GET /api/ventas en Swagger UI y observé la respuesta 200 con la lista vacía](trazabilidad/E-ISS08-P11-02-sales-list-empty.png)
+
+![En esta captura ejecuté GET /api/ventas en Swagger UI y observé la venta de prueba con su línea de detalle](trazabilidad/E-ISS08-P11-03-sales-api-verification.png)
