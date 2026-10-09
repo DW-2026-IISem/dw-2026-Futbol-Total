@@ -2538,3 +2538,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura definí Sale con fecha, importes, cliente y estado para la cabecera de una venta](trazabilidad/E-ISS08-P01-01-sale-model.png)
 
 ![En esta captura definí ProductSale con sale_id, product_id, quantity, unit_price y line_total para el detalle de venta](trazabilidad/E-ISS08-P01-02-product-sale-model.png)
+
+### Paso 2 — Asociar ProductSale con Sale y Product *(completado)*
+
+**Referencia:** ISS-08, sección 13.1b — Associations ProductSale.  
+**Acción:** registré las asociaciones Sequelize entre la línea de venta, su cabecera Sale y el producto vendido.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** declaré `ProductSale.belongsTo(Sale)` y `ProductSale.belongsTo(Product)`; también declaré las relaciones inversas `Sale.hasMany(ProductSale)` y `Product.hasMany(ProductSale)` con las claves `sale_id` y `product_id`.
+- **Estado:** Implementado. La carga de estas asociaciones en el agregador/configuración se completará al cablear ISS-08.
+- **Evidencia:** [`E-ISS08-P02-01-product-sales-associations.png`](trazabilidad/E-ISS08-P02-01-product-sales-associations.png).
+
+![En esta captura declaré las asociaciones ProductSale con Sale y Product y las relaciones inversas mediante sale_id y product_id](trazabilidad/E-ISS08-P02-01-product-sales-associations.png)
