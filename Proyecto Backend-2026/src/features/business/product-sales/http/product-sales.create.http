@@ -1,0 +1,13 @@
+### Feature ProductSale - CREATE (público, sin token)
+@baseUrl = http://localhost:3002
+
+# @name createProductSalePublic
+POST {{baseUrl}}/api/detalle-ventas
+Content-Type: application/json
+
+{
+  "sale_id": 1,
+  "product_id": 1,
+  "quantity": 1,
+  "status": "active"
+}

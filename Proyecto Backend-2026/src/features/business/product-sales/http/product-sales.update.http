@@ -1,0 +1,23 @@
+### Feature ProductSale - UPDATE (PUT) / UPDATE (PATCH) (público, sin token)
+### Sustituye @id por el ID de una línea destinada a pruebas.
+### El DTO permite cambiar quantity; no permite modificar status directamente.
+@baseUrl = http://localhost:3002
+@id = REPLACE_WITH_TEST_ID
+
+# @name updateProductSalePut
+PUT {{baseUrl}}/api/detalle-ventas/{{id}}
+Content-Type: application/json
+
+{
+  "quantity": 2
+}
+
+###
+
+# @name updateProductSalePatch
+PATCH {{baseUrl}}/api/detalle-ventas/{{id}}
+Content-Type: application/json
+
+{
+  "quantity": 3
+}
