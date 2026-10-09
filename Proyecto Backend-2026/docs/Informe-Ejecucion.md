@@ -2753,7 +2753,7 @@ this.routePrv.salesRoutes.routes(this.app);
 
 ![En esta captura asocié Sale con Client mediante client_id y declaré la relación inversa](trazabilidad/E-ISS08-P09-03-sales-client-associations.png)
 
-### Paso 10 — Crear el seeder y documentar Sale en OpenAPI *(implementado; capturas pendientes)*
+### Paso 10 — Crear el seeder y documentar Sale en OpenAPI *(completado)*
 
 **Referencia:** ISS-08, secciones 13.6 y 13.7 — Seeder, Swagger Sale y estado final de agregadores.  
 **Acción:** preparé la generación idempotente de cabeceras de venta y añadí la documentación OpenAPI pública de Sale. Integré las entidades en el runner de seeders y en los agregadores finales de rutas y Swagger.
@@ -2812,7 +2812,7 @@ const featureSwaggerModules = [
 ];
 ```
 
-- **Estado:** Seeder, Swagger y agregadores implementados; falta incorporar las capturas y ejecutar las verificaciones de endpoints y datos indicadas por la guía.
+- **Estado:** Seeder, Swagger, agregadores y evidencias implementados.
 
 ![En esta captura implementé el seeder idempotente de ventas con clientes activos](trazabilidad/E-ISS08-P10-01-sales-seeder.png)
 
@@ -2822,7 +2822,7 @@ const featureSwaggerModules = [
 
 ![En esta captura registré los seeders de Sale y ProductSale para ejecutarlos en orden junto con los demás datos de prueba](trazabilidad/E-ISS08-P10-04-sales-seeder-wiring.png)
 
-### Paso 11 — Verificar los endpoints de venta *(pendiente; requiere reiniciar la aplicación)*
+### Paso 11 — Verificar los endpoints de venta *(pruebas funcionales completadas; captura pendiente)*
 
 **Referencia:** ISS-08, sección 13.5 — Verificación venta.  
 **Acción:** consulté las rutas de venta y preparé la solicitud de creación indicada por la guía, adaptando el puerto al `3002` usado por este proyecto.
@@ -2830,20 +2830,21 @@ const featureSwaggerModules = [
 **Registro de ejecución:**
 
 - **Fecha:** 2026-10-08.
-- **Resultado observado:** `GET /api/ventas` y `GET /api/detalle-ventas` respondieron `404 Cannot GET`. El proceso que escucha en el puerto `3002` fue iniciado antes de que se incorporaran las rutas nuevas y no ha cargado la configuración actualizada. No envié el POST para evitar crear una venta contra una instancia antigua y modificar el inventario sin verificar la ruta.
+- **Resultado observado:** tras reiniciar la aplicación y corregir la sincronización para no alterar los índices existentes, ajusté `sales.client_id` a `BIGINT`, tipo del `clients.id` ya existente. El servidor inició correctamente; `GET /api/ventas`, `GET /api/detalle-ventas` y `/api/docs.json` respondieron `200`. Como no había productos, ejecuté el seeder sólo para crear un producto de prueba (`products=1`), omitiendo clientes, tipos, ventas y líneas. La creación de venta respondió `201` con Sale ID `1` y su detalle; el precio unitario fue `96.19`, cantidad `2`, subtotal y total `192.38`. Después, `GET /api/ventas` devolvió la venta con sus líneas, `GET /api/detalle-ventas` mostró la línea y el stock del producto pasó de `82` a `80`. La venta de prueba permanece temporalmente para documentar la respuesta; la eliminaré físicamente después de recibir la captura, lo que restaura el stock.
 - **Comandos de verificación indicados en la guía, adaptados al puerto del proyecto:**
 
 ```bash
+npm run db:seed -- --clients=0 --product_types=0 --products=1 --sales=0 --product_sales=0
 curl -sS -X POST http://localhost:3002/api/ventas \
   -H 'Content-Type: application/json' \
   -d '{"client_id":1,"tax":0,"discounts":0,"items":[{"product_id":1,"quantity":2}],"status":"active"}'
 curl -sS http://localhost:3002/api/ventas
 curl -sS http://localhost:3002/api/detalle-ventas
+curl -sS http://localhost:3002/api/productos
+curl -sS http://localhost:3002/api/docs.json
 ```
 
-- **Estado:** Pendiente. Al reiniciar la aplicación, MySQL rechazó el `ALTER TABLE clients ... email ... UNIQUE` generado por `sequelize.sync({ force: false, alter: true })`, con `ER_TOO_MANY_KEYS` (límite de 64 índices únicos/claves). Cambié la sincronización de la aplicación y del runner a `sequelize.sync({ force: false })`, que conserva los datos y crea las tablas faltantes sin alterar tablas ya existentes. En el siguiente arranque, MySQL indicó que el `clients.id` existente es `BIGINT`, incompatible con el `sales.client_id` declarado como `INTEGER`; ajusté el atributo `client_id` de Sale a `DataTypes.BIGINT` para que la FK coincida con la columna referenciada. Las pruebas HTTP siguen pendientes de confirmar un arranque exitoso.
-- **Comando para iniciar después del ajuste:**
+- **Correcciones aplicadas durante la puesta en marcha:** la sincronización ahora usa `sequelize.sync({ force: false })` para evitar que `alter: true` intente duplicar índices sobre las tablas existentes; `Sale.client_id` se definió como `DataTypes.BIGINT` para coincidir con `clients.id`.
+- **Estado:** Verificación funcional completada; falta adjuntar la captura de evidencia.
 
-```bash
-npm run dev
-```
+![En esta captura verifiqué la creación de una venta y sus líneas, las consultas GET y la actualización del stock](trazabilidad/E-ISS08-P11-01-sales-api-verification.png)
