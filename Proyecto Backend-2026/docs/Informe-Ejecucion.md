@@ -2611,7 +2611,7 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 
 ![En esta captura implementé seedProductSales con validación de datos activos, transacciones, control de stock y recálculo de totales](trazabilidad/E-ISS08-P05-01-product-sales-seeder.png)
 
-### Paso 6 — Preparar HTTP y OpenAPI de ProductSale *(implementado; falta evidencia Swagger)*
+### Paso 6 — Preparar HTTP y OpenAPI de ProductSale *(completado)*
 
 **Referencia:** ISS-08, secciones 13.6b — Swagger ProductSale y HTTP ProductSale.  
 **Acción:** preparé las solicitudes REST Client del detalle de venta y su documentación OpenAPI.
@@ -2620,8 +2620,9 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 
 - **Fecha:** 2026-10-08.
 - **Resultado observado:** dejé plantillas GET, POST, PUT/PATCH y DELETE físico/lógico para `/api/detalle-ventas`, usando el puerto `3002` y marcadores en operaciones destructivas. Definí el módulo OpenAPI `productSalesSwagger` y lo incorporé al registro.
-- **Estado:** Plantillas y módulo OpenAPI implementados; pendiente añadir la captura del módulo Swagger como evidencia.
+- **Estado:** Plantillas y módulo OpenAPI implementados y documentados.
 - **Evidencias HTTP:** [`E-ISS08-P06-01-product-sales-create-http.png`](trazabilidad/E-ISS08-P06-01-product-sales-create-http.png), [`E-ISS08-P06-02-product-sales-delete-http.png`](trazabilidad/E-ISS08-P06-02-product-sales-delete-http.png), [`E-ISS08-P06-03-product-sales-get-http.png`](trazabilidad/E-ISS08-P06-03-product-sales-get-http.png) y [`E-ISS08-P06-04-product-sales-update-http.png`](trazabilidad/E-ISS08-P06-04-product-sales-update-http.png).
+- **Evidencia OpenAPI:** [`E-ISS08-P06-05-product-sales-openapi.png`](trazabilidad/E-ISS08-P06-05-product-sales-openapi.png).
 
 ![En esta captura preparé la solicitud POST para agregar una línea de venta con sale_id, product_id y quantity](trazabilidad/E-ISS08-P06-01-product-sales-create-http.png)
 
@@ -2630,3 +2631,5 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura preparé las solicitudes GET para listar líneas de venta y consultar una por ID](trazabilidad/E-ISS08-P06-03-product-sales-get-http.png)
 
 ![En esta captura preparé las solicitudes PUT y PATCH para actualizar la cantidad de una línea de venta](trazabilidad/E-ISS08-P06-04-product-sales-update-http.png)
+
+![En esta captura documenté los esquemas ProductSale, ProductSaleCreate, ProductSaleUpdate y ProductSalePatch en OpenAPI](trazabilidad/E-ISS08-P06-05-product-sales-openapi.png)
