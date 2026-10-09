@@ -2999,3 +2999,25 @@ const token = jwt.sign({ username: user.username }, getSecret(), options);
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** paso 14.3 implementado; el payload no incluye roles ni permisos.
+
+### Paso 16 — Comparar rutas parametrizadas *(14.4 implementado)*
+
+**Referencia:** ISS-09, sección 14.4 — `resource-match.ts`.  
+**Acción:** añadí normalización de rutas, coincidencia de un segmento `:param` contra una ruta concreta y comprobación de permisos por método y path, con denegación por defecto.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/shared/auth/resource-match.ts
+```
+
+**Ejemplo de coincidencia requerida:**
+
+```typescript
+pathMatches("/api/productos/:id", "/api/productos/42"); // true
+pathMatches("/api/productos/:id", "/api/productos"); // false
+```
+
+- **Compatibilidad:** el módulo exporta `pathMatches` e `isOperationGranted`, usados en la implementación de la guía, y `pathsMatch` para el nombre del criterio de aceptación.
+- **Validación:** `npx tsc --noEmit` finalizó correctamente y probé el caso requerido `/api/productos/:id` con `/api/productos/42`, además de confirmar que no coincide con `/api/productos`.
+- **Estado:** paso 14.4 implementado y verificado.
