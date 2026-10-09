@@ -1,0 +1,5 @@
+export interface ChangePasswordDto {
+  current_password: string;
+  new_password: string;
+  revoke_sessions?: boolean;
+}

@@ -3106,3 +3106,51 @@ RefreshToken.belongsTo(User, { foreignKey: "user_id", as: "user" });
 ![En esta captura identifiqué la tabla heredada user de Pedalibre-DW y confirmé que es distinta de la nueva tabla users](trazabilidad/E-ISS09-P14-08-Pedalibre-DW-schema.png)
 
 ![En esta captura consulté los endpoints de tipos de producto, productos, ventas y detalles y observé que los cuatro devolvieron HTTP 200](trazabilidad/E-ISS09-P14-10-business-get-verification.png)
+
+### Paso 21 — Definir los DTOs del feature Users *(ISS-10, 15.1 completado)*
+
+**Referencia:** ISS-10, sección 15.1 — DTOs del feature.  
+**Acción:** definí contratos separados para crear, reemplazar, actualizar parcialmente, cambiar contraseña y responder usuarios. El DTO de cambio de contraseña exige la credencial actual y permite solicitar la revocación de sesiones; los DTOs de actualización no permiten modificar `password` ni `status`. El DTO de respuesta excluye la contraseña.
+
+**Comandos indicados en la guía:**
+
+```bash
+mkdir -p src/features/auth/users/dto
+: > src/features/auth/users/dto/create-user.dto.ts
+: > src/features/auth/users/dto/update-user.dto.ts
+: > src/features/auth/users/dto/patch-user.dto.ts
+: > src/features/auth/users/dto/change-password.dto.ts
+: > src/features/auth/users/dto/user-response.dto.ts
+: > src/features/auth/users/dto/index.ts
+```
+
+**Contratos principales implementados:**
+
+```typescript
+export interface CreateUserDto {
+  username: string;
+  email: string;
+  password: string;
+  avatar?: string | null;
+  status?: "active" | "inactive";
+}
+
+export interface UpdateUserDto {
+  username: string;
+  email: string;
+  avatar?: string | null;
+}
+
+export type PatchUserDto = Partial<UpdateUserDto>;
+
+export interface ChangePasswordDto {
+  current_password: string;
+  new_password: string;
+  revoke_sessions?: boolean;
+}
+
+export type UserResponseDto = Omit<UserI, "password">;
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 15.1 implementado y con tipado verificado; continúo después con el repository.
