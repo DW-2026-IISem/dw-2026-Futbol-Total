@@ -2576,3 +2576,23 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura limité UpdateProductSaleDto a quantity para que los cambios de estado pasen por el borrado lógico](trazabilidad/E-ISS08-P03-05-update-product-sale-dto.png)
 
 ![En esta captura implementé ProductSalesRepository con operaciones transaccionales para las líneas de venta](trazabilidad/E-ISS08-P03-06-product-sales-repository.png)
+
+### Paso 4 — Implementar Service, Controller y Routes de ProductSale *(completado)*
+
+**Referencia:** ISS-08, secciones 13.2b y 13.3b — capas y rutas de ProductSale.  
+**Acción:** implementé las reglas transaccionales para las líneas de venta, el controlador HTTP y las rutas públicas de `/api/detalle-ventas`.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el service valida la venta y el producto activos, controla la disponibilidad de stock, actualiza inventario y recalcula los totales de la venta dentro de transacciones. En las operaciones de escritura aplica el orden de bloqueos `sales` → `products` → `product_sales`; los borrados físico y lógico restauran el stock. El controller delega las operaciones al service y Routes expone GET, POST, PUT, PATCH y DELETE para ProductSale.
+- **Estado:** Implementado; su funcionamiento integrado se verificará en los pasos posteriores del ISS.
+- **Evidencias:** [`E-ISS08-P04-01-product-sales-service.png`](trazabilidad/E-ISS08-P04-01-product-sales-service.png), [`E-ISS08-P04-02-product-sales-controller.png`](trazabilidad/E-ISS08-P04-02-product-sales-controller.png), [`E-ISS08-P04-03-product-sales-routes.png`](trazabilidad/E-ISS08-P04-03-product-sales-routes.png) y [`E-ISS08-P04-04-product-sales-repository.png`](trazabilidad/E-ISS08-P04-04-product-sales-repository.png).
+
+![En esta captura implementé ProductSalesService con transacciones para validar venta, producto, stock y totales](trazabilidad/E-ISS08-P04-01-product-sales-service.png)
+
+![En esta captura implementé ProductSalesController para atender las operaciones HTTP del detalle de venta](trazabilidad/E-ISS08-P04-02-product-sales-controller.png)
+
+![En esta captura declaré las rutas públicas GET, POST, PUT, PATCH y DELETE de /api/detalle-ventas](trazabilidad/E-ISS08-P04-03-product-sales-routes.png)
+
+![En esta captura implementé las operaciones transaccionales de ProductSalesRepository](trazabilidad/E-ISS08-P04-04-product-sales-repository.png)
