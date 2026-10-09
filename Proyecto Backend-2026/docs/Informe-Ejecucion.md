@@ -2700,7 +2700,7 @@ mkdir -p src/features/business/sales/http
 
 ![En esta captura preparé las solicitudes para eliminar una venta de forma física o lógica](trazabilidad/E-ISS08-P08-04-sales-delete-http.png)
 
-### Paso 9 — Cablear Sale y registrar sus asociaciones *(implementado; capturas pendientes)*
+### Paso 9 — Cablear Sale y registrar sus asociaciones *(completado)*
 
 **Referencia:** ISS-08, secciones 13.4 y 13.5 — Cableado y relaciones Sale / ProductSale / Client / Product.  
 **Acción:** conecté las rutas de Sale con la aplicación, cargué los modelos y asociaciones de venta, y asocié Sale con Client mediante `client_id`.
@@ -2709,6 +2709,7 @@ mkdir -p src/features/business/sales/http
 
 - **Fecha:** 2026-10-08.
 - **Resultado observado:** registré `SalesRoutes` en el agregador de rutas y en `App` monté `/api/ventas`. Añadí la carga de `Sale` y `ProductSale`, e importé las asociaciones de Sale-Client y ProductSale-Sale-Product para que Sequelize las registre antes de sincronizar la base de datos.
+- **Evidencias:** [`E-ISS08-P09-01-sales-routes-wiring.png`](trazabilidad/E-ISS08-P09-01-sales-routes-wiring.png), [`E-ISS08-P09-02-sales-model-wiring.png`](trazabilidad/E-ISS08-P09-02-sales-model-wiring.png) y [`E-ISS08-P09-03-sales-client-associations.png`](trazabilidad/E-ISS08-P09-03-sales-client-associations.png).
 - **Comandos indicados en la guía para crear las asociaciones:**
 
 ```bash
@@ -2744,7 +2745,7 @@ import "../features/business/product-sales/product-sales.associations";
 this.routePrv.salesRoutes.routes(this.app);
 ```
 
-- **Estado:** Cableado y asociaciones implementados; falta incorporar las capturas.
+- **Estado:** Cableado, asociaciones y evidencias documentados.
 
 ![En esta captura registré SalesRoutes en el agregador de rutas de la aplicación](trazabilidad/E-ISS08-P09-01-sales-routes-wiring.png)
 
