@@ -2669,7 +2669,7 @@ mkdir -p src/features/business/sales/dto
 
 ![En esta captura implementé SalesService para crear ventas y sus líneas con control transaccional de clientes, inventario y totales](trazabilidad/E-ISS08-P07-04-sales-service.png)
 
-### Paso 8 — Preparar solicitudes HTTP de Sale *(implementado; capturas pendientes)*
+### Paso 8 — Preparar solicitudes HTTP de Sale *(completado)*
 
 **Referencia:** ISS-08, sección 13.3 — HTTP de Sale.  
 **Acción:** preparé las solicitudes REST Client para consultar, crear, actualizar y eliminar ventas.
@@ -2678,6 +2678,7 @@ mkdir -p src/features/business/sales/dto
 
 - **Fecha:** 2026-10-08.
 - **Resultado observado:** preparé solicitudes GET, POST, PUT, PATCH, DELETE físico y borrado lógico para `/api/ventas`. Las plantillas usan el puerto `3002` y no incluyen autenticación, de acuerdo con la configuración pública de la API.
+- **Evidencias:** [`E-ISS08-P08-01-sales-get-http.png`](trazabilidad/E-ISS08-P08-01-sales-get-http.png), [`E-ISS08-P08-02-sales-create-http.png`](trazabilidad/E-ISS08-P08-02-sales-create-http.png), [`E-ISS08-P08-03-sales-update-http.png`](trazabilidad/E-ISS08-P08-03-sales-update-http.png) y [`E-ISS08-P08-04-sales-delete-http.png`](trazabilidad/E-ISS08-P08-04-sales-delete-http.png).
 - **Comandos indicados en la guía para crear los archivos:**
 
 ```bash
@@ -2689,12 +2690,12 @@ mkdir -p src/features/business/sales/http
 ```
 
 - **Archivos:** [`sales.get.http`](../src/features/business/sales/http/sales.get.http), [`sales.create.http`](../src/features/business/sales/http/sales.create.http), [`sales.update.http`](../src/features/business/sales/http/sales.update.http) y [`sales.delete.http`](../src/features/business/sales/http/sales.delete.http).
-- **Estado:** Plantillas implementadas; falta incorporar las capturas.
+- **Estado:** Plantillas y evidencias documentadas.
 
-![En esta captura preparé las solicitudes GET para listar ventas y consultar una por ID](trazabilidad/E-ISS08-P08-01-sales-get-http.png)
+![En esta captura preparé las solicitudes GET para listar las ventas y consultar una venta por su ID](trazabilidad/E-ISS08-P08-01-sales-get-http.png)
 
 ![En esta captura preparé la solicitud POST para crear una venta con sus líneas de productos](trazabilidad/E-ISS08-P08-02-sales-create-http.png)
 
 ![En esta captura preparé las solicitudes PUT y PATCH para actualizar la cabecera de una venta](trazabilidad/E-ISS08-P08-03-sales-update-http.png)
 
-![En esta captura preparé las solicitudes DELETE físico y lógico de una venta](trazabilidad/E-ISS08-P08-04-sales-delete-http.png)
+![En esta captura preparé las solicitudes para eliminar una venta de forma física o lógica](trazabilidad/E-ISS08-P08-04-sales-delete-http.png)
