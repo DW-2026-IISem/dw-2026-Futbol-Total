@@ -2596,3 +2596,17 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 ![En esta captura declaré las rutas públicas GET, POST, PUT, PATCH y DELETE de /api/detalle-ventas](trazabilidad/E-ISS08-P04-03-product-sales-routes.png)
 
 ![En esta captura implementé las operaciones transaccionales de ProductSalesRepository](trazabilidad/E-ISS08-P04-04-product-sales-repository.png)
+
+### Paso 5 — Crear el seeder de ProductSale *(completado)*
+
+**Referencia:** ISS-08, sección 13.4b — Seeder ProductSale.  
+**Acción:** preparé la generación idempotente de líneas de venta de prueba, actualizando el inventario y los importes de sus ventas.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el seeder omite la ejecución si el conteo es cero, ya existen líneas o faltan ventas/productos activos. Por cada línea generada bloquea la venta y el producto dentro de una transacción, verifica el inventario disponible, registra el precio unitario, descuenta stock y recalcula subtotal y total.
+- **Estado:** Implementado; su ejecución integrada se registrará durante las verificaciones de la guía.
+- **Evidencia:** [`E-ISS08-P05-01-product-sales-seeder.png`](trazabilidad/E-ISS08-P05-01-product-sales-seeder.png).
+
+![En esta captura implementé seedProductSales con validación de datos activos, transacciones, control de stock y recálculo de totales](trazabilidad/E-ISS08-P05-01-product-sales-seeder.png)
