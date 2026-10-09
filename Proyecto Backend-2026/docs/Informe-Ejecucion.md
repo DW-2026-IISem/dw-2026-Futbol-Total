@@ -2752,3 +2752,72 @@ this.routePrv.salesRoutes.routes(this.app);
 ![En esta captura cargué los modelos Sale y ProductSale y registré sus asociaciones en App](trazabilidad/E-ISS08-P09-02-sales-model-wiring.png)
 
 ![En esta captura asocié Sale con Client mediante client_id y declaré la relación inversa](trazabilidad/E-ISS08-P09-03-sales-client-associations.png)
+
+### Paso 10 — Crear el seeder y documentar Sale en OpenAPI *(implementado; capturas pendientes)*
+
+**Referencia:** ISS-08, secciones 13.6 y 13.7 — Seeder, Swagger Sale y estado final de agregadores.  
+**Acción:** preparé la generación idempotente de cabeceras de venta y añadí la documentación OpenAPI pública de Sale. Integré las entidades en el runner de seeders y en los agregadores finales de rutas y Swagger.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** el seeder de Sale requiere clientes activos y omite la inserción si el conteo es cero o ya existen ventas. El runner ejecuta los seeders en orden `clients → product_types → products → sales → product_sales`. OpenAPI describe los endpoints públicos de ventas y sus esquemas; las rutas de Sale y ProductSale quedaron registradas.
+- **Comandos indicados en la guía para crear los archivos:**
+
+```bash
+: > src/features/business/sales/sales.seeder.ts
+: > src/features/business/sales/sales.swagger.ts
+: > src/database/seeders/counts.ts
+: > src/database/seeders/index.ts
+: > src/swagger/index.ts
+```
+
+- **Código central del seeder de Sale:**
+
+```typescript
+const existing = await Sale.count();
+if (existing > 0) return 0;
+
+const clients = await Client.findAll({ where: { status: "active" } });
+if (clients.length === 0) return 0;
+
+await Sale.bulkCreate(rows);
+```
+
+- **Código para registrar cantidades de seeders:**
+
+```typescript
+sales: 5,
+product_sales: 12,
+```
+
+- **Orden de ejecución en el runner:**
+
+```typescript
+await seedSales(counts.sales);
+await seedProductSales(counts.product_sales);
+```
+
+- **Registro OpenAPI de Sale:**
+
+```typescript
+import { salesSwagger } from "../features/business/sales/sales.swagger";
+
+const featureSwaggerModules = [
+  clientsSwagger,
+  productTypesSwagger,
+  productsSwagger,
+  salesSwagger,
+  productSalesSwagger,
+];
+```
+
+- **Estado:** Seeder, Swagger y agregadores implementados; falta incorporar las capturas y ejecutar las verificaciones de endpoints y datos indicadas por la guía.
+
+![En esta captura implementé el seeder idempotente de ventas con clientes activos](trazabilidad/E-ISS08-P10-01-sales-seeder.png)
+
+![En esta captura documenté las rutas y esquemas públicos de Sale en OpenAPI](trazabilidad/E-ISS08-P10-02-sales-openapi.png)
+
+![En esta captura registré los seeders de Sale y ProductSale y sus conteos en los agregadores](trazabilidad/E-ISS08-P10-03-sales-seeder-wiring.png)
+
+![En esta captura integré la documentación OpenAPI de Sale con los módulos de la aplicación](trazabilidad/E-ISS08-P10-04-sales-swagger-registry.png)

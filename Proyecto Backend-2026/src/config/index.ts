@@ -44,6 +44,7 @@ export class App {
     this.routePrv.productTypesRoutes.routes(this.app);
     this.routePrv.productsRoutes.routes(this.app);
     this.routePrv.salesRoutes.routes(this.app);
+    this.routePrv.productSalesRoutes.routes(this.app);
   }
 
   private docs(): void {

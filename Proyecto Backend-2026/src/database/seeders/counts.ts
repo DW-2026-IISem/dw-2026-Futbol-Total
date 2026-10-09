@@ -6,12 +6,16 @@ export type SeedCounts = {
   clients: number;
   product_types: number;
   products: number;
+  sales: number;
+  product_sales: number;
 };
 
 export const DEFAULT_SEED_COUNTS: SeedCounts = {
   clients: 10,
   product_types: 25,
   products: 15,
+  sales: 5,
+  product_sales: 12,
 };
 
 export function resolveSeedCounts(
@@ -19,19 +23,17 @@ export function resolveSeedCounts(
 ): SeedCounts {
   const counts: SeedCounts = { ...DEFAULT_SEED_COUNTS };
 
-  const envClients = process.env.SEED_CLIENTS;
-  if (envClients !== undefined && envClients !== "") {
-    counts.clients = Number(envClients);
-  }
-
-  const envProductTypes = process.env.SEED_PRODUCT_TYPES;
-  if (envProductTypes !== undefined && envProductTypes !== "") {
-    counts.product_types = Number(envProductTypes);
-  }
-
-  const envProducts = process.env.SEED_PRODUCTS;
-  if (envProducts !== undefined && envProducts !== "") {
-    counts.products = Number(envProducts);
+  const envMap: Array<[keyof SeedCounts, string | undefined]> = [
+    ["clients", process.env.SEED_CLIENTS],
+    ["product_types", process.env.SEED_PRODUCT_TYPES],
+    ["products", process.env.SEED_PRODUCTS],
+    ["sales", process.env.SEED_SALES],
+    ["product_sales", process.env.SEED_PRODUCT_SALES],
+  ];
+  for (const [key, value] of envMap) {
+    if (value !== undefined && value !== "") {
+      counts[key] = Number(value);
+    }
   }
 
   for (const arg of argv) {

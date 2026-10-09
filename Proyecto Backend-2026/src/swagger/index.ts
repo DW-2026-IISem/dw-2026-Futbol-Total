@@ -4,6 +4,7 @@ import { clientsSwagger } from "../features/business/clients/clients.swagger";
 import { productTypesSwagger } from "../features/business/product-types/product-types.swagger";
 import { productsSwagger } from "../features/business/products/products.swagger";
 import { productSalesSwagger } from "../features/business/product-sales/product-sales.swagger";
+import { salesSwagger } from "../features/business/sales/sales.swagger";
 
 export type FeatureSwaggerModule = {
   tags: unknown[];
@@ -15,6 +16,7 @@ const featureSwaggerModules: FeatureSwaggerModule[] = [
   clientsSwagger,
   productTypesSwagger,
   productsSwagger,
+  salesSwagger,
   productSalesSwagger,
 ];
 

@@ -299,11 +299,11 @@ export class SalesService {
     if (client.status !== "active") {
       throw new AppError(400, "Client must be active");
     }
+  }
 
-    private assertValidClientId(clientId: number): void {
-      if (!Number.isInteger(clientId) || clientId < 1) {
-        throw new AppError(400, "client_id must be a positive integer");
-      }
+  private assertValidClientId(clientId: number): void {
+    if (!Number.isInteger(clientId) || clientId < 1) {
+      throw new AppError(400, "client_id must be a positive integer");
     }
   }
 }
