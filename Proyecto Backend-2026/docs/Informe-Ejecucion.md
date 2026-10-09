@@ -2860,3 +2860,36 @@ curl -sS http://localhost:3002/api/docs.json
 ![En esta captura ejecuté GET /api/ventas en Swagger UI y observé la respuesta 200 con la lista vacía](trazabilidad/E-ISS08-P11-02-sales-list-empty.png)
 
 ![En esta captura ejecuté GET /api/ventas en Swagger UI y observé la venta de prueba con su línea de detalle](trazabilidad/E-ISS08-P11-03-sales-api-verification.png)
+
+### Paso 12 — Cerrar la Fase I: Business *(GATE técnico parcialmente verificado)*
+
+**Referencia:** CIERRE-BUSINESS — DoD del laboratorio Business sin autenticación.  
+**Acción:** contrasté el backend con el DoD de cierre y ejecuté las verificaciones de TypeScript y seeders indicadas por la guía.
+
+**Criterios del DoD revisados:**
+
+- Cinco features: `clients`, `product-types`, `products`, `sales` y `product-sales`, cada una con sus capas, DTOs y modelo.
+- Cinco tablas de negocio y sus rutas públicas: `/api/clientes`, `/api/tipos-producto`, `/api/productos`, `/api/ventas` y `/api/detalle-ventas`.
+- Seeders y documentación Swagger registrados; rutas de negocio todavía sin autenticación.
+- Compilación TypeScript sin errores.
+
+**Comandos ejecutados de la guía:**
+
+```bash
+npx tsc --noEmit
+npm run db:seed
+```
+
+- **Resultado observado:** `npx tsc --noEmit` finalizó correctamente. `npm run db:seed` conectó a MySQL, sincronizó sin recrear las tablas y terminó correctamente; encontró registros existentes en las cinco tablas y omitió duplicarlos.
+
+**Comandos pendientes para completar la verificación runtime y su evidencia, adaptados al puerto del proyecto:**
+
+```bash
+curl -sS http://localhost:3002/api/tipos-producto | head
+curl -sS http://localhost:3002/api/productos | head
+curl -sS http://localhost:3002/api/ventas | head
+curl -sS http://localhost:3002/api/detalle-ventas | head
+npm run dev
+```
+
+- **Pendiente:** iniciar el servidor y capturar las respuestas de los cuatro `GET` en el puerto `3002`. Cuando reciba la captura, la agregaré como evidencia y actualizaré el estado del GATE.
