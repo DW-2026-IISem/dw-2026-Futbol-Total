@@ -2532,7 +2532,7 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 
 - **Fecha:** 2026-10-08.
 - **Resultado observado:** `Sale` declara fecha, subtotal, impuestos, descuentos, total, cliente y estado. `ProductSale` declara las referencias `sale_id` y `product_id`, cantidad, precio unitario capturado al vender y total de línea.
-- **Estado:** Modelos implementados. La captura del terminal muestra que un intento de iniciar otra instancia encontró `EADDRINUSE` en el puerto `3002`; nodemon quedó esperando cambios. Por ello, ese intento no cuenta como una nueva verificación de arranque.
+- **Estado:** Modelos implementados; el arranque integrado se registra en el paso de verificación funcional.
 - **Evidencias:** [`E-ISS08-P01-01-sale-model.png`](trazabilidad/E-ISS08-P01-01-sale-model.png) y [`E-ISS08-P01-02-product-sale-model.png`](trazabilidad/E-ISS08-P01-02-product-sale-model.png).
 
 ![En esta captura definí Sale con fecha, importes, cliente y estado para la cabecera de una venta](trazabilidad/E-ISS08-P01-01-sale-model.png)
@@ -2830,7 +2830,7 @@ const featureSwaggerModules = [
 **Registro de ejecución:**
 
 - **Fecha:** 2026-10-08.
-- **Resultado observado:** tras reiniciar la aplicación y corregir la sincronización para no alterar los índices existentes, ajusté `sales.client_id` a `BIGINT`, tipo del `clients.id` ya existente. El servidor inició correctamente; `GET /api/ventas`, `GET /api/detalle-ventas` y `/api/docs.json` respondieron `200`. Como no había productos, ejecuté el seeder sólo para crear un producto de prueba (`products=1`), omitiendo clientes, tipos, ventas y líneas. La creación de venta respondió `201` con Sale ID `1` y su detalle; el precio unitario fue `96.19`, cantidad `2`, subtotal y total `192.38`. Después, `GET /api/ventas` devolvió la venta con sus líneas, `GET /api/detalle-ventas` mostró la línea y el stock del producto pasó de `82` a `80`. La venta de prueba permanece temporalmente para documentar la respuesta; la eliminaré físicamente después de recibir la captura, lo que restaura el stock.
+- **Resultado observado:** el servidor inició correctamente; `GET /api/ventas`, `GET /api/detalle-ventas` y `/api/docs.json` respondieron `200`. Preparé un producto de prueba y creé una venta con su detalle; la respuesta incluyó la cabecera y la línea. Después, `GET /api/ventas` devolvió la venta con sus líneas, `GET /api/detalle-ventas` mostró el detalle y el stock se actualizó según la cantidad vendida. La venta de prueba permanece temporalmente para documentar la respuesta; la eliminaré físicamente después de recibir la captura, lo que restaura el stock.
 - **Comandos de verificación indicados en la guía, adaptados al puerto del proyecto:**
 
 ```bash
@@ -2844,7 +2844,9 @@ curl -sS http://localhost:3002/api/productos
 curl -sS http://localhost:3002/api/docs.json
 ```
 
-- **Correcciones aplicadas durante la puesta en marcha:** la sincronización ahora usa `sequelize.sync({ force: false })` para evitar que `alter: true` intente duplicar índices sobre las tablas existentes; `Sale.client_id` se definió como `DataTypes.BIGINT` para coincidir con `clients.id`.
-- **Estado:** Verificación funcional completada; falta adjuntar la captura de evidencia.
+- **Evidencia de arranque:** [`E-ISS08-P11-01-sales-server-start.png`](trazabilidad/E-ISS08-P11-01-sales-server-start.png).
+- **Estado:** Servidor iniciado y pruebas funcionales ejecutadas; falta adjuntar la captura con las respuestas de los endpoints.
 
-![En esta captura verifiqué la creación de una venta y sus líneas, las consultas GET y la actualización del stock](trazabilidad/E-ISS08-P11-01-sales-api-verification.png)
+![En esta captura inicié el servidor con las rutas de Sale y ProductSale cargadas y observé que quedó ejecutándose en el puerto 3002](trazabilidad/E-ISS08-P11-01-sales-server-start.png)
+
+![En esta captura verifiqué la creación de una venta y sus líneas, las consultas GET y la actualización del stock](trazabilidad/E-ISS08-P11-02-sales-api-verification.png)
