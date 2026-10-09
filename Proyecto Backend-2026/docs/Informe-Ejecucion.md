@@ -2552,3 +2552,27 @@ Con el servidor activo, abrir `src/features/business/clients/http/clients.get.ht
 - **Evidencia:** [`E-ISS08-P02-01-product-sales-associations.png`](trazabilidad/E-ISS08-P02-01-product-sales-associations.png).
 
 ![En esta captura declaré las asociaciones ProductSale con Sale y Product y las relaciones inversas mediante sale_id y product_id](trazabilidad/E-ISS08-P02-01-product-sales-associations.png)
+
+### Paso 3 — Definir los DTOs y el Repository de ProductSale *(completado)*
+
+**Referencia:** ISS-08, sección 13.2b — DTO + Repository ProductSale.  
+**Acción:** definí los contratos de entrada y respuesta para las líneas de venta e implementé su capa Repository.
+
+**Registro de ejecución:**
+
+- **Fecha:** 2026-10-08.
+- **Resultado observado:** `CreateProductSaleDto` recibe venta, producto y cantidad; `UpdateProductSaleDto` sólo permite cambiar la cantidad para mantener sincronizados stock y totales; `PatchProductSaleDto` deriva de ese contrato; `ProductSaleResponseDto` representa el resultado plano. El repository permite consultar líneas activas, encontrar y bloquear por ID, crear, actualizar y eliminar líneas individuales o de una venta con transacciones opcionales.
+- **Estado:** Implementado.
+- **Evidencias:** [`E-ISS08-P03-01-create-product-sale-dto.png`](trazabilidad/E-ISS08-P03-01-create-product-sale-dto.png), [`E-ISS08-P03-02-product-sale-dto-index.png`](trazabilidad/E-ISS08-P03-02-product-sale-dto-index.png), [`E-ISS08-P03-03-patch-product-sale-dto.png`](trazabilidad/E-ISS08-P03-03-patch-product-sale-dto.png), [`E-ISS08-P03-04-product-sale-response-dto.png`](trazabilidad/E-ISS08-P03-04-product-sale-response-dto.png), [`E-ISS08-P03-05-update-product-sale-dto.png`](trazabilidad/E-ISS08-P03-05-update-product-sale-dto.png) y [`E-ISS08-P03-06-product-sales-repository.png`](trazabilidad/E-ISS08-P03-06-product-sales-repository.png).
+
+![En esta captura definí CreateProductSaleDto con los identificadores de venta y producto, la cantidad y el estado opcional](trazabilidad/E-ISS08-P03-01-create-product-sale-dto.png)
+
+![En esta captura exporté los DTOs de ProductSale desde el índice de la carpeta dto](trazabilidad/E-ISS08-P03-02-product-sale-dto-index.png)
+
+![En esta captura definí PatchProductSaleDto como actualización parcial de la cantidad](trazabilidad/E-ISS08-P03-03-patch-product-sale-dto.png)
+
+![En esta captura definí ProductSaleResponseDto y el mapper del modelo a una respuesta plana](trazabilidad/E-ISS08-P03-04-product-sale-response-dto.png)
+
+![En esta captura limité UpdateProductSaleDto a quantity para que los cambios de estado pasen por el borrado lógico](trazabilidad/E-ISS08-P03-05-update-product-sale-dto.png)
+
+![En esta captura implementé ProductSalesRepository con operaciones transaccionales para las líneas de venta](trazabilidad/E-ISS08-P03-06-product-sales-repository.png)
