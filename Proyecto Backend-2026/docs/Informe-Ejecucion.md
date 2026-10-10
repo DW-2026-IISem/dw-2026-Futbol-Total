@@ -3588,6 +3588,19 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observa PatchResourceDto como tipo parcial de UpdateResourceDto](trazabilidad/E-ISS11-P16-21-patch-resource-dto.png)
 
+### Paso 42 — Definir ResourceResponseDto *(ISS-11, 16.4 en curso)*
+
+**Referencia:** ISS-11, sección 16.4 — `resources/dto/resource-response.dto.ts`.
+
+**Acción:** definí el tipo de respuesta y un mapper explícito que serializa los campos públicos del modelo Resource, incluidos método, ruta, estado y timestamps.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** mapper de respuesta de Resources implementado.
+
+**Evidencia recibida:**
+
+![En esta captura se observan el tipo ResourceResponseDto y su mapper desde el modelo](trazabilidad/E-ISS11-P16-22-resource-response-dto.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
