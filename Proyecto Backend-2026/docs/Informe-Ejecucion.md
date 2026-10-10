@@ -3255,6 +3255,24 @@ deleteLogical(id: number): Promise<UserResponseDto>
 
 **Ajustes de conformidad para los pasos 15.2 y 15.3:** las lecturas comunes del repository excluyen `password` de la proyección SQL; el acceso al hash se limita a `findByIdWithPassword` para el cambio de contraseña y `findByUsernameOrEmail` para la futura autenticación. Las comprobaciones de username/correo solo recuperan sus identificadores. El Service ahora hashea explícitamente las contraseñas al crear y cambiarla, establece `active` como estado de creación predeterminado y ofrece `getEffectivePermissions`, que devuelve permisos distintos respaldados por asignaciones, roles, concesiones y recursos activos. Los usuarios inactivos no se exponen en consultas del feature ni reciben permisos.
 
+**Evidencias de los ajustes de conformidad:**
+
+![En esta captura se observan el hash explícito de contraseña al crear, el estado active predeterminado y la consulta de permisos efectivos](trazabilidad/E-ISS10-P15-13-users-service-hash-default-permissions.png)
+
+![En esta captura se observa la verificación de la contraseña actual, el hash de la nueva contraseña y la opción transaccional de revocar sesiones](trazabilidad/E-ISS10-P15-14-users-service-password-revocation.png)
+
+![En esta captura se observan la desactivación lógica, la revocación de sesiones y la validación de username y correo](trazabilidad/E-ISS10-P15-15-users-service-deactivation-validation.png)
+
+![En esta captura se observan las consultas de lectura segura del Repository y los métodos que acceden al hash](trazabilidad/E-ISS10-P15-16-users-repository-safe-queries.png)
+
+![En esta captura se observan los métodos de creación y actualización del Repository](trazabilidad/E-ISS10-P15-17-users-repository-create-update.png)
+
+![En esta captura se observa cómo el Repository calcula permisos efectivos atravesando asignaciones, roles y recursos activos](trazabilidad/E-ISS10-P15-18-users-repository-effective-permissions.png)
+
+![En esta captura se observan los campos y tipos del modelo User](trazabilidad/E-ISS10-P15-19-user-model-fields.png)
+
+![En esta captura se observa el valor active predeterminado y la normalización de username y correo en el modelo User](trazabilidad/E-ISS10-P15-20-user-model-active-default.png)
+
 ### Paso 24 — Implementar el controller de Users *(ISS-10, 15.4 completado)*
 
 **Referencia:** ISS-10, sección 15.4 — `users.controller.ts`.
