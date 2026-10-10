@@ -4202,3 +4202,26 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa el total de 65 concesiones ResourceRoles activas](trazabilidad/E-ISS12-P17-28-active-counts.png)
 
 ![En esta captura se observa el resultado de 2 asignaciones RoleUsers activas](trazabilidad/E-ISS12-P17-29-active-role-users.png)
+
+## ISS-13 — Middlewares de acceso y las tres modalidades en rutas
+
+**Objetivo:** aplicar autenticación JWT y autorización RBAC a las rutas protegidas, distinguiendo las modalidades OPEN, JWT y JWT + RBAC.
+
+**Referencia:** `docs/ISS/ISS-13-auth-access.md`, secciones 18.1–18.6.
+
+**Dependencia:** ISS-12 — Features RoleUsers y ResourceRoles; la matriz RBAC ya fue verificada.
+
+**Estado:** en curso. Las verificaciones HTTP que requieren un token se aplazan hasta ISS-15, cuando se implemente el endpoint de login.
+
+### Paso 79 — Implementar el middleware authenticate *(ISS-13, 18.1 en curso)*
+
+**Referencia:** ISS-13, sección 18.1 — `features/auth/access/authenticate.middleware.ts`.
+
+**Acción:** verifiqué el middleware existente, que extrae y valida el access token, comprueba que el usuario siga activo, asigna la identidad a `req.auth` y responde con error cuando falta o no es válido el token.
+
+- **Estado:** middleware existente; su evidencia se registra en el commit local de este paso.
+- **Limitación de prueba:** no se ha probado la autenticación HTTP porque todavía no existe un endpoint de login para obtener el token.
+
+**Evidencia recibida:**
+
+![En esta captura se observa authenticate, su validación del token y la carga de identidad activa en req.auth](trazabilidad/E-ISS13-P18-01-authenticate-middleware.png)
