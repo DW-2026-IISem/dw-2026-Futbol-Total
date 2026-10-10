@@ -4452,3 +4452,16 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** Swagger de RefreshTokens registrado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Swagger documenta endpoints de sesiones propias y su esquema de autenticación JWT](trazabilidad/E-ISS14-P19-05-refresh-tokens-swagger-endpoints.png)
+
+![Swagger documenta el esquema de respuesta Session sin token_hash](trazabilidad/E-ISS14-P19-05-refresh-tokens-swagger-schema.png)
+
+### Paso 97 — Preparar solicitudes HTTP de sesiones propias *(ISS-14, 19.6 en curso)*
+
+**Acción:** preparé `sessions.get.http` con el flujo de login requerido para obtener el Bearer token y las solicitudes para listar, consultar, revocar y purgar sesiones propias. Ajusté la URL base al puerto 3002 configurado para el servidor.
+
+- **Ejecución:** aplazada hasta ISS-15, cuando exista el endpoint de login. No se han ejecutado estas solicitudes.
+- **Estado:** archivo HTTP preparado en el commit local de este paso.
