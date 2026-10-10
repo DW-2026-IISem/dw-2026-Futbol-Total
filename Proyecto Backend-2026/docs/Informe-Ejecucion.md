@@ -3427,3 +3427,28 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa que GET /api/usuarios sin Bearer token responde 401 Unauthorized](trazabilidad/E-ISS10-P15-38-users-unauthenticated-401.png)
 
 **Nota de privacidad:** no se archivó la captura que tenía abierto `.env`; para conservar evidencia del 401 sin exponer configuración local, se solicitará una captura separada de la terminal y el comando HTTP.
+
+## ISS-11 — Features Roles y Resources
+
+### Paso 29 — Definir DTOs de Roles *(ISS-11, 16.1 implementado)*
+
+**Referencia:** ISS-11, sección 16.1 — `src/features/auth/roles/dto/`.
+
+**Acción:** añadí los DTOs para crear, reemplazar y actualizar parcialmente roles, el mapper de respuesta y el barrel de exportación. `UpdateRoleDto` no permite cambiar el estado, que se gestiona mediante desactivación lógica; `PatchRoleDto` deriva del contrato de actualización completa.
+
+**Archivos:** `create-role.dto.ts`, `update-role.dto.ts`, `patch-role.dto.ts`, `role-response.dto.ts` e `index.ts`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 16.1 implementado.
+
+**Evidencias recibidas:**
+
+![En esta captura se observa el barrel de exportación de los DTOs de Roles](trazabilidad/E-ISS11-P16-01-roles-dto-index.png)
+
+![En esta captura se observa el contrato de creación de roles](trazabilidad/E-ISS11-P16-02-create-role-dto.png)
+
+![En esta captura se observa que el DTO parcial deriva del DTO de actualización](trazabilidad/E-ISS11-P16-03-patch-role-dto.png)
+
+![En esta captura se observa el mapper de respuesta de roles](trazabilidad/E-ISS11-P16-04-role-response-dto.png)
+
+![En esta captura se observa el contrato de actualización completa de roles](trazabilidad/E-ISS11-P16-05-update-role-dto.png)
