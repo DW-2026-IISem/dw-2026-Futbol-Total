@@ -3518,6 +3518,21 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observa la importación de RolesRoutes y su instancia dentro de Routes](trazabilidad/E-ISS11-P16-13-roles-routes-registry.png)
 
+### Paso 37 — Montar RolesRoutes en Express *(ISS-11, 16.2 en curso)*
+
+**Referencia:** `src/config/index.ts`.
+
+**Acción:** añadí el montaje de `rolesRoutes` en la secuencia de registro de rutas de `App`. La configuración ya carga el modelo `Role` antes del arranque y la sincronización no destructiva de los modelos conserva la estructura existente.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** el feature Roles quedó conectado a la aplicación; se verificará su exposición en Swagger/runtime en una etapa posterior.
+
+**Evidencias recibidas:**
+
+![En esta captura se observa la configuración de la aplicación que registra los modelos de Roles](trazabilidad/E-ISS11-P16-14-app-model-registration.png)
+
+![En esta captura se observa el montaje de rolesRoutes junto con las rutas del resto de features](trazabilidad/E-ISS11-P16-15-app-mount-roles-routes.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
