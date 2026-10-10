@@ -3676,3 +3676,20 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa ResourcesRepository y sus métodos de consulta y persistencia](trazabilidad/E-ISS11-P16-25-resources-repository.png)
+
+### Paso 46 — Implementar el servicio de Resources *(ISS-11, 16.5 en curso)*
+
+**Referencia:** ISS-11, sección 16.5 — `resources/resources.service.ts`.
+
+**Acción:** implementé las operaciones de Resources, validando existencia y unicidad de `(method, path)`, normalizando método y ruta, transformando respuestas mediante el DTO y convirtiendo conflictos únicos a HTTP 409.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** servicio implementado y guardado en el commit local `964f189`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las consultas y creación de recursos](trazabilidad/E-ISS11-P16-26-resources-service-01.png)
+
+![En esta captura se observan las operaciones de actualización y eliminación de recursos](trazabilidad/E-ISS11-P16-26-resources-service-02.png)
+
+![En esta captura se observan las validaciones de existencia y unicidad de las operaciones](trazabilidad/E-ISS11-P16-26-resources-service-03.png)
