@@ -3549,6 +3549,19 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observan las solicitudes de creación, actualización, desactivación y eliminación de Roles](trazabilidad/E-ISS11-P16-18-roles-http-writes.png)
 
+### Paso 39 — Definir CreateResourceDto *(ISS-11, 16.4 en curso)*
+
+**Referencia:** ISS-11, sección 16.4 — `resources/dto/create-resource.dto.ts`.
+
+**Acción:** definí el método HTTP permitido, la ruta, la descripción opcional y el estado opcional para la creación de recursos.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** primer DTO de Resources implementado; se continúa con un archivo por paso.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el contrato de creación de recursos con métodos HTTP permitidos, path, descripción y estado](trazabilidad/E-ISS11-P16-19-create-resource-dto.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
