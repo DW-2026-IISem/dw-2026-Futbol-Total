@@ -3331,6 +3331,8 @@ deletePhysical(req, res)
 
 ![En esta captura se observa el middleware de autorización con denegación por defecto](trazabilidad/E-ISS10-P15-34-authorize-middleware.png)
 
+![En esta captura se observan las nueve rutas de Users y el acceso tipado a getEffectivePermissions, sin errores en el editor](trazabilidad/E-ISS10-P15-35-users-routes-final.png)
+
 ### Paso 26 — Crear usuarios canónicos *(ISS-10, 15.6 implementado)*
 
 **Referencia:** ISS-10, sección 15.6 — `users.seeder.ts`.
