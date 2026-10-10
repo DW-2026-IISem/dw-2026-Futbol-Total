@@ -4390,6 +4390,25 @@ src/features/auth/users/http/users.write.http
 
 **Evidencia recibida:**
 
+![Barrel que exporta los DTO de Session](trazabilidad/E-ISS15-P20-01-session-dto-index.png)
+
+![DTO de entrada para iniciar sesión con usuario o correo](trazabilidad/E-ISS15-P20-01-login-dto.png)
+
+![DTO de entrada para cerrar una sesión](trazabilidad/E-ISS15-P20-01-logout-dto.png)
+
+![DTO de entrada para renovar una sesión](trazabilidad/E-ISS15-P20-01-refresh-dto.png)
+
+![DTO de respuesta de tokens y perfil público](trazabilidad/E-ISS15-P20-01-session-response-profile-dto.png)
+
+### Paso 100 — Implementar SessionService *(ISS-15, 20.2 en curso)*
+
+**Acción:** implementé login con respuesta genérica para credenciales incorrectas y rechazo de usuarios inactivos; renovación con rotación del refresh token y detección de reutilización; logout idempotente; perfil público y consulta de permisos efectivos. El servicio reutiliza `UsersRepository.findByUsernameOrEmail`, que ya normaliza el identificador y recupera el hash de contraseña, además de los servicios existentes de RefreshTokens y ResourceRoles.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** service implementado en el commit local de este paso.
+
+**Evidencia recibida:**
+
 ![DTO de respuesta que excluye token_hash y calcula is_expired](trazabilidad/E-ISS14-P19-01-refresh-token-response-dto.png)
 
 ![Barrel que exporta el DTO de RefreshToken](trazabilidad/E-ISS14-P19-01-refresh-token-dto-index.png)
