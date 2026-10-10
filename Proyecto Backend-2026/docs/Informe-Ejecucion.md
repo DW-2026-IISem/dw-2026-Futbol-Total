@@ -3389,6 +3389,16 @@ deletePhysical(req, res)
 
 ![En esta captura se observan las nueve operaciones de Users marcadas como protegidas](trazabilidad/E-ISS10-P15-30-swagger-users-protected.png)
 
+![En esta captura se observa que GET /api/usuarios declara security: bearerSecurity](trazabilidad/E-ISS10-P15-39-users-swagger-get-security.png)
+
+![En esta captura se observan las declaraciones OpenAPI de creación y actualización de Users](trazabilidad/E-ISS10-P15-40-users-swagger-post-put.png)
+
+![En esta captura se observan las operaciones OpenAPI de actualización, eliminación, desactivación, cambio de contraseña y consulta de permisos](trazabilidad/E-ISS10-P15-41-users-swagger-mutations.png)
+
+![En esta captura se observan los esquemas OpenAPI de respuesta y creación de usuario](trazabilidad/E-ISS10-P15-42-users-swagger-user-schemas.png)
+
+![En esta captura se observan los esquemas OpenAPI de actualización, cambio de contraseña y permisos efectivos](trazabilidad/E-ISS10-P15-43-users-swagger-request-schemas.png)
+
 ### Paso 28 — Preparar solicitudes HTTP de Users *(ISS-10, 15.8 implementado)*
 
 **Referencia:** ISS-10, sección 15.8 — pruebas HTTP.
