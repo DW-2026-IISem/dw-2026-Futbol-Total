@@ -3663,3 +3663,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan los recursos administrativos de RoleUsers y ResourceRoles](trazabilidad/E-ISS11-P16-24-resource-catalog-02.png)
 
 ![En esta captura se observa el cierre del catálogo con sus 58 entradas y los siete recursos de SELLER](trazabilidad/E-ISS11-P16-24-resource-catalog-03.png)
+
+### Paso 45 — Implementar el repositorio de Resources *(ISS-11, 16.5 en curso)*
+
+**Referencia:** ISS-11, sección 16.5 — `resources/resources.repository.ts`.
+
+**Acción:** implementé las operaciones de persistencia de Resources para listar activos, buscar por identificador u operación `(method, path)`, crear, actualizar y eliminar registros.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** repositorio implementado y guardado en el commit local `104e03e`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa ResourcesRepository y sus métodos de consulta y persistencia](trazabilidad/E-ISS11-P16-25-resources-repository.png)
