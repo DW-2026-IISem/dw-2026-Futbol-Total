@@ -3734,3 +3734,22 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa el seeder idempotente que carga y reactiva los recursos del catálogo](trazabilidad/E-ISS11-P16-29-resources-seeder.png)
+
+### Paso 50 — Documentar Resources en Swagger *(ISS-11, 16.6 en curso)*
+
+**Referencia:** ISS-11, sección 16.6 — `resources/resources.swagger.ts`.
+
+**Acción:** documenté las siete operaciones de Resources con seguridad Bearer, parámetros de identificador, DTOs de solicitud y respuestas HTTP, incluidos los esquemas `Resource`, `ResourceCreate`, `ResourceUpdate` y `ResourcePatch`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** módulo Swagger de Resources implementado y guardado en el commit local `8f0e840`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa la definición inicial del módulo Swagger de Resources](trazabilidad/E-ISS11-P16-30-resources-swagger-01.png)
+
+![En esta captura se observan las operaciones de listado, creación y lectura de Resources](trazabilidad/E-ISS11-P16-30-resources-swagger-02.png)
+
+![En esta captura se observan las operaciones de actualización y eliminación documentadas](trazabilidad/E-ISS11-P16-30-resources-swagger-03.png)
+
+![En esta captura se observan los esquemas y el esquema de seguridad Bearer](trazabilidad/E-ISS11-P16-30-resources-swagger-04.png)
