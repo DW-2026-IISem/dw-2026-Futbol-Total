@@ -3465,3 +3465,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las operaciones de consulta y persistencia de RolesRepository](trazabilidad/E-ISS11-P16-06-roles-repository.png)
+
+### Paso 31 — Implementar RolesService *(ISS-11, 16.2 en curso)*
+
+**Referencia:** ISS-11, sección 16.2 — `roles.service.ts`.
+
+**Acción:** implementé la lógica del feature Roles: listar y consultar roles activos, validar y normalizar nombres, verificar unicidad, crear y actualizar usando los DTOs, y eliminar roles de forma física o lógica.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** archivo `roles.service.ts` implementado; controller y rutas quedan para pasos individuales posteriores.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las reglas y operaciones principales de RolesService](trazabilidad/E-ISS11-P16-07-roles-service.png)
