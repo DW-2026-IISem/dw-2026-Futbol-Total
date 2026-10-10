@@ -4321,3 +4321,18 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las rutas de lectura, creación y actualización de ProductSales con JWT y RBAC](trazabilidad/E-ISS13-P18-08-product-sales-jwt-rbac-01.png)
 
 ![En esta captura se observan las rutas de modificación y eliminación de ProductSales con JWT y RBAC](trazabilidad/E-ISS13-P18-08-product-sales-jwt-rbac-02.png)
+
+### Paso 87 — Documentar las modalidades OPEN, JWT y JWT + RBAC *(ISS-13, 18.5 en curso)*
+
+**Referencia:** ISS-13, sección 18.5 — modalidades de acceso en rutas.
+
+**Acción:** documenté las tres modalidades y sus respuestas previstas: OPEN no exige identidad; JWT requiere un access token y usuario activo; JWT + RBAC requiere además una concesión activa para el método y la ruta. En las rutas de negocio del proyecto se aplicó la tercera modalidad.
+
+- **Resultado esperado:** sin token, 401; con identidad válida pero sin concesión, 403; con concesión, continúa al controller y este devuelve la respuesta propia de la operación.
+- **Verificación HTTP:** pendiente hasta ISS-15, que implementa login y emisión de access tokens.
+
+| Modalidad | Middleware | Requisito | Respuesta ante fallo |
+| :--- | :--- | :--- | :--- |
+| OPEN | Ninguno | Ninguno | — |
+| JWT | `authenticate` | Token válido y usuario activo | 401 |
+| JWT + RBAC | `authenticate`, `authorize` | Token válido, usuario activo y concesión para `(method, path)` | 401 sin autenticación; 403 sin permiso |
