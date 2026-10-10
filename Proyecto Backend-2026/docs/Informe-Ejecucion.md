@@ -3693,3 +3693,18 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las operaciones de actualización y eliminación de recursos](trazabilidad/E-ISS11-P16-26-resources-service-02.png)
 
 ![En esta captura se observan las validaciones de existencia y unicidad de las operaciones](trazabilidad/E-ISS11-P16-26-resources-service-03.png)
+
+### Paso 47 — Implementar el controller de Resources *(ISS-11, 16.5 en curso)*
+
+**Referencia:** ISS-11, sección 16.5 — `resources/resources.controller.ts`.
+
+**Acción:** conecté las operaciones HTTP con `ResourcesService`, usando `BaseController` para el manejo consistente de errores y la validación de identificadores; las respuestas incluyen el status HTTP y el recurso correspondiente.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** controller implementado y guardado en el commit local `d1d7b2b`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las operaciones de consulta, creación y actualización de Resources](trazabilidad/E-ISS11-P16-27-resources-controller-01.png)
+
+![En esta captura se observan las operaciones de eliminación física y lógica de Resources](trazabilidad/E-ISS11-P16-27-resources-controller-02.png)
