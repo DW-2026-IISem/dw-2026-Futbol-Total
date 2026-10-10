@@ -3983,3 +3983,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa ListResourceRolesDto con filtros opcionales por rol y recurso](trazabilidad/E-ISS12-P17-13-list-resource-roles-dto.png)
+
+### Paso 67 — Definir ResourceRoleResponseDto *(ISS-12, 17.4 en curso)*
+
+**Referencia:** ISS-12, sección 17.4 — `resource-roles/dto/resource-role-response.dto.ts`.
+
+**Acción:** definí el DTO de respuesta para exponer una concesión con sus datos de rol y recurso, el mapper `toResourceRoleResponse` y el contrato `EffectivePermissionDto`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO creado y guardado en el commit local `3bd586b`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa ResourceRoleResponseDto, su mapper y EffectivePermissionDto](trazabilidad/E-ISS12-P17-14-resource-role-response-dto.png)
