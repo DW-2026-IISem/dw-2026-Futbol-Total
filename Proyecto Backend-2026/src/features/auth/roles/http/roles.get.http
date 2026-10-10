@@ -9,3 +9,41 @@ Authorization: Bearer {{accessToken}}
 ### Get one active role
 GET {{baseUrl}}/roles/{{roleId}}
 Authorization: Bearer {{accessToken}}
+
+### Create role
+POST {{baseUrl}}/roles
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "AUDITOR",
+  "description": "Auditoría de operaciones",
+  "status": "active"
+}
+
+### Replace role fields
+PUT {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "AUDITOR",
+  "description": "Auditoría del sistema"
+}
+
+### Patch role fields
+PATCH {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "description": "Auditoría de operaciones"
+}
+
+### Deactivate role
+PATCH {{baseUrl}}/roles/{{roleId}}/deactivate
+Authorization: Bearer {{accessToken}}
+
+### Permanently delete role
+DELETE {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{accessToken}}
