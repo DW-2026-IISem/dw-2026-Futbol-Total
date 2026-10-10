@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:3002/api
+@accessToken = REPLACE_WITH_A_VALID_ACCESS_TOKEN
+@roleId = 1
+
+### List active roles
+GET {{baseUrl}}/roles
+Authorization: Bearer {{accessToken}}
+
+### Get one active role
+GET {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{accessToken}}
