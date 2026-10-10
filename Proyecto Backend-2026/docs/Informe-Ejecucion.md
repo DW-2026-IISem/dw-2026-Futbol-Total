@@ -4430,3 +4430,14 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** controller implementado en el commit local de este paso. Las rutas JWT y su registro en la aplicación siguen pendientes.
+
+**Evidencia recibida:**
+
+![Controller de RefreshTokens que opera sobre las sesiones del usuario autenticado](trazabilidad/E-ISS14-P19-04-refresh-tokens-controller.png)
+
+### Paso 95 — Registrar rutas JWT de RefreshTokens *(ISS-14, 19.4 en curso)*
+
+**Acción:** añadí las rutas para listar, consultar, revocar y purgar sesiones propias. Cada endpoint utiliza `authenticate` sin `authorize`; registré las rutas en `Routes` y en la configuración Express. La ruta literal `deactivate-all` queda antes de la ruta parametrizada.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas registradas en la aplicación en el commit local de este paso.
