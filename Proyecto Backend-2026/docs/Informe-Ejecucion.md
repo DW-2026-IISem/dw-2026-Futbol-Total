@@ -3797,3 +3797,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa el montaje de resourcesRoutes en la aplicación Express](trazabilidad/E-ISS11-P16-34-resources-express-mount.png)
+
+### Paso 54 — Integrar Resources en el runner de seeders *(ISS-11, integración en curso)*
+
+**Referencia:** `src/database/seeders/index.ts`.
+
+**Acción:** añadí la importación y ejecución de `seedResources()` después de `seedRoles()` en el runner general.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** integración implementada y guardada en el commit local `ee579dd`. El runner no se ejecutó para preservar los datos existentes.
+
+**Evidencia recibida:**
+
+![En esta captura se observa seedResources integrado en el runner general de seeders](trazabilidad/E-ISS11-P16-35-resources-seeder-runner.png)
