@@ -4186,8 +4186,8 @@ src/features/auth/users/http/users.write.http
 
 - **Resultado del runner:** finalizó correctamente. Informó `ADMIN -> 58 recursos (58 altas, 0 bajas)` y `SELLER -> 7 recursos (7 altas, 0 bajas)`.
 - **Verificación SQL observada:** `ADMIN` tiene 58 concesiones activas, `SELLER` tiene 7 y el total de `resource_roles` activas es 65.
-- **Asignaciones RoleUsers:** no registro un resultado porque la captura de esa consulta no muestra un valor legible.
-- **Estado:** matriz de permisos verificada con los conteos esperados; queda pendiente capturar el resultado de `role_users` y ejecutar las solicitudes HTTP.
+- **Verificación SQL de RoleUsers:** hay 2 asignaciones activas.
+- **Estado:** los conteos de la matriz RBAC están verificados; queda ejecutar las solicitudes HTTP.
 
 **Evidencia recibida:**
 
@@ -4198,3 +4198,5 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa la consulta SQL que confirma 58 permisos activos para ADMIN y 7 para SELLER](trazabilidad/E-ISS12-P17-28-matrix-counts.png)
 
 ![En esta captura se observa el total de 65 concesiones ResourceRoles activas](trazabilidad/E-ISS12-P17-28-active-counts.png)
+
+![En esta captura se observa el resultado de 2 asignaciones RoleUsers activas](trazabilidad/E-ISS12-P17-29-active-role-users.png)
