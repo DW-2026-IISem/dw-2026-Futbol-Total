@@ -3478,3 +3478,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las reglas y operaciones principales de RolesService](trazabilidad/E-ISS11-P16-07-roles-service.png)
+
+### Paso 32 — Implementar RolesController *(ISS-11, 16.2 en curso)*
+
+**Referencia:** ISS-11, sección 16.2 — `roles.controller.ts`.
+
+**Acción:** conecté las operaciones HTTP de Roles con `RolesService` mediante `BaseController`, con respuestas para listar, consultar, crear, actualizar con PUT/PATCH, desactivar y eliminar físicamente.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** archivo `roles.controller.ts` implementado; falta registrar las rutas protegidas de Roles para completar 16.2.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las operaciones HTTP del controller de Roles](trazabilidad/E-ISS11-P16-08-roles-controller.png)
