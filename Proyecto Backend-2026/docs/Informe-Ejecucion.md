@@ -4415,3 +4415,11 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** service implementado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![RefreshTokensService con gestión de sesiones propias y tipos del ciclo de rotación](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-session-management.png)
+
+![Emisión y rotación transaccional de refresh tokens con detección de reutilización](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-issue-rotate.png)
+
+![Rotación, revocación y control de pertenencia de las sesiones](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-revoke.png)
