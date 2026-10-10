@@ -3861,3 +3861,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las exportaciones de los DTOs de RoleUsers](trazabilidad/E-ISS12-P17-03-role-user-dto-index.png)
+
+### Paso 59 — Implementar RoleUsersRepository *(ISS-12, 17.2 en curso)*
+
+**Referencia:** ISS-12, sección 17.2 — `role-users/role-users.repository.ts`.
+
+**Acción:** implementé las consultas y persistencia de asignaciones, incluyendo resúmenes asociados de usuario y rol; la proyección del usuario excluye la contraseña y las operaciones admiten transacciones.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** repositorio implementado y guardado en el commit local `0db0334`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa RoleUsersRepository con asociaciones seguras, consultas y operaciones transaccionales](trazabilidad/E-ISS12-P17-04-role-users-repository.png)
