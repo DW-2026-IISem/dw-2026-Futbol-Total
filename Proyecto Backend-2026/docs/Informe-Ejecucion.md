@@ -3889,3 +3889,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las dependencias y la asignación idempotente de RoleUsersService](trazabilidad/E-ISS12-P17-05-role-users-service-01.png)
 
 ![En esta captura se observan la baja lógica, reactivación y validación de asignaciones](trazabilidad/E-ISS12-P17-05-role-users-service-02.png)
+
+### Paso 61 — Implementar RoleUsersController *(ISS-12, 17.2 en curso)*
+
+**Referencia:** ISS-12, sección 17.2 — `role-users/role-users.controller.ts`.
+
+**Acción:** conecté las operaciones HTTP para consultar, asignar, retirar y reactivar roles mediante el servicio, devolviendo respuestas con los códigos HTTP correspondientes.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** controller implementado y guardado en el commit local `781724e`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las operaciones del controller de RoleUsers](trazabilidad/E-ISS12-P17-06-role-users-controller.png)
