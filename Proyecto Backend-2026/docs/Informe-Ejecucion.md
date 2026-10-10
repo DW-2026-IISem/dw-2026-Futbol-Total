@@ -3601,6 +3601,19 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observan el tipo ResourceResponseDto y su mapper desde el modelo](trazabilidad/E-ISS11-P16-22-resource-response-dto.png)
 
+### Paso 43 — Exportar DTOs de Resources *(ISS-11, 16.4 en curso)*
+
+**Referencia:** ISS-11, sección 16.4 — `resources/dto/index.ts`.
+
+**Acción:** añadí el barrel de exportación para los DTOs de creación, actualización, actualización parcial y respuesta de Resources.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** contratos DTO del feature Resources implementados y exportados.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las exportaciones de los cuatro DTOs de Resources](trazabilidad/E-ISS11-P16-23-resource-dto-index.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
