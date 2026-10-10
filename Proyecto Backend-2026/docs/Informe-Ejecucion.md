@@ -3323,6 +3323,14 @@ deletePhysical(req, res)
 - **Archivos:** `src/features/auth/access/authenticate.middleware.ts`, `authorize.middleware.ts`, `index.ts`; `src/features/auth/users/users.routes.ts`; integración en `src/routes/index.ts` y `src/config/index.ts`.
 - **Estado:** paso 15.5 implementado. La autorización requiere concesiones activas en RBAC; los usuarios/roles canónicos se incorporan en 15.6 y los roles con permisos en ISS-11/12.
 
+**Evidencias recibidas:**
+
+![En esta captura se observa el middleware que valida el Bearer y establece el usuario autenticado](trazabilidad/E-ISS10-P15-21-authenticate-middleware.png)
+
+![En esta captura se observa el barrel que exporta los middlewares de acceso](trazabilidad/E-ISS10-P15-22-access-barrel.png)
+
+![En esta captura se observa el middleware de autorización con denegación por defecto](trazabilidad/E-ISS10-P15-34-authorize-middleware.png)
+
 ### Paso 26 — Crear usuarios canónicos *(ISS-10, 15.6 implementado)*
 
 **Referencia:** ISS-10, sección 15.6 — `users.seeder.ts`.
@@ -3337,6 +3345,10 @@ deletePhysical(req, res)
 
 - **Validación funcional pendiente del usuario:** cargar las dos variables privadas localmente y ejecutar `npm run db:seed:users`. Este comando solo sincroniza los modelos registrados para Users y crea/activa esos usuarios; no ejecuta los seeders de negocio. El comando general `npm run db:seed` también está disponible si se desean ejecutar todos los seeders.
 - **Estado:** paso 15.6 implementado; las asignaciones de roles y recursos quedan para ISS-11/12.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el seeder idempotente para los usuarios canónicos admin y seller](trazabilidad/E-ISS10-P15-23-users-seeder.png)
 
 ### Paso 27 — Documentar Users en OpenAPI *(ISS-10, 15.7 implementado)*
 
@@ -3353,6 +3365,22 @@ deletePhysical(req, res)
 - **Integración:** `src/swagger/index.ts` agrega el módulo Users y combina sus esquemas de seguridad con los esquemas de los demás features.
 - **Estado:** paso 15.7 implementado.
 
+**Evidencias recibidas:**
+
+![En esta captura se observa la configuración inicial del módulo Swagger para Users](trazabilidad/E-ISS10-P15-24-users-swagger-setup.png)
+
+![En esta captura se observan los esquemas OpenAPI de CRUD de Users](trazabilidad/E-ISS10-P15-25-users-swagger-crud.png)
+
+![En esta captura se observan los endpoints protegidos para desactivar, cambiar contraseña y consultar permisos](trazabilidad/E-ISS10-P15-26-users-swagger-actions.png)
+
+![En esta captura se observan los esquemas OpenAPI de Users y la seguridad Bearer](trazabilidad/E-ISS10-P15-27-users-swagger-schemas.png)
+
+![En esta captura se observa Swagger UI con la documentación de la API](trazabilidad/E-ISS10-P15-28-swagger-ui-overview.png)
+
+![En esta captura se observan los módulos documentados en Swagger UI](trazabilidad/E-ISS10-P15-29-swagger-ui-modules.png)
+
+![En esta captura se observan las nueve operaciones de Users marcadas como protegidas](trazabilidad/E-ISS10-P15-30-swagger-users-protected.png)
+
 ### Paso 28 — Preparar solicitudes HTTP de Users *(ISS-10, 15.8 implementado)*
 
 **Referencia:** ISS-10, sección 15.8 — pruebas HTTP.
@@ -3368,3 +3396,13 @@ src/features/auth/users/http/users.write.http
 
 - **Nota de ejecución:** las operaciones protegidas requieren un JWT y concesiones activas para los recursos de Users. El login que emite el token y las asignaciones de permisos corresponden a ISS-12/15; se puede comprobar desde ahora que una petición sin token responde 401.
 - **Estado:** paso 15.8 implementado; la verificación funcional autenticada queda pendiente de integrar los pasos que habilitan JWT y RBAC.
+
+**Evidencias recibidas:**
+
+![En esta captura se observan las solicitudes HTTP de lectura de Users con autenticación Bearer](trazabilidad/E-ISS10-P15-31-users-http-get.png)
+
+![En esta captura se observa el backend iniciado y escuchando en el puerto local configurado](trazabilidad/E-ISS10-P15-32-server-running-users-http.png)
+
+![En esta captura se observan las solicitudes HTTP de escritura para Users](trazabilidad/E-ISS10-P15-33-users-http-write.png)
+
+**Nota de privacidad:** no se archivó la captura que tenía abierto `.env`; para conservar evidencia del 401 sin exponer configuración local, se solicitará una captura separada de la terminal y el comando HTTP.
