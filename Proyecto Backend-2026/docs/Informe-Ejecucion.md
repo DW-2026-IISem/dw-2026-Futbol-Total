@@ -3529,3 +3529,7 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las respuestas documentadas y los endpoints de Roles con seguridad Bearer](trazabilidad/E-ISS11-P16-11-roles-swagger-endpoints.png)
+
+**Integración en Swagger:**
+
+![En esta captura se observa la importación de rolesSwagger y su registro entre los módulos del documento compuesto](trazabilidad/E-ISS11-P16-12-swagger-roles-integration.png)
