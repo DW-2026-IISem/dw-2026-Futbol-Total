@@ -1,18 +1,19 @@
 @baseUrl = http://localhost:3002/api
-@accessToken = REPLACE_WITH_A_VALID_ACCESS_TOKEN
+@adminToken = REPLACE_WITH_ADMIN_ACCESS_TOKEN
+@sellerToken = REPLACE_WITH_SELLER_ACCESS_TOKEN
 @roleId = 1
 
-### List active roles
+### List active roles as ADMIN
 GET {{baseUrl}}/roles
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
 
-### Get one active role
+### Get one active role as ADMIN
 GET {{baseUrl}}/roles/{{roleId}}
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
 
-### Create role
+### Create role as ADMIN
 POST {{baseUrl}}/roles
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
@@ -21,9 +22,9 @@ Content-Type: application/json
   "status": "active"
 }
 
-### Replace role fields
+### Replace role fields as ADMIN
 PUT {{baseUrl}}/roles/{{roleId}}
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
@@ -31,19 +32,23 @@ Content-Type: application/json
   "description": "Auditoría del sistema"
 }
 
-### Patch role fields
+### Patch role fields as ADMIN
 PATCH {{baseUrl}}/roles/{{roleId}}
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
   "description": "Auditoría de operaciones"
 }
 
-### Deactivate role
+### Deactivate role as ADMIN
 PATCH {{baseUrl}}/roles/{{roleId}}/deactivate
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
 
-### Permanently delete role
+### Permanently delete role as ADMIN
 DELETE {{baseUrl}}/roles/{{roleId}}
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer {{adminToken}}
+
+### SELLER should be forbidden from listing roles (expect 403)
+GET {{baseUrl}}/roles
+Authorization: Bearer {{sellerToken}}
