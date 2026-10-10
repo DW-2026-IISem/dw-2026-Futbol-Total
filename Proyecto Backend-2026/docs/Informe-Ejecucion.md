@@ -4071,3 +4071,20 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan los endpoints de ResourceRoles protegidos por autenticación y autorización](trazabilidad/E-ISS12-P17-19-resource-roles-routes.png)
+
+### Paso 73 — Registrar y montar rutas de RoleUsers y ResourceRoles *(ISS-12, 17.5 en curso)*
+
+**Referencia:** ISS-12, sección 17.5 — `routes/index.ts` y `config/index.ts`.
+
+**Acción:** registré las clases `RoleUsersRoutes` y `ResourceRolesRoutes` en el contenedor de rutas y monté ambos conjuntos de endpoints en la aplicación. Esto permite que las rutas protegidas implementadas estén disponibles en Express.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** integración guardada en el commit local `444790a`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las importaciones y las instancias de rutas de RoleUsers y ResourceRoles](trazabilidad/E-ISS12-P17-20-routes-registry.png)
+
+![En esta captura se observan las importaciones de modelos y asociaciones requeridas por la aplicación](trazabilidad/E-ISS12-P17-20-app-route-mounts-01.png)
+
+![En esta captura se observa el montaje de las rutas RoleUsers y ResourceRoles en Express](trazabilidad/E-ISS12-P17-20-app-route-mounts-02.png)
