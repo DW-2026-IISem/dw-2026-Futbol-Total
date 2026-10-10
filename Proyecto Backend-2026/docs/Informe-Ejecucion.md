@@ -3708,3 +3708,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las operaciones de consulta, creación y actualización de Resources](trazabilidad/E-ISS11-P16-27-resources-controller-01.png)
 
 ![En esta captura se observan las operaciones de eliminación física y lógica de Resources](trazabilidad/E-ISS11-P16-27-resources-controller-02.png)
+
+### Paso 48 — Definir las rutas protegidas de Resources *(ISS-11, 16.5 en curso)*
+
+**Referencia:** ISS-11, sección 16.5 — `resources/resources.routes.ts`.
+
+**Acción:** registré las siete operaciones HTTP del feature Resources y protegí cada ruta con autenticación JWT (`authenticate`) y autorización RBAC (`authorize`).
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas implementadas y guardadas en el commit local `12bd925`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan los endpoints de Resources y sus middlewares de autenticación y autorización](trazabilidad/E-ISS11-P16-28-resources-routes.png)
