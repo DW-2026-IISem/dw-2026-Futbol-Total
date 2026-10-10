@@ -4162,3 +4162,18 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las solicitudes HTTP de RoleUsers con variables de token e identificadores](trazabilidad/E-ISS12-P17-25-role-users-http.png)
+
+### Paso 77 — Preparar solicitudes HTTP de ResourceRoles *(ISS-12, 17.8 en curso)*
+
+**Referencia:** ISS-12, sección 17.8 — `resource-roles/http/resource-roles.http`.
+
+**Acción:** preparé solicitudes para listar y filtrar concesiones por rol o recurso, consultar una concesión, conceder un recurso, observar el conflicto esperado si ya está activo, desactivar y reactivar la concesión, y comprobar el acceso denegado esperado para SELLER. El archivo utiliza marcadores para tokens e identificadores.
+
+- **Estado:** archivo creado y guardado en el commit local `03df9b6`.
+- **Ejecución:** las solicitudes no se han ejecutado; requieren valores válidos para las variables. El resultado 403 para SELLER se mantiene como esperado, no como verificado.
+
+**Evidencia recibida:**
+
+![En esta captura se observan el listado, los filtros y las solicitudes de concesión de ResourceRoles](trazabilidad/E-ISS12-P17-26-resource-roles-http-01.png)
+
+![En esta captura se observan la baja, reactivación y comprobación de acceso para SELLER](trazabilidad/E-ISS12-P17-26-resource-roles-http-02.png)
