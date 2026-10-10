@@ -3252,3 +3252,30 @@ deleteLogical(id: number): Promise<UserResponseDto>
 ![En esta captura se observan las operaciones de actualización completa y parcial del usuario](trazabilidad/E-ISS10-P15-10-users-service-update.png)
 
 ![En esta captura se observan el cambio de contraseña, la desactivación y las validaciones del service](trazabilidad/E-ISS10-P15-11-users-service-password-delete-validation.png)
+
+### Paso 24 — Implementar el controller de Users *(ISS-10, 15.4 completado)*
+
+**Referencia:** ISS-10, sección 15.4 — `users.controller.ts`.
+
+**Acción:** conecté los métodos HTTP del feature con `UsersService`, reutilizando `BaseController` para validar ids y traducir errores. El controller responde con la envoltura JSON `{ users }` o `{ user }`, usa `201` al crear y `200` para consultas y modificaciones; el cambio de contraseña y la desactivación responden con un mensaje explícito.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/features/auth/users/users.controller.ts
+```
+
+**Operaciones expuestas por el controller:**
+
+```typescript
+getAll(req, res)
+getOne(req, res)
+create(req, res)
+updatePut(req, res)
+updatePatch(req, res)
+changePassword(req, res)
+deleteLogical(req, res)
+```
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** paso 15.4 implementado. El cableado HTTP y la autorización se incorporan en los pasos de rutas correspondientes.
