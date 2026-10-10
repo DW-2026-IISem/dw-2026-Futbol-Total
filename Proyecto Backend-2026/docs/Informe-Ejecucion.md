@@ -3835,3 +3835,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa CreateRoleUserDto con los identificadores de usuario y rol](trazabilidad/E-ISS12-P17-01-create-role-user-dto.png)
+
+### Paso 57 — Definir RoleUserResponseDto *(ISS-12, 17.1 en curso)*
+
+**Referencia:** ISS-12, sección 17.1 — `role-users/dto/role-user-response.dto.ts`.
+
+**Acción:** definí el DTO de respuesta de la asignación usuario-rol y su mapper desde el modelo, con resúmenes opcionales de usuario y rol.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO implementado y guardado en el commit local `1d01990`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa RoleUserResponseDto y el mapper desde el modelo](trazabilidad/E-ISS12-P17-02-role-user-response-dto.png)
