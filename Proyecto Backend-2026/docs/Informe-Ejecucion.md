@@ -3545,6 +3545,10 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observan los roles ADMIN y SELLER y el seeder idempotente](trazabilidad/E-ISS11-P16-10-roles-seeder.png)
 
+**Integración en el runner general:**
+
+![En esta captura se observa la importación y la ejecución de seedRoles dentro del runner general](trazabilidad/E-ISS11-P16-16-roles-seeder-runner.png)
+
 ### Paso 35 — Documentar endpoints de Roles en Swagger *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.swagger.ts`.
