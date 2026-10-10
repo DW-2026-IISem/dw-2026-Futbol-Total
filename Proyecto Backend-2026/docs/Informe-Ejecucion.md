@@ -3823,6 +3823,16 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observan las solicitudes de Roles con tokens separados y la comprobación 403 para SELLER](trazabilidad/E-ISS11-P16-36-roles-http-admin-seller.png)
 
+## ISS-12 — Features RoleUsers y ResourceRoles
+
+**Objetivo:** implementar las asignaciones de roles a usuarios y las concesiones de recursos a roles para materializar el modelo de autorización RBAC.
+
+**Referencia:** `docs/ISS/ISS-12-auth-role-users-resource-roles.md`, secciones 17.1–17.8.
+
+**Dependencia:** ISS-11 — Features Roles y Resources.
+
+**Estado:** en curso; las pruebas HTTP y la verificación funcional de la matriz en base de datos siguen pendientes.
+
 ### Paso 56 — Definir CreateRoleUserDto *(ISS-12, 17.1 en curso)*
 
 **Referencia:** ISS-12, sección 17.1 — `role-users/dto/create-role-user.dto.ts`.
@@ -4102,3 +4112,11 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa el seeder de la matriz de permisos para ADMIN y SELLER](trazabilidad/E-ISS12-P17-21-resource-roles-seeder.png)
+
+**Integración en el runner general de seeders:**
+
+- **Acción:** registré `seedResourceRoles()` después de `seedResources()` y `seedRoleUsers()` en el runner general.
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** integración guardada en el commit local `18fc79d`. El runner no se ha ejecutado.
+
+![En esta captura se observa la importación y ejecución de seedResourceRoles al final del runner general](trazabilidad/E-ISS12-P17-22-resource-roles-seeder-runner.png)
