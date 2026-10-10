@@ -3934,3 +3934,20 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa la importación de seedRoleUsers en el runner general](trazabilidad/E-ISS12-P17-09-role-users-seeder-runner-01.png)
 
 ![En esta captura se observa la ejecución de seedRoleUsers después de crear usuarios, roles y recursos](trazabilidad/E-ISS12-P17-09-role-users-seeder-runner-02.png)
+
+### Paso 64 — Documentar RoleUsers en Swagger *(ISS-12, 17.3 en curso)*
+
+**Referencia:** ISS-12, sección 17.3 — `role-users/role-users.swagger.ts`.
+
+**Acción:** documenté las operaciones protegidas de RoleUsers, la semántica idempotente de asignación/reactivación, los esquemas de respuesta y creación y las respuestas de error con seguridad Bearer.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** módulo Swagger implementado y guardado en el commit local `d9e4896`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa la definición base y el listado de asignaciones RoleUsers](trazabilidad/E-ISS12-P17-10-role-users-swagger-01.png)
+
+![En esta captura se observan los endpoints de asignación y consulta de RoleUsers](trazabilidad/E-ISS12-P17-10-role-users-swagger-02.png)
+
+![En esta captura se observan la reactivación y los esquemas de RoleUser](trazabilidad/E-ISS12-P17-10-role-users-swagger-03.png)
