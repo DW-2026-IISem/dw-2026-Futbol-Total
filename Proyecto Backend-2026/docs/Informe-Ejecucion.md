@@ -3970,3 +3970,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa CreateResourceRoleDto con los identificadores del rol y del recurso](trazabilidad/E-ISS12-P17-12-create-resource-role-dto.png)
+
+### Paso 66 — Definir ListResourceRolesDto *(ISS-12, 17.4 en curso)*
+
+**Referencia:** ISS-12, sección 17.4 — `resource-roles/dto/list-resource-roles.dto.ts`.
+
+**Acción:** definí los filtros opcionales `role_id` y `resource_id` para consultar concesiones de recursos.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO creado y guardado en el commit local `489848c`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa ListResourceRolesDto con filtros opcionales por rol y recurso](trazabilidad/E-ISS12-P17-13-list-resource-roles-dto.png)
