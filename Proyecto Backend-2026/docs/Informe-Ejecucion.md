@@ -3403,7 +3403,8 @@ src/features/auth/users/http/users.write.http
 ```
 
 - **Nota de ejecución:** las operaciones protegidas requieren un JWT y concesiones activas para los recursos de Users. El login que emite el token y las asignaciones de permisos corresponden a ISS-12/15; se puede comprobar desde ahora que una petición sin token responde 401.
-- **Estado:** paso 15.8 implementado; la verificación funcional autenticada queda pendiente de integrar los pasos que habilitan JWT y RBAC.
+- **Verificación sin credenciales:** `curl -i http://localhost:3002/api/usuarios` devolvió `401 Unauthorized` con el error de Bearer faltante o inválido.
+- **Estado:** paso 15.8 implementado y rechazo de solicitudes anónimas verificado; la verificación funcional autenticada queda pendiente de integrar los pasos que habilitan login JWT y concesiones RBAC.
 
 **Evidencias recibidas:**
 
@@ -3412,5 +3413,7 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa el backend iniciado y escuchando en el puerto local configurado](trazabilidad/E-ISS10-P15-32-server-running-users-http.png)
 
 ![En esta captura se observan las solicitudes HTTP de escritura para Users](trazabilidad/E-ISS10-P15-33-users-http-write.png)
+
+![En esta captura se observa que GET /api/usuarios sin Bearer token responde 401 Unauthorized](trazabilidad/E-ISS10-P15-38-users-unauthenticated-401.png)
 
 **Nota de privacidad:** no se archivó la captura que tenía abierto `.env`; para conservar evidencia del 401 sin exponer configuración local, se solicitará una captura separada de la terminal y el comando HTTP.
