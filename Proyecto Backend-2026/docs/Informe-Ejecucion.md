@@ -4009,3 +4009,20 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las exportaciones de los tres DTOs de ResourceRoles](trazabilidad/E-ISS12-P17-15-resource-role-dto-index.png)
+
+### Paso 69 — Implementar ResourceRolesRepository *(ISS-12, 17.5 en curso)*
+
+**Referencia:** ISS-12, sección 17.5 — `resource-roles/resource-roles.repository.ts`.
+
+**Acción:** implementé consultas de concesiones con filtros y asociaciones de rol/recurso, búsquedas por identificador o pareja, operaciones de creación y actualización, permisos efectivos de usuario y conteos para la reconciliación.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** repository creado y guardado en el commit local `b473b5d`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa la estructura inicial y las consultas filtradas del repository](trazabilidad/E-ISS12-P17-16-resource-roles-repository-01.png)
+
+![En esta captura se observan las búsquedas, persistencia y consulta de permisos efectivos](trazabilidad/E-ISS12-P17-16-resource-roles-repository-02.png)
+
+![En esta captura se observa el mapeo de permisos efectivos y los conteos del repository](trazabilidad/E-ISS12-P17-16-resource-roles-repository-03.png)
