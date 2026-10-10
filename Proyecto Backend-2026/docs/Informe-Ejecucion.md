@@ -3957,3 +3957,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa la importación de roleUsersSwagger en el documento compuesto](trazabilidad/E-ISS12-P17-11-role-users-swagger-integration-01.png)
 
 ![En esta captura se observa el registro de roleUsersSwagger en la lista de módulos OpenAPI](trazabilidad/E-ISS12-P17-11-role-users-swagger-integration-02.png)
+
+### Paso 65 — Definir CreateResourceRoleDto *(ISS-12, 17.4 en curso)*
+
+**Referencia:** ISS-12, sección 17.4 — `resource-roles/dto/create-resource-role.dto.ts`.
+
+**Acción:** definí el contrato para conceder un recurso a un rol mediante `role_id` y `resource_id`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO creado y guardado en el commit local `f019e02`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa CreateResourceRoleDto con los identificadores del rol y del recurso](trazabilidad/E-ISS12-P17-12-create-resource-role-dto.png)
