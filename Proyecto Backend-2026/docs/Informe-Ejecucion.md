@@ -4465,3 +4465,7 @@ src/features/auth/users/http/users.write.http
 
 - **Ejecución:** aplazada hasta ISS-15, cuando exista el endpoint de login. No se han ejecutado estas solicitudes.
 - **Estado:** archivo HTTP preparado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Archivo sessions.get.http con las solicitudes de sesiones propias y autenticación Bearer preparadas](trazabilidad/E-ISS14-P19-06-sessions-http-preparado.png)
