@@ -4441,3 +4441,18 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** rutas registradas en la aplicación en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Rutas JWT de RefreshTokens para listar, consultar, revocar y purgar sesiones propias](trazabilidad/E-ISS14-P19-04-refresh-tokens-routes.png)
+
+### Paso 96 — Documentar RefreshTokens en Swagger *(ISS-14, 19.5 en curso)*
+
+**Acción:** documenté las rutas JWT de sesiones propias, sus respuestas y el esquema `Session`, sin exponer `token_hash`. Registré el módulo en OpenAPI y actualicé la descripción general de Swagger para reflejar la autenticación JWT y autorización RBAC del backend.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** Swagger de RefreshTokens registrado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Rutas JWT de RefreshTokens para listar, consultar, revocar y purgar sesiones propias](trazabilidad/E-ISS14-P19-04-refresh-tokens-routes.png)

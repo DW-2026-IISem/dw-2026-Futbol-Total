@@ -10,6 +10,7 @@ import { rolesSwagger } from "../features/auth/roles/roles.swagger";
 import { resourcesSwagger } from "../features/auth/resources/resources.swagger";
 import { roleUsersSwagger } from "../features/auth/role-users/role-users.swagger";
 import { resourceRolesSwagger } from "../features/auth/resource-roles/resource-roles.swagger";
+import { refreshTokensSwagger } from "../features/auth/refresh-tokens/refresh-tokens.swagger";
 
 export type FeatureSwaggerModule = {
   tags: unknown[];
@@ -31,6 +32,7 @@ const featureSwaggerModules: FeatureSwaggerModule[] = [
   resourcesSwagger,
   roleUsersSwagger,
   resourceRolesSwagger,
+  refreshTokensSwagger,
 ];
 
 export function buildOpenApiDocument() {
@@ -56,7 +58,7 @@ export function buildOpenApiDocument() {
       title: "Pedalibre API",
       version: "1.0.0",
       description:
-        "API del backend de Pedalibre con documentación OpenAPI. Los endpoints del negocio se registran sin autenticación en este laboratorio.",
+        "API del backend de Pedalibre con documentación OpenAPI, autenticación JWT y autorización RBAC.",
     },
     servers: [
       {
