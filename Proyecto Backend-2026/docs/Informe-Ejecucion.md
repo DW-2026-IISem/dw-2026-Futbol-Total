@@ -3831,7 +3831,7 @@ src/features/auth/users/http/users.write.http
 
 **Dependencia:** ISS-11 — Features Roles y Resources.
 
-**Estado:** en curso; las pruebas HTTP y la verificación funcional de la matriz en base de datos siguen pendientes.
+**Estado:** matriz RBAC verificada en la base de datos; la ejecución de las solicitudes HTTP protegidas se aplaza hasta ISS-15, cuando exista el endpoint de login.
 
 ### Paso 56 — Definir CreateRoleUserDto *(ISS-12, 17.1 en curso)*
 
