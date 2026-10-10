@@ -3575,6 +3575,19 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observa UpdateResourceDto restringido a método, ruta y descripción](trazabilidad/E-ISS11-P16-20-update-resource-dto.png)
 
+### Paso 41 — Definir PatchResourceDto *(ISS-11, 16.4 en curso)*
+
+**Referencia:** ISS-11, sección 16.4 — `resources/dto/patch-resource.dto.ts`.
+
+**Acción:** definí `PatchResourceDto` como la versión parcial de `UpdateResourceDto`, de modo que cada campo puede actualizarse de forma independiente.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO de actualización parcial implementado.
+
+**Evidencia recibida:**
+
+![En esta captura se observa PatchResourceDto como tipo parcial de UpdateResourceDto](trazabilidad/E-ISS11-P16-21-patch-resource-dto.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
