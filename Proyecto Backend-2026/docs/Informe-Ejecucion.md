@@ -4139,3 +4139,13 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las rutas de consulta, baja y reactivación junto con los esquemas](trazabilidad/E-ISS12-P17-23-resource-roles-swagger-03.png)
 
 ![En esta captura se observan los esquemas de respuesta y creación de ResourceRoles](trazabilidad/E-ISS12-P17-23-resource-roles-swagger-04.png)
+
+**Integración en el documento OpenAPI compuesto:**
+
+- **Acción:** importé `resourceRolesSwagger` y lo incluí en `featureSwaggerModules` para agregar sus tags, paths, esquemas y seguridad al documento OpenAPI.
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** integración incluida en el commit local `298155f`.
+
+![En esta captura se observa la importación de resourceRolesSwagger y su inclusión entre los módulos OpenAPI](trazabilidad/E-ISS12-P17-24-resource-roles-swagger-integration-01.png)
+
+![En esta captura se observa la lista de módulos Swagger procesada al construir el documento OpenAPI](trazabilidad/E-ISS12-P17-24-resource-roles-swagger-integration-02.png)
