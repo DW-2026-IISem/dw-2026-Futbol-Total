@@ -4336,3 +4336,14 @@ src/features/auth/users/http/users.write.http
 | OPEN | Ninguno | Ninguno | — |
 | JWT | `authenticate` | Token válido y usuario activo | 401 |
 | JWT + RBAC | `authenticate`, `authorize` | Token válido, usuario activo y concesión para `(method, path)` | 401 sin autenticación; 403 sin permiso |
+
+### Paso 88 — Verificar respuesta 401 sin token *(ISS-13, 18.6 en curso)*
+
+**Acción:** ejecuté `curl -i http://localhost:3002/api/clientes` sin encabezado `Authorization`.
+
+- **Resultado observado:** `HTTP/1.1 401 Unauthorized`; el cuerpo indica `Missing or invalid Bearer token`.
+- **Estado:** verificada la respuesta para una petición sin token. Las verificaciones con token válido, token manipulado y autorización RBAC quedan pendientes hasta disponer del flujo de login y tokens de ISS-15.
+
+**Evidencia recibida:**
+
+![La terminal muestra la solicitud a /api/clientes en el puerto 3002 y la respuesta HTTP 401 Unauthorized por falta de Bearer token](trazabilidad/E-ISS13-P18-09-clientes-401-sin-token.png)
