@@ -4045,3 +4045,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa el inicio de la reconciliación transaccional de permisos](trazabilidad/E-ISS12-P17-17-resource-roles-service-03.png)
 
 ![En esta captura se observan el resultado de la reconciliación y las consultas auxiliares](trazabilidad/E-ISS12-P17-17-resource-roles-service-04.png)
+
+### Paso 71 — Implementar ResourceRolesController *(ISS-12, 17.5 en curso)*
+
+**Referencia:** ISS-12, sección 17.5 — `resource-roles/resource-roles.controller.ts`.
+
+**Acción:** expuse los handlers para listar concesiones filtradas, consultar una concesión, conceder un recurso y desactivar o reactivar el permiso. Los filtros de consulta inválidos se responden con error 400.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** controller creado y guardado en el commit local `469cfa4`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan los handlers y la validación de filtros de ResourceRolesController](trazabilidad/E-ISS12-P17-18-resource-roles-controller.png)
