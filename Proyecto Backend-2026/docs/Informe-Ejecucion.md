@@ -3817,7 +3817,7 @@ src/features/auth/users/http/users.write.http
 
 **Acción:** separé los tokens de prueba de ADMIN y SELLER, identifiqué las solicitudes administrativas y añadí una petición de listado de Roles que debe responder `403` para SELLER.
 
-- **Estado:** archivo actualizado en el commit local `0d21a9e`. Los tokens son marcadores que deben reemplazarse antes de ejecutar la prueba.
+- **Estado:** archivo actualizado en el commit local `0d21a9e`. Los tokens son marcadores que deben reemplazarse antes de ejecutar la prueba; el `403` esperado para SELLER depende de las asignaciones y concesiones de ISS-12, por lo que no se reporta como resultado verificado en este paso.
 
 **Evidencia recibida:**
 
