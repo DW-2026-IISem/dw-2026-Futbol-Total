@@ -3810,3 +3810,15 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa seedResources integrado en el runner general de seeders](trazabilidad/E-ISS11-P16-35-resources-seeder-runner.png)
+
+### Paso 55 — Añadir comprobación de acceso de SELLER a Roles *(ISS-11, 16.7 en curso)*
+
+**Referencia:** ISS-11, sección 16.7 — `roles/http/roles.get.http`.
+
+**Acción:** separé los tokens de prueba de ADMIN y SELLER, identifiqué las solicitudes administrativas y añadí una petición de listado de Roles que debe responder `403` para SELLER.
+
+- **Estado:** archivo actualizado en el commit local `0d21a9e`. Los tokens son marcadores que deben reemplazarse antes de ejecutar la prueba.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las solicitudes de Roles con tokens separados y la comprobación 403 para SELLER](trazabilidad/E-ISS11-P16-36-roles-http-admin-seller.png)
