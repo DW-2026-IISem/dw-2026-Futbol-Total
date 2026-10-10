@@ -4120,3 +4120,22 @@ src/features/auth/users/http/users.write.http
 - **Estado:** integración guardada en el commit local `18fc79d`. El runner no se ha ejecutado.
 
 ![En esta captura se observa la importación y ejecución de seedResourceRoles al final del runner general](trazabilidad/E-ISS12-P17-22-resource-roles-seeder-runner.png)
+
+### Paso 75 — Documentar ResourceRoles en Swagger *(ISS-12, 17.7 en curso)*
+
+**Referencia:** ISS-12, sección 17.7 — `resource-roles/resource-roles.swagger.ts`.
+
+**Acción:** documenté los endpoints para listar, consultar, conceder, desactivar y reactivar concesiones, junto con sus filtros, respuestas, esquemas de rol/recurso y seguridad Bearer. El módulo ya está registrado en el documento OpenAPI compuesto.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** Swagger implementado e integrado en el commit local `298155f`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan el módulo, la seguridad Bearer y los filtros de listado](trazabilidad/E-ISS12-P17-23-resource-roles-swagger-01.png)
+
+![En esta captura se observan los contratos HTTP para listar y conceder recursos a roles](trazabilidad/E-ISS12-P17-23-resource-roles-swagger-02.png)
+
+![En esta captura se observan las rutas de consulta, baja y reactivación junto con los esquemas](trazabilidad/E-ISS12-P17-23-resource-roles-swagger-03.png)
+
+![En esta captura se observan los esquemas de respuesta y creación de ResourceRoles](trazabilidad/E-ISS12-P17-23-resource-roles-swagger-04.png)
