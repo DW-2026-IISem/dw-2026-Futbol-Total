@@ -4149,3 +4149,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa la importación de resourceRolesSwagger y su inclusión entre los módulos OpenAPI](trazabilidad/E-ISS12-P17-24-resource-roles-swagger-integration-01.png)
 
 ![En esta captura se observa la lista de módulos Swagger procesada al construir el documento OpenAPI](trazabilidad/E-ISS12-P17-24-resource-roles-swagger-integration-02.png)
+
+### Paso 76 — Preparar solicitudes HTTP de RoleUsers *(ISS-12, 17.8 en curso)*
+
+**Referencia:** ISS-12, sección 17.8 — `role-users/http/role-users.http`.
+
+**Acción:** preparé solicitudes para listar y consultar asignaciones, asignar un rol, comprobar el conflicto por asignación activa, desactivar y reactivar una asignación, y consultar los permisos efectivos del usuario. El archivo utiliza marcadores para el token y los identificadores.
+
+- **Estado:** archivo creado y guardado en el commit local `79626e2`.
+- **Ejecución:** las solicitudes no se han ejecutado; se requiere completar los marcadores con valores válidos.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las solicitudes HTTP de RoleUsers con variables de token e identificadores](trazabilidad/E-ISS12-P17-25-role-users-http.png)
