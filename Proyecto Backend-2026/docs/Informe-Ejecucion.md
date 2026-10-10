@@ -3491,3 +3491,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las operaciones HTTP del controller de Roles](trazabilidad/E-ISS11-P16-08-roles-controller.png)
+
+### Paso 33 — Registrar rutas protegidas de Roles *(ISS-11, 16.2 en curso)*
+
+**Referencia:** ISS-11, sección 16.2 — `roles.routes.ts`.
+
+**Acción:** registré las rutas de consulta, creación, actualización, desactivación lógica y eliminación física de Roles. Todas aplican `authenticate` y `authorize`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** archivo `roles.routes.ts` implementado. La integración en el registro principal de rutas se documentará al completar la configuración del feature.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las rutas de Roles y la cadena JWT + RBAC aplicada a cada operación](trazabilidad/E-ISS11-P16-09-roles-routes.png)
