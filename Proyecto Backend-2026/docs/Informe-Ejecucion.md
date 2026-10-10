@@ -4177,3 +4177,24 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan el listado, los filtros y las solicitudes de concesión de ResourceRoles](trazabilidad/E-ISS12-P17-26-resource-roles-http-01.png)
 
 ![En esta captura se observan la baja, reactivación y comprobación de acceso para SELLER](trazabilidad/E-ISS12-P17-26-resource-roles-http-02.png)
+
+### Paso 78 — Ejecutar el runner y verificar la matriz de permisos *(ISS-12, verificación 17.7–17.8 en curso)*
+
+**Referencia:** ISS-12, sección 17.8 — `npm run db:seed` y consultas SQL de verificación.
+
+**Acción:** ejecuté el runner general contra MySQL. Los seeders omitieron clientes, tipos de producto, productos, ventas y detalles que ya existían; reconciliaron la matriz RBAC. Después consulté las concesiones activas por rol y el total de concesiones activas.
+
+- **Resultado del runner:** finalizó correctamente. Informó `ADMIN -> 58 recursos (58 altas, 0 bajas)` y `SELLER -> 7 recursos (7 altas, 0 bajas)`.
+- **Verificación SQL observada:** `ADMIN` tiene 58 concesiones activas, `SELLER` tiene 7 y el total de `resource_roles` activas es 65.
+- **Asignaciones RoleUsers:** no registro un resultado porque la captura de esa consulta no muestra un valor legible.
+- **Estado:** matriz de permisos verificada con los conteos esperados; queda pendiente capturar el resultado de `role_users` y ejecutar las solicitudes HTTP.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el inicio de npm run db:seed, la conexión MySQL y la conservación de datos existentes](trazabilidad/E-ISS12-P17-27-seed-run-01.png)
+
+![En esta captura se observa la finalización del runner y la reconciliación de 58 recursos para ADMIN y 7 para SELLER](trazabilidad/E-ISS12-P17-27-seed-run-02.png)
+
+![En esta captura se observa la consulta SQL que confirma 58 permisos activos para ADMIN y 7 para SELLER](trazabilidad/E-ISS12-P17-28-matrix-counts.png)
+
+![En esta captura se observa el total de 65 concesiones ResourceRoles activas](trazabilidad/E-ISS12-P17-28-active-counts.png)
