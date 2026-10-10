@@ -4058,3 +4058,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan los handlers y la validación de filtros de ResourceRolesController](trazabilidad/E-ISS12-P17-18-resource-roles-controller.png)
+
+### Paso 72 — Definir rutas de ResourceRoles *(ISS-12, 17.5 en curso)*
+
+**Referencia:** ISS-12, sección 17.5 — `resource-roles/resource-roles.routes.ts`.
+
+**Acción:** definí los endpoints protegidos para consultar y conceder recursos a roles, consultar una concesión individual y desactivar o reactivar el permiso.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas creadas y guardadas en el commit local `8761d86`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan los endpoints de ResourceRoles protegidos por autenticación y autorización](trazabilidad/E-ISS12-P17-19-resource-roles-routes.png)
