@@ -3848,3 +3848,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa RoleUserResponseDto y el mapper desde el modelo](trazabilidad/E-ISS12-P17-02-role-user-response-dto.png)
+
+### Paso 58 — Exportar los DTOs de RoleUsers *(ISS-12, 17.1 en curso)*
+
+**Referencia:** ISS-12, sección 17.1 — `role-users/dto/index.ts`.
+
+**Acción:** añadí el barrel de exportación para `CreateRoleUserDto`, `RoleUserResponseDto` y su mapper.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTOs exportados y guardados en el commit local `01add73`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las exportaciones de los DTOs de RoleUsers](trazabilidad/E-ISS12-P17-03-role-user-dto-index.png)
