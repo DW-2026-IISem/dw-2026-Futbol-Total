@@ -3874,3 +3874,18 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa RoleUsersRepository con asociaciones seguras, consultas y operaciones transaccionales](trazabilidad/E-ISS12-P17-04-role-users-repository.png)
+
+### Paso 60 — Implementar RoleUsersService *(ISS-12, 17.2 en curso)*
+
+**Referencia:** ISS-12, sección 17.2 — `role-users/role-users.service.ts`.
+
+**Acción:** implementé la asignación usuario-rol con validación de estado activo para usuario y rol; una asignación inactiva se reactiva, una asignación activa devuelve conflicto y la retirada conserva el registro mediante baja lógica.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** servicio implementado y guardado en el commit local `7d4529b`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las dependencias y la asignación idempotente de RoleUsersService](trazabilidad/E-ISS12-P17-05-role-users-service-01.png)
+
+![En esta captura se observan la baja lógica, reactivación y validación de asignaciones](trazabilidad/E-ISS12-P17-05-role-users-service-02.png)
