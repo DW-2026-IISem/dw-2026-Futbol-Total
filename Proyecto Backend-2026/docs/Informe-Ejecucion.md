@@ -4452,7 +4452,3 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** Swagger de RefreshTokens registrado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![Rutas JWT de RefreshTokens para listar, consultar, revocar y purgar sesiones propias](trazabilidad/E-ISS14-P19-04-refresh-tokens-routes.png)
