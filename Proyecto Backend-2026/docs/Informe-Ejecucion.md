@@ -4157,7 +4157,7 @@ src/features/auth/users/http/users.write.http
 **Acción:** preparé solicitudes para listar y consultar asignaciones, asignar un rol, comprobar el conflicto por asignación activa, desactivar y reactivar una asignación, y consultar los permisos efectivos del usuario. El archivo utiliza marcadores para el token y los identificadores.
 
 - **Estado:** archivo creado y guardado en el commit local `79626e2`.
-- **Ejecución:** las solicitudes no se han ejecutado; se requiere completar los marcadores con valores válidos.
+- **Ejecución:** las solicitudes no se han ejecutado; requieren un access token y valores válidos para los identificadores.
 
 **Evidencia recibida:**
 
@@ -4170,13 +4170,15 @@ src/features/auth/users/http/users.write.http
 **Acción:** preparé solicitudes para listar y filtrar concesiones por rol o recurso, consultar una concesión, conceder un recurso, observar el conflicto esperado si ya está activo, desactivar y reactivar la concesión, y comprobar el acceso denegado esperado para SELLER. El archivo utiliza marcadores para tokens e identificadores.
 
 - **Estado:** archivo creado y guardado en el commit local `03df9b6`.
-- **Ejecución:** las solicitudes no se han ejecutado; requieren valores válidos para las variables. El resultado 403 para SELLER se mantiene como esperado, no como verificado.
+- **Ejecución:** las solicitudes no se han ejecutado; requieren un access token y valores válidos para las variables. El resultado 403 para SELLER se mantiene como esperado, no como verificado.
 
 **Evidencia recibida:**
 
 ![En esta captura se observan el listado, los filtros y las solicitudes de concesión de ResourceRoles](trazabilidad/E-ISS12-P17-26-resource-roles-http-01.png)
 
 ![En esta captura se observan la baja, reactivación y comprobación de acceso para SELLER](trazabilidad/E-ISS12-P17-26-resource-roles-http-02.png)
+
+**Nota de secuencia:** el endpoint de login que emitiría el access token todavía no está implementado. ISS-13 implementa los middlewares JWT/RBAC, ISS-14 aborda la rotación de refresh tokens e ISS-15 implementa la sesión y el login. Por ello, las solicitudes HTTP protegidas quedan preparadas, pero su ejecución se aplaza hasta disponer del endpoint de sesión de ISS-15. Swagger permite introducir un Bearer token existente; no lo genera.
 
 ### Paso 78 — Ejecutar el runner y verificar la matriz de permisos *(ISS-12, verificación 17.7–17.8 en curso)*
 
