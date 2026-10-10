@@ -4088,3 +4088,17 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las importaciones de modelos y asociaciones requeridas por la aplicación](trazabilidad/E-ISS12-P17-20-app-route-mounts-01.png)
 
 ![En esta captura se observa el montaje de las rutas RoleUsers y ResourceRoles en Express](trazabilidad/E-ISS12-P17-20-app-route-mounts-02.png)
+
+### Paso 74 — Crear seeder de la matriz ResourceRoles *(ISS-12, 17.7 en curso)*
+
+**Referencia:** ISS-12, sección 17.7 — `resource-roles/resource-roles.seeder.ts`.
+
+**Acción:** implementé la reconciliación de los permisos de ADMIN desde el catálogo completo y los de SELLER desde su catálogo específico. El seeder verifica que cada operación solicitada tenga un recurso activo y reporta las cantidades reconciliadas.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** seeder creado y guardado en el commit local `8320b60`.
+- **Ejecución en base de datos:** pendiente; el seeder no se ejecutó.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el seeder de la matriz de permisos para ADMIN y SELLER](trazabilidad/E-ISS12-P17-21-resource-roles-seeder.png)
