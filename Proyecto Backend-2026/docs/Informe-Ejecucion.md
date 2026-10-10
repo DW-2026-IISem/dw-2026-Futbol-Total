@@ -4026,3 +4026,22 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las búsquedas, persistencia y consulta de permisos efectivos](trazabilidad/E-ISS12-P17-16-resource-roles-repository-02.png)
 
 ![En esta captura se observa el mapeo de permisos efectivos y los conteos del repository](trazabilidad/E-ISS12-P17-16-resource-roles-repository-03.png)
+
+### Paso 70 — Implementar ResourceRolesService *(ISS-12, 17.5 en curso)*
+
+**Referencia:** ISS-12, secciones 17.5 y 17.6 — `resource-roles/resource-roles.service.ts`.
+
+**Acción:** implementé el listado y consulta de concesiones, la asignación idempotente con reactivación, la baja y reactivación, la consulta de permisos efectivos y la reconciliación transaccional de permisos de un rol.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** service creado y guardado en el commit local `56eb281`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las dependencias, los contratos y las consultas del service](trazabilidad/E-ISS12-P17-17-resource-roles-service-01.png)
+
+![En esta captura se observan las validaciones, asignación idempotente y cambios de estado](trazabilidad/E-ISS12-P17-17-resource-roles-service-02.png)
+
+![En esta captura se observa el inicio de la reconciliación transaccional de permisos](trazabilidad/E-ISS12-P17-17-resource-roles-service-03.png)
+
+![En esta captura se observan el resultado de la reconciliación y las consultas auxiliares](trazabilidad/E-ISS12-P17-17-resource-roles-service-04.png)
