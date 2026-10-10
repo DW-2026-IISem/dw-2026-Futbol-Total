@@ -4480,3 +4480,20 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![Terminal con conexión y sincronización de la base de datos exitosas y servidor iniciado en el puerto 3002](trazabilidad/E-ISS14-P19-07-servidor-iniciado-puerto-3002.png)
+
+## ISS-15 — Feature Session (login, refresh, logout, perfil y permisos)
+
+**Objetivo:** implementar login, renovación y cierre de sesión, junto con el perfil y los permisos efectivos del usuario autenticado.
+
+**Referencia:** `docs/ISS/ISS-15-auth-session.md`, secciones 20.1–20.7.
+
+**Dependencia:** ISS-14 — Feature RefreshTokens.
+
+**Estado:** en curso. Se avanzará por partes; al finalizar el login podrán retomarse las verificaciones de ISS-13 e ISS-14 que requieren un access token.
+
+### Paso 99 — Crear DTOs de Session *(ISS-15, 20.1 en curso)*
+
+**Acción:** añadí los DTO de login, refresh, logout, respuesta con par de tokens y perfil público; los exporté desde `session/dto/index.ts`.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** DTOs implementados en el commit local de este paso.
