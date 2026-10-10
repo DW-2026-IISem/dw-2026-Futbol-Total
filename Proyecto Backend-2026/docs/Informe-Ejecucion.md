@@ -4402,3 +4402,9 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** repository implementado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Repository con búsqueda por hash, bloqueo durante transacción y consultas de sesiones](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-queries.png)
+
+![Repository con actualización, revocación por familia y usuario, purga y conteo](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-revocation.png)
