@@ -3753,3 +3753,7 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las operaciones de actualización y eliminación documentadas](trazabilidad/E-ISS11-P16-30-resources-swagger-03.png)
 
 ![En esta captura se observan los esquemas y el esquema de seguridad Bearer](trazabilidad/E-ISS11-P16-30-resources-swagger-04.png)
+
+**Integración en Swagger:**
+
+![En esta captura se observa la importación y el registro de resourcesSwagger en el documento OpenAPI compuesto](trazabilidad/E-ISS11-P16-31-resources-swagger-integration.png)
