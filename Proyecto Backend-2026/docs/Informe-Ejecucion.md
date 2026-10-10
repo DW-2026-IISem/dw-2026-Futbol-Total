@@ -4423,3 +4423,10 @@ src/features/auth/users/http/users.write.http
 ![Emisión y rotación transaccional de refresh tokens con detección de reutilización](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-issue-rotate.png)
 
 ![Rotación, revocación y control de pertenencia de las sesiones](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-revoke.png)
+
+### Paso 94 — Implementar RefreshTokensController *(ISS-14, 19.4 en curso)*
+
+**Acción:** añadí el controller para listar y consultar sesiones propias, revocar una o todas las sesiones y purgar las inactivas. Cada handler ejecuta la operación mediante `BaseController.run` y obtiene el usuario autenticado con `requireAuthUser`; estas operaciones no requieren `authorize` porque se limitan a sesiones propias.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** controller implementado en el commit local de este paso. Las rutas JWT y su registro en la aplicación siguen pendientes.
