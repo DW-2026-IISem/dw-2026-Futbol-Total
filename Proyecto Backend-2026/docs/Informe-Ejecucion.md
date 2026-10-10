@@ -3902,3 +3902,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las operaciones del controller de RoleUsers](trazabilidad/E-ISS12-P17-06-role-users-controller.png)
+
+### Paso 62 — Definir las rutas protegidas de RoleUsers *(ISS-12, 17.2 en curso)*
+
+**Referencia:** ISS-12, sección 17.2 — `role-users/role-users.routes.ts`.
+
+**Acción:** registré los endpoints de listado, consulta, asignación, baja lógica y reactivación, todos protegidos con los middlewares `authenticate` y `authorize`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas implementadas y guardadas en el commit local `9223f6e`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan los endpoints protegidos del feature RoleUsers](trazabilidad/E-ISS12-P17-07-role-users-routes.png)
