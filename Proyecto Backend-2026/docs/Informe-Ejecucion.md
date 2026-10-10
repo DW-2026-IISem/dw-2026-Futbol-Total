@@ -3533,6 +3533,18 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observa el montaje de rolesRoutes junto con las rutas del resto de features](trazabilidad/E-ISS11-P16-15-app-mount-roles-routes.png)
 
+### Paso 38 — Preparar solicitudes GET de Roles *(ISS-11, 16.7 en curso)*
+
+**Referencia:** `src/features/auth/roles/http/roles.get.http`.
+
+**Acción:** agregué solicitudes REST Client para listar roles activos y consultar un rol por id, parametrizadas con URL base, id y token Bearer.
+
+- **Estado:** archivo de lectura HTTP implementado; la captura documenta la solicitud, sin ejecutar llamadas autenticadas.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las solicitudes GET de Roles con el encabezado Bearer](trazabilidad/E-ISS11-P16-17-roles-http-get.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
