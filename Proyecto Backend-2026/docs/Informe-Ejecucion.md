@@ -3562,6 +3562,19 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observa el contrato de creación de recursos con métodos HTTP permitidos, path, descripción y estado](trazabilidad/E-ISS11-P16-19-create-resource-dto.png)
 
+### Paso 40 — Definir UpdateResourceDto *(ISS-11, 16.4 en curso)*
+
+**Referencia:** ISS-11, sección 16.4 — `resources/dto/update-resource.dto.ts`.
+
+**Acción:** definí el contrato de actualización completa de un recurso con método, ruta y descripción, reutilizando los tipos permitidos por `CreateResourceDto`.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO de actualización implementado.
+
+**Evidencia recibida:**
+
+![En esta captura se observa UpdateResourceDto restringido a método, ruta y descripción](trazabilidad/E-ISS11-P16-20-update-resource-dto.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
