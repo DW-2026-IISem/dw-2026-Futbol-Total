@@ -4225,3 +4225,28 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa authenticate, su validación del token y la carga de identidad activa en req.auth](trazabilidad/E-ISS13-P18-01-authenticate-middleware.png)
+
+### Paso 80 — Implementar el middleware authorize *(ISS-13, 18.2 en curso)*
+
+**Referencia:** ISS-13, sección 18.2 — `features/auth/access/authorize.middleware.ts`.
+
+**Acción:** verifiqué el middleware existente, que obtiene la identidad autenticada, consulta los permisos efectivos del usuario, normaliza la ruta solicitada y responde con 403 cuando no encuentra una concesión activa para el método y la ruta.
+
+- **Estado:** middleware existente; evidencia archivada en este paso.
+- **Limitación de prueba:** no se ha probado con solicitudes HTTP porque todavía no hay un endpoint de login para obtener el token.
+
+**Evidencia recibida:**
+
+![En esta captura se observa authorize, la consulta de permisos efectivos y el rechazo por falta de concesión](trazabilidad/E-ISS13-P18-02-authorize-middleware.png)
+
+### Paso 81 — Exportar los middlewares de acceso *(ISS-13, 18.3 en curso)*
+
+**Referencia:** ISS-13, sección 18.3 — `features/auth/access/index.ts`.
+
+**Acción:** confirmé que el barrel reexporta `authenticate` y `authorize` para que las rutas puedan importarlos desde el módulo de acceso.
+
+- **Estado:** barrel existente; evidencia archivada en este paso.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las exportaciones de authenticate y authorize en access/index.ts](trazabilidad/E-ISS13-P18-03-access-barrel.png)
