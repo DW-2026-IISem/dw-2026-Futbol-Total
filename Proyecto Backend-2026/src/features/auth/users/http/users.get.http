@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:3002/api
+@accessToken = REPLACE_WITH_A_VALID_ACCESS_TOKEN
+@userId = 1
+
+### List active users
+GET {{baseUrl}}/usuarios
+Authorization: Bearer {{accessToken}}
+
+### Get one active user
+GET {{baseUrl}}/usuarios/{{userId}}
+Authorization: Bearer {{accessToken}}
+
+### Get effective permissions
+GET {{baseUrl}}/usuarios/{{userId}}/permisos
+Authorization: Bearer {{accessToken}}

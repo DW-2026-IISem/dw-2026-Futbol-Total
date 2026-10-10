@@ -5,11 +5,15 @@ import { productTypesSwagger } from "../features/business/product-types/product-
 import { productsSwagger } from "../features/business/products/products.swagger";
 import { productSalesSwagger } from "../features/business/product-sales/product-sales.swagger";
 import { salesSwagger } from "../features/business/sales/sales.swagger";
+import { usersSwagger } from "../features/auth/users/users.swagger";
 
 export type FeatureSwaggerModule = {
   tags: unknown[];
   paths: Record<string, unknown>;
-  components?: { schemas?: Record<string, unknown> };
+  components?: {
+    schemas?: Record<string, unknown>;
+    securitySchemes?: Record<string, unknown>;
+  };
 };
 
 const featureSwaggerModules: FeatureSwaggerModule[] = [
@@ -18,18 +22,23 @@ const featureSwaggerModules: FeatureSwaggerModule[] = [
   productsSwagger,
   salesSwagger,
   productSalesSwagger,
+  usersSwagger,
 ];
 
 export function buildOpenApiDocument() {
   const tags: unknown[] = [];
   const paths: Record<string, unknown> = {};
   const schemas: Record<string, unknown> = {};
+  const securitySchemes: Record<string, unknown> = {};
 
   for (const mod of featureSwaggerModules) {
     tags.push(...mod.tags);
     Object.assign(paths, mod.paths);
     if (mod.components?.schemas) {
       Object.assign(schemas, mod.components.schemas);
+    }
+    if (mod.components?.securitySchemes) {
+      Object.assign(securitySchemes, mod.components.securitySchemes);
     }
   }
 
@@ -49,7 +58,7 @@ export function buildOpenApiDocument() {
     ],
     tags,
     paths,
-    components: { schemas },
+    components: { schemas, securitySchemes },
   };
 }
 

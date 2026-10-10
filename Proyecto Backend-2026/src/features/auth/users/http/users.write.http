@@ -1,0 +1,54 @@
+@baseUrl = http://localhost:3002/api
+@accessToken = REPLACE_WITH_A_VALID_ACCESS_TOKEN
+@userId = 1
+
+### Create a user
+POST {{baseUrl}}/usuarios
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "username": "example.user",
+  "email": "example.user@example.com",
+  "password": "REPLACE_WITH_A_LOCAL_TEST_PASSWORD",
+  "status": "active"
+}
+
+### Replace editable user fields
+PUT {{baseUrl}}/usuarios/{{userId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "username": "example.user",
+  "email": "example.user@example.com",
+  "avatar": null
+}
+
+### Patch editable user fields
+PATCH {{baseUrl}}/usuarios/{{userId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "avatar": null
+}
+
+### Change password (requires the current password)
+PATCH {{baseUrl}}/usuarios/{{userId}}/password
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "current_password": "REPLACE_WITH_CURRENT_LOCAL_PASSWORD",
+  "new_password": "REPLACE_WITH_A_NEW_LOCAL_PASSWORD",
+  "revoke_sessions": true
+}
+
+### Soft-deactivate a user; this revokes active refresh tokens
+PATCH {{baseUrl}}/usuarios/{{userId}}/deactivate
+Authorization: Bearer {{accessToken}}
+
+### Permanently delete a user; execute only with an intentionally disposable user
+DELETE {{baseUrl}}/usuarios/{{userId}}
+Authorization: Bearer {{accessToken}}

@@ -86,6 +86,10 @@ export class UsersRepository {
     return user.update({ status: "inactive" }, { transaction });
   }
 
+  public async delete(user: User): Promise<void> {
+    await user.destroy();
+  }
+
   public async getEffectivePermissions(
     userId: number,
   ): Promise<EffectivePermission[]> {

@@ -20,6 +20,7 @@ import { seedProductTypes } from "../../features/business/product-types/product-
 import { seedProducts } from "../../features/business/products/products.seeder";
 import { seedSales } from "../../features/business/sales/sales.seeder";
 import { seedProductSales } from "../../features/business/product-sales/product-sales.seeder";
+import { seedUsers } from "../../features/auth/users/users.seeder";
 import { resolveSeedCounts } from "./counts";
 
 dotenv.config();
@@ -40,6 +41,7 @@ export async function runAllSeeders(): Promise<void> {
   await seedProducts(counts.products);
   await seedSales(counts.sales);
   await seedProductSales(counts.product_sales);
+  await seedUsers();
 
   console.log("SeedersRunner finalizado");
 }

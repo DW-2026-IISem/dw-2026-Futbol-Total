@@ -29,6 +29,13 @@ export class UsersController extends BaseController {
     });
   }
 
+  public async getEffectivePermissions(req: Request, res: Response): Promise<void> {
+    await this.run(res, async () => {
+      const permissions = await this.service.getEffectivePermissions(this.paramId(req));
+      res.status(200).json({ permissions });
+    });
+  }
+
   public async create(req: Request, res: Response): Promise<void> {
     await this.run(res, async () => {
       const user = await this.service.create(req.body as CreateUserDto);
@@ -70,6 +77,14 @@ export class UsersController extends BaseController {
     await this.run(res, async () => {
       const user = await this.service.deleteLogical(this.paramId(req));
       res.status(200).json({ message: "User deactivated", user });
+    });
+  }
+
+  public async deletePhysical(req: Request, res: Response): Promise<void> {
+    await this.run(res, async () => {
+      const id = this.paramId(req);
+      await this.service.deletePhysical(id);
+      res.status(200).json({ message: "User permanently deleted", id });
     });
   }
 }

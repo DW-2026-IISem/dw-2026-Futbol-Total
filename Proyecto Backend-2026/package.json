@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "dev": "nodemon --watch src --ext ts --exec ts-node -- src/server.ts",
-    "db:seed": "ts-node -- src/database/seeders/index.ts"
+    "db:seed": "ts-node -- src/database/seeders/index.ts",
+    "db:seed:users": "ts-node -- src/features/auth/users/users-seed.runner.ts"
   },
   "keywords": [],
   "type": "commonjs",

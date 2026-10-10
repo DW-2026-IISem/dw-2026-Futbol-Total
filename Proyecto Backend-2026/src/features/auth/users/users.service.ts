@@ -105,6 +105,11 @@ export class UsersService {
     return toUserResponse(user);
   }
 
+  public async deletePhysical(id: number): Promise<void> {
+    const user = await this.findOrFail(id);
+    await this.repository.delete(user);
+  }
+
   private async findOrFail(id: number): Promise<User> {
     const user = await this.repository.findById(id);
     if (!user || user.status !== "active") {

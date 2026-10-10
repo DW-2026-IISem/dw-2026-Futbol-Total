@@ -3290,16 +3290,81 @@ deleteLogical(id: number): Promise<UserResponseDto>
 ```typescript
 getAll(req, res)
 getOne(req, res)
+getEffectivePermissions(req, res)
 create(req, res)
 updatePut(req, res)
 updatePatch(req, res)
 changePassword(req, res)
 deleteLogical(req, res)
+deletePhysical(req, res)
 ```
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
-- **Estado:** paso 15.4 implementado. El cableado HTTP y la autorización se incorporan en los pasos de rutas correspondientes.
+- **Estado:** paso 15.4 implementado; además del CRUD, el controller expone los permisos efectivos, el cambio de contraseña y ambos tipos de eliminación.
 
 **Evidencia del paso 15.4:**
 
 ![En esta captura se observan las operaciones HTTP de Users conectadas con UsersService](trazabilidad/E-ISS10-P15-12-users-controller.png)
+
+### Paso 25 — Registrar rutas protegidas de Users *(ISS-10, 15.5 implementado)*
+
+**Referencia:** ISS-10, sección 15.5 — `users.routes.ts`.
+
+**Acción:** registré nueve operaciones HTTP de Users: listar, crear, consultar por id, actualizar con PUT/PATCH, eliminar físicamente, desactivar lógicamente, cambiar contraseña y consultar permisos efectivos. Cada ruta usa `authenticate` seguido de `authorize`.
+
+**Dependencia adelantada de ISS-13:** para que ISS-10 no deje rutas desprotegidas, añadí el middleware `authenticate` (valida Bearer/JWT y revalida el estado activo del usuario) y `authorize` (consulta permisos efectivos para el método y path y deniega por defecto). Quedan reutilizables para el trabajo de ISS-13; las rutas Business todavía no se modifican.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/features/auth/users/users.routes.ts
+```
+
+- **Archivos:** `src/features/auth/access/authenticate.middleware.ts`, `authorize.middleware.ts`, `index.ts`; `src/features/auth/users/users.routes.ts`; integración en `src/routes/index.ts` y `src/config/index.ts`.
+- **Estado:** paso 15.5 implementado. La autorización requiere concesiones activas en RBAC; los usuarios/roles canónicos se incorporan en 15.6 y los roles con permisos en ISS-11/12.
+
+### Paso 26 — Crear usuarios canónicos *(ISS-10, 15.6 implementado)*
+
+**Referencia:** ISS-10, sección 15.6 — `users.seeder.ts`.
+
+**Acción:** añadí un seeder idempotente para `admin` y `seller`, que reactiva los usuarios canónicos si ya existían inactivos y hashea explícitamente sus contraseñas. Las contraseñas se leen de `SEED_ADMIN_PASSWORD` y `SEED_SELLER_PASSWORD`; no se guardan credenciales de laboratorio en el código ni en el repositorio. El runner general invoca el seeder.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/features/auth/users/users.seeder.ts
+```
+
+- **Validación funcional pendiente del usuario:** cargar las dos variables privadas localmente y ejecutar `npm run db:seed:users`. Este comando solo sincroniza los modelos registrados para Users y crea/activa esos usuarios; no ejecuta los seeders de negocio. El comando general `npm run db:seed` también está disponible si se desean ejecutar todos los seeders.
+- **Estado:** paso 15.6 implementado; las asignaciones de roles y recursos quedan para ISS-11/12.
+
+### Paso 27 — Documentar Users en OpenAPI *(ISS-10, 15.7 implementado)*
+
+**Referencia:** ISS-10, sección 15.7 — `users.swagger.ts`.
+
+**Acción:** documenté los nueve endpoints con `bearerAuth`, respuestas 400/401/403/404/409 y esquemas de usuario, creación, actualización y cambio de contraseña. Añadí la definición del esquema Bearer a `components.securitySchemes` durante la composición del documento OpenAPI.
+
+**Comando de creación indicado en la guía:**
+
+```bash
+: > src/features/auth/users/users.swagger.ts
+```
+
+- **Integración:** `src/swagger/index.ts` agrega el módulo Users y combina sus esquemas de seguridad con los esquemas de los demás features.
+- **Estado:** paso 15.7 implementado.
+
+### Paso 28 — Preparar solicitudes HTTP de Users *(ISS-10, 15.8 implementado)*
+
+**Referencia:** ISS-10, sección 15.8 — pruebas HTTP.
+
+**Acción:** agregué solicitudes REST Client de lectura y escritura, con variables para el servidor, token Bearer y el id de usuario. Incluí consulta de permisos, creación, reemplazo, actualización parcial, cambio de contraseña, desactivación y eliminación física.
+
+**Archivos:**
+
+```text
+src/features/auth/users/http/users.get.http
+src/features/auth/users/http/users.write.http
+```
+
+- **Nota de ejecución:** las operaciones protegidas requieren un JWT y concesiones activas para los recursos de Users. El login que emite el token y las asignaciones de permisos corresponden a ISS-12/15; se puede comprobar desde ahora que una petición sin token responde 401.
+- **Estado:** paso 15.8 implementado; la verificación funcional autenticada queda pendiente de integrar los pasos que habilitan JWT y RBAC.
