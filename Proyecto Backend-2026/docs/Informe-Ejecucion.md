@@ -3928,3 +3928,9 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa el seeder de las asignaciones admin a ADMIN y seller a SELLER](trazabilidad/E-ISS12-P17-08-role-users-seeder.png)
+
+**Integración en el runner de seeders:**
+
+![En esta captura se observa la importación de seedRoleUsers en el runner general](trazabilidad/E-ISS12-P17-09-role-users-seeder-runner-01.png)
+
+![En esta captura se observa la ejecución de seedRoleUsers después de crear usuarios, roles y recursos](trazabilidad/E-ISS12-P17-09-role-users-seeder-runner-02.png)
