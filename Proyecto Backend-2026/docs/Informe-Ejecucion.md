@@ -3253,6 +3253,8 @@ deleteLogical(id: number): Promise<UserResponseDto>
 
 ![En esta captura se observan el cambio de contraseña, la desactivación y las validaciones del service](trazabilidad/E-ISS10-P15-11-users-service-password-delete-validation.png)
 
+**Ajustes de conformidad para los pasos 15.2 y 15.3:** las lecturas comunes del repository excluyen `password` de la proyección SQL; el acceso al hash se limita a `findByIdWithPassword` para el cambio de contraseña y `findByUsernameOrEmail` para la futura autenticación. Las comprobaciones de username/correo solo recuperan sus identificadores. El Service ahora hashea explícitamente las contraseñas al crear y cambiarla, establece `active` como estado de creación predeterminado y ofrece `getEffectivePermissions`, que devuelve permisos distintos respaldados por asignaciones, roles, concesiones y recursos activos. Los usuarios inactivos no se exponen en consultas del feature ni reciben permisos.
+
 ### Paso 24 — Implementar el controller de Users *(ISS-10, 15.4 completado)*
 
 **Referencia:** ISS-10, sección 15.4 — `users.controller.ts`.

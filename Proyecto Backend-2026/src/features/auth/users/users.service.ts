@@ -1,5 +1,5 @@
 import { sequelize } from "../../../database/db";
-import { comparePassword } from "../../../shared/auth/password";
+import { comparePassword, hashPassword } from "../../../shared/auth/password";
 import { AppError } from "../../../shared/errors/app-error";
 import {
   ChangePasswordDto,
@@ -10,7 +10,7 @@ import {
   UserResponseDto,
 } from "./dto";
 import { User, UserI } from "./user.model";
-import { UsersRepository } from "./users.repository";
+import { EffectivePermission, UsersRepository } from "./users.repository";
 
 export class UsersService {
   public constructor(
@@ -26,14 +26,21 @@ export class UsersService {
     return toUserResponse(await this.findOrFail(id));
   }
 
+  public async getEffectivePermissions(
+    id: number,
+  ): Promise<EffectivePermission[]> {
+    await this.findOrFail(id);
+    return this.repository.getEffectivePermissions(id);
+  }
+
   public async create(body: CreateUserDto): Promise<UserResponseDto> {
     await this.ensureUniqueFields(body.username, body.email);
     const user = await this.repository.create({
       username: body.username,
       email: body.email,
-      password: body.password,
+      password: await hashPassword(body.password),
       avatar: body.avatar,
-      status: body.status,
+      status: body.status ?? "active",
     });
     return toUserResponse(user);
   }
@@ -69,7 +76,10 @@ export class UsersService {
     id: number,
     body: ChangePasswordDto,
   ): Promise<void> {
-    const user = await this.findOrFail(id);
+    const user = await this.repository.findByIdWithPassword(id);
+    if (!user || user.status !== "active") {
+      throw new AppError(404, "User not found");
+    }
     if (!(await comparePassword(body.current_password, user.password))) {
       throw new AppError(401, "Current password is incorrect");
     }
@@ -77,7 +87,7 @@ export class UsersService {
     await sequelize.transaction(async (transaction) => {
       await this.repository.update(
         user,
-        { password: body.new_password },
+        { password: await hashPassword(body.new_password) },
         transaction,
       );
       if (body.revoke_sessions) {
@@ -97,7 +107,7 @@ export class UsersService {
 
   private async findOrFail(id: number): Promise<User> {
     const user = await this.repository.findById(id);
-    if (!user) {
+    if (!user || user.status !== "active") {
       throw new AppError(404, "User not found");
     }
     return user;

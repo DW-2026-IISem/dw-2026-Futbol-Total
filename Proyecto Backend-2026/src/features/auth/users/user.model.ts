@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../database/db";
-import { hashPassword } from "../../../shared/auth/password";
 
 export interface UserI {
   id?: number;
@@ -56,7 +55,7 @@ User.init(
     },
     status: {
       type: DataTypes.ENUM("active", "inactive"),
-      defaultValue: "inactive",
+      defaultValue: "active",
       allowNull: false,
     },
   },
@@ -66,19 +65,6 @@ User.init(
     tableName: "users",
     timestamps: true,
     hooks: {
-      beforeCreate: async (user: User) => {
-        if (user.password) user.password = await hashPassword(user.password);
-      },
-      beforeUpdate: async (user: User) => {
-        if (user.changed("password") && user.password) {
-          user.password = await hashPassword(user.password);
-        }
-      },
-      beforeBulkCreate: async (users: User[]) => {
-        for (const user of users) {
-          if (user.password) user.password = await hashPassword(user.password);
-        }
-      },
       beforeValidate: (user: User) => {
         if (user.username) user.username = user.username.trim().toLowerCase();
         if (user.email) user.email = user.email.trim().toLowerCase();
