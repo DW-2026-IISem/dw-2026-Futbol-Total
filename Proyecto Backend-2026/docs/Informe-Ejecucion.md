@@ -3505,6 +3505,19 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observan las rutas de Roles y la cadena JWT + RBAC aplicada a cada operación](trazabilidad/E-ISS11-P16-09-roles-routes.png)
 
+### Paso 36 — Registrar RolesRoutes en el contenedor *(ISS-11, 16.2 en curso)*
+
+**Referencia:** `src/routes/index.ts`.
+
+**Acción:** añadí la importación y la instancia `rolesRoutes` a la clase `Routes`, que centraliza los route handlers de la aplicación.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** `RolesRoutes` está disponible desde el registro central; su montaje en Express se documentará en el paso de arranque de la aplicación.
+
+**Evidencia recibida:**
+
+![En esta captura se observa la importación de RolesRoutes y su instancia dentro de Routes](trazabilidad/E-ISS11-P16-13-roles-routes-registry.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
