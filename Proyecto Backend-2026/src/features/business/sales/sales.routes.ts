@@ -1,4 +1,5 @@
 import { Application } from "express";
+import { authenticate, authorize } from "../../auth/access";
 import { SalesController } from "./sales.controller";
 
 export class SalesRoutes {
@@ -7,18 +8,46 @@ export class SalesRoutes {
   public routes(app: Application): void {
     app
       .route("/api/ventas")
-      .get(this.salesController.getAll.bind(this.salesController))
-      .post(this.salesController.create.bind(this.salesController));
+      .get(
+        authenticate,
+        authorize,
+        this.salesController.getAll.bind(this.salesController),
+      )
+      .post(
+        authenticate,
+        authorize,
+        this.salesController.create.bind(this.salesController),
+      );
 
     app
       .route("/api/ventas/:id")
-      .get(this.salesController.getOne.bind(this.salesController))
-      .put(this.salesController.updatePut.bind(this.salesController))
-      .patch(this.salesController.updatePatch.bind(this.salesController))
-      .delete(this.salesController.deletePhysical.bind(this.salesController));
+      .get(
+        authenticate,
+        authorize,
+        this.salesController.getOne.bind(this.salesController),
+      )
+      .put(
+        authenticate,
+        authorize,
+        this.salesController.updatePut.bind(this.salesController),
+      )
+      .patch(
+        authenticate,
+        authorize,
+        this.salesController.updatePatch.bind(this.salesController),
+      )
+      .delete(
+        authenticate,
+        authorize,
+        this.salesController.deletePhysical.bind(this.salesController),
+      );
 
     app
       .route("/api/ventas/:id/deactivate")
-      .patch(this.salesController.deleteLogical.bind(this.salesController));
+      .patch(
+        authenticate,
+        authorize,
+        this.salesController.deleteLogical.bind(this.salesController),
+      );
   }
 }
