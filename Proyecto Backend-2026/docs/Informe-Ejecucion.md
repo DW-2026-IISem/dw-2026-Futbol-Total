@@ -3516,3 +3516,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan los roles ADMIN y SELLER y el seeder idempotente](trazabilidad/E-ISS11-P16-10-roles-seeder.png)
+
+### Paso 35 — Documentar endpoints de Roles en Swagger *(ISS-11, 16.3 en curso)*
+
+**Referencia:** ISS-11, sección 16.3 — `roles.swagger.ts`.
+
+**Acción:** documenté las operaciones de Roles con seguridad Bearer, parámetros de id, cuerpos de creación/actualización y respuestas HTTP, más los esquemas del recurso Role.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** archivo Swagger de Roles implementado; falta integrar su módulo al documento compuesto y se continuará con el resto del paso 16.3 de manera individual.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las respuestas documentadas y los endpoints de Roles con seguridad Bearer](trazabilidad/E-ISS11-P16-11-roles-swagger-endpoints.png)
