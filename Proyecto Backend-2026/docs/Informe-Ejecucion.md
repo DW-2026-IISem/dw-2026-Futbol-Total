@@ -4347,3 +4347,14 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![La terminal muestra la solicitud a /api/clientes en el puerto 3002 y la respuesta HTTP 401 Unauthorized por falta de Bearer token](trazabilidad/E-ISS13-P18-09-clientes-401-sin-token.png)
+
+### Paso 89 — Verificar respuesta 401 con token inválido *(ISS-13, 18.6 en curso)*
+
+**Acción:** ejecuté `curl -i -H "Authorization: Bearer token-invalido" http://localhost:3002/api/clientes`.
+
+- **Resultado observado:** `HTTP/1.1 401 Unauthorized`; el cuerpo indica `Invalid or expired access token`.
+- **Estado:** verificadas las respuestas 401 para ausencia de token y token inválido. Las pruebas con un token válido, incluyendo la respuesta 403 por falta de concesión, quedan pendientes hasta contar con login en ISS-15.
+
+**Evidencia recibida:**
+
+![La terminal muestra la solicitud a /api/clientes con un Bearer token inválido y la respuesta HTTP 401 Unauthorized](trazabilidad/E-ISS13-P18-10-clientes-401-token-invalido.png)
