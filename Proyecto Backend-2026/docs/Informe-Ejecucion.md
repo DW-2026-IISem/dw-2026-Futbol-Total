@@ -4387,3 +4387,11 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** DTOs implementados en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![DTO de respuesta que excluye token_hash y calcula is_expired](trazabilidad/E-ISS14-P19-01-refresh-token-response-dto.png)
+
+![Barrel que exporta el DTO de RefreshToken](trazabilidad/E-ISS14-P19-01-refresh-token-dto-index.png)
+
+![Modelo RefreshToken existente que define los datos proyectados por el DTO](trazabilidad/E-ISS14-P19-01-refresh-token-model-context.png)
