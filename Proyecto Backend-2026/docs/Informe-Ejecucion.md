@@ -3822,3 +3822,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las solicitudes de Roles con tokens separados y la comprobación 403 para SELLER](trazabilidad/E-ISS11-P16-36-roles-http-admin-seller.png)
+
+### Paso 56 — Definir CreateRoleUserDto *(ISS-12, 17.1 en curso)*
+
+**Referencia:** ISS-12, sección 17.1 — `role-users/dto/create-role-user.dto.ts`.
+
+**Acción:** definí el contrato de asignación de rol mediante los identificadores `user_id` y `role_id`; el servicio posterior aplicará la semántica de creación o reactivación descrita en la guía.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** DTO creado y guardado en el commit local `49d6ca2`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa CreateRoleUserDto con los identificadores de usuario y rol](trazabilidad/E-ISS12-P17-01-create-role-user-dto.png)
