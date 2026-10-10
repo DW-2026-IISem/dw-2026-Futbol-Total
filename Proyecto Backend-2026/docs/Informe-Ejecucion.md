@@ -3996,3 +3996,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa ResourceRoleResponseDto, su mapper y EffectivePermissionDto](trazabilidad/E-ISS12-P17-14-resource-role-response-dto.png)
+
+### Paso 68 — Exportar DTOs de ResourceRoles *(ISS-12, 17.4 en curso)*
+
+**Referencia:** ISS-12, sección 17.4 — `resource-roles/dto/index.ts`.
+
+**Acción:** agregué el barrel de exportaciones para los DTOs de creación, listado y respuesta.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** archivo creado y guardado en el commit local `a0c5598`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las exportaciones de los tres DTOs de ResourceRoles](trazabilidad/E-ISS12-P17-15-resource-role-dto-index.png)
