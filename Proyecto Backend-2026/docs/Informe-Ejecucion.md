@@ -3504,3 +3504,15 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las rutas de Roles y la cadena JWT + RBAC aplicada a cada operación](trazabilidad/E-ISS11-P16-09-roles-routes.png)
+
+### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
+
+**Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
+
+**Acción:** definí los roles `ADMIN` y `SELLER`; el seeder usa `findOrCreate`, reactiva los roles existentes inactivos e informa cuántos registros nuevos creó.
+
+- **Estado:** seeder implementado. Todavía no se ejecutó contra la base de datos.
+
+**Evidencia recibida:**
+
+![En esta captura se observan los roles ADMIN y SELLER y el seeder idempotente](trazabilidad/E-ISS11-P16-10-roles-seeder.png)
