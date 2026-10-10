@@ -3545,6 +3545,10 @@ src/features/auth/users/http/users.write.http
 
 ![En esta captura se observan las solicitudes GET de Roles con el encabezado Bearer](trazabilidad/E-ISS11-P16-17-roles-http-get.png)
 
+**Solicitudes de escritura del mismo archivo:**
+
+![En esta captura se observan las solicitudes de creación, actualización, desactivación y eliminación de Roles](trazabilidad/E-ISS11-P16-18-roles-http-writes.png)
+
 ### Paso 34 — Crear el seeder canónico de Roles *(ISS-11, 16.3 en curso)*
 
 **Referencia:** ISS-11, sección 16.3 — `roles.seeder.ts`.
