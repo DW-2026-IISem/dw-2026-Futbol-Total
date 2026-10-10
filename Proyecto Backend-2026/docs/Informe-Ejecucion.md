@@ -3279,3 +3279,7 @@ deleteLogical(req, res)
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** paso 15.4 implementado. El cableado HTTP y la autorización se incorporan en los pasos de rutas correspondientes.
+
+**Evidencia del paso 15.4:**
+
+![En esta captura se observan las operaciones HTTP de Users conectadas con UsersService](trazabilidad/E-ISS10-P15-12-users-controller.png)
