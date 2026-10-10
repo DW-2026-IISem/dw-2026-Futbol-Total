@@ -3346,11 +3346,14 @@ deletePhysical(req, res)
 ```
 
 - **Validación funcional pendiente del usuario:** cargar las dos variables privadas localmente y ejecutar `npm run db:seed:users`. Este comando solo sincroniza los modelos registrados para Users y crea/activa esos usuarios; no ejecuta los seeders de negocio. El comando general `npm run db:seed` también está disponible si se desean ejecutar todos los seeders.
-- **Estado:** paso 15.6 implementado; las asignaciones de roles y recursos quedan para ISS-11/12.
+- **Validación funcional:** se ejecutó `npm run db:seed:users`; la salida confirmó la conexión a MySQL y la creación de dos usuarios canónicos.
+- **Estado:** paso 15.6 implementado y creación inicial verificada; las asignaciones de roles y recursos quedan para ISS-11/12.
 
 **Evidencia recibida:**
 
 ![En esta captura se observa el seeder idempotente para los usuarios canónicos admin y seller](trazabilidad/E-ISS10-P15-23-users-seeder.png)
+
+![En esta captura se observa la ejecución exitosa del seeder y la creación de dos usuarios canónicos](trazabilidad/E-ISS10-P15-36-users-seeder-created.png)
 
 ### Paso 27 — Documentar Users en OpenAPI *(ISS-10, 15.7 implementado)*
 
