@@ -3452,3 +3452,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observa el mapper de respuesta de roles](trazabilidad/E-ISS11-P16-04-role-response-dto.png)
 
 ![En esta captura se observa el contrato de actualización completa de roles](trazabilidad/E-ISS11-P16-05-update-role-dto.png)
+
+### Paso 30 — Implementar RolesRepository *(ISS-11, 16.2 en curso)*
+
+**Referencia:** ISS-11, sección 16.2 — `roles.repository.ts`.
+
+**Acción:** implementé el acceso a persistencia para listar roles activos, buscar por id con transacción opcional, buscar nombres normalizados, crear, actualizar y eliminar roles.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** archivo `roles.repository.ts` implementado; se continúa el paso 16.2 con el service, controller y rutas, uno por uno.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las operaciones de consulta y persistencia de RolesRepository](trazabilidad/E-ISS11-P16-06-roles-repository.png)
