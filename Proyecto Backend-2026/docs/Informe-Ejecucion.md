@@ -4250,3 +4250,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan las exportaciones de authenticate y authorize en access/index.ts](trazabilidad/E-ISS13-P18-03-access-barrel.png)
+
+### Paso 82 — Aplicar JWT + RBAC a Clients *(ISS-13, 18.4 en curso)*
+
+**Referencia:** ISS-13, sección 18.4 — `features/business/clients/clients.routes.ts`.
+
+**Acción:** protegí las siete operaciones de Clients con `authenticate` seguido de `authorize`, manteniendo intactos los handlers del controller.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas protegidas en el commit local `98b35ea`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las rutas de Clients con autenticación JWT y autorización RBAC](trazabilidad/E-ISS13-P18-04-clients-jwt-rbac.png)
