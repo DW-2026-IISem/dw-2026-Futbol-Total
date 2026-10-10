@@ -4306,3 +4306,18 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan todas las rutas de Sales con autenticación JWT y autorización RBAC](trazabilidad/E-ISS13-P18-07-sales-jwt-rbac.png)
+
+### Paso 86 — Aplicar JWT + RBAC a ProductSales *(ISS-13, 18.4 en curso)*
+
+**Referencia:** ISS-13, sección 18.4 — `features/business/product-sales/product-sales.routes.ts`.
+
+**Acción:** protegí las siete operaciones de ProductSales con `authenticate` seguido de `authorize`, manteniendo intactos los handlers del controller.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas protegidas en el commit local `9f1a9be`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las rutas de lectura, creación y actualización de ProductSales con JWT y RBAC](trazabilidad/E-ISS13-P18-08-product-sales-jwt-rbac-01.png)
+
+![En esta captura se observan las rutas de modificación y eliminación de ProductSales con JWT y RBAC](trazabilidad/E-ISS13-P18-08-product-sales-jwt-rbac-02.png)
