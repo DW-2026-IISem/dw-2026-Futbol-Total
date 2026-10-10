@@ -3721,3 +3721,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan los endpoints de Resources y sus middlewares de autenticación y autorización](trazabilidad/E-ISS11-P16-28-resources-routes.png)
+
+### Paso 49 — Crear el seeder idempotente de Resources *(ISS-11, 16.6 en curso)*
+
+**Referencia:** ISS-11, sección 16.6 — `resources/resources.seeder.ts`.
+
+**Acción:** implementé el seeder del catálogo RBAC usando `findOrCreate` por método y ruta; conserva los recursos existentes y reactiva los que estuvieran inactivos.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** seeder implementado y guardado en el commit local `cdcaea2`. No se ejecutó contra la base de datos.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el seeder idempotente que carga y reactiva los recursos del catálogo](trazabilidad/E-ISS11-P16-29-resources-seeder.png)
