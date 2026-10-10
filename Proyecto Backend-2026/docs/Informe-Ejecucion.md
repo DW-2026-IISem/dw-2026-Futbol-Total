@@ -4469,3 +4469,14 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![Archivo sessions.get.http con las solicitudes de sesiones propias y autenticación Bearer preparadas](trazabilidad/E-ISS14-P19-06-sessions-http-preparado.png)
+
+### Paso 98 — Verificar arranque del servidor para ISS-14
+
+**Acción:** el usuario ejecutó `npm run dev`.
+
+- **Resultado observado:** conexión a MySQL y sincronización de tablas exitosas; el servidor informa `Servidor ejecutándose en puerto 3002`.
+- **Ejecución HTTP de sesiones:** pendiente hasta ISS-15, cuando se implemente el endpoint de login y se pueda obtener un access token.
+
+**Evidencia recibida:**
+
+![Terminal con conexión y sincronización de la base de datos exitosas y servidor iniciado en el puerto 3002](trazabilidad/E-ISS14-P19-07-servidor-iniciado-puerto-3002.png)
