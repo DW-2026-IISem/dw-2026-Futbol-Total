@@ -4358,3 +4358,15 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![La terminal muestra la solicitud a /api/clientes con un Bearer token inválido y la respuesta HTTP 401 Unauthorized](trazabilidad/E-ISS13-P18-10-clientes-401-token-invalido.png)
+
+### Paso 90 — Registrar intento no concluyente de comprobar 403 *(ISS-13, 18.6 pendiente)*
+
+**Acción:** se intentó consultar y crear clientes enviando `Authorization: Bearer "$TOKEN"`.
+
+- **Resultado observado:** ambas solicitudes respondieron `401 Unauthorized` con `Missing or invalid Bearer token`.
+- **Conclusión:** la captura no verifica el caso 403. La variable `$TOKEN` no se había definido con un token válido, por lo que la autenticación falla antes de evaluar permisos RBAC.
+- **Estado:** evidencia guardada como intento no concluyente; repetir la prueba de 403 cuando ISS-15 proporcione un flujo de login y un token SELLER válido.
+
+**Evidencia recibida:**
+
+![La terminal muestra el intento de usar TOKEN sin un valor válido; las solicitudes reciben 401, por lo que no se comprueba el 403](trazabilidad/E-ISS13-P18-11-intento-403-sin-token.png)
