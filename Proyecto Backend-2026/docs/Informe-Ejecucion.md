@@ -4395,3 +4395,10 @@ src/features/auth/users/http/users.write.http
 ![Barrel que exporta el DTO de RefreshToken](trazabilidad/E-ISS14-P19-01-refresh-token-dto-index.png)
 
 ![Modelo RefreshToken existente que define los datos proyectados por el DTO](trazabilidad/E-ISS14-P19-01-refresh-token-model-context.png)
+
+### Paso 92 — Implementar RefreshTokensRepository *(ISS-14, 19.2 en curso)*
+
+**Acción:** implementé el repository con búsqueda por hash, listado y consulta por usuario/sesión, alta y actualización dentro de transacción, bloqueo `UPDATE` al buscar durante la rotación, revocación por familia o usuario, purga y conteo de sesiones activas.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** repository implementado en el commit local de este paso.
