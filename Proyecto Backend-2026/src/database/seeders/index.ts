@@ -21,6 +21,7 @@ import { seedProducts } from "../../features/business/products/products.seeder";
 import { seedSales } from "../../features/business/sales/sales.seeder";
 import { seedProductSales } from "../../features/business/product-sales/product-sales.seeder";
 import { seedUsers } from "../../features/auth/users/users.seeder";
+import { seedRoles } from "../../features/auth/roles/roles.seeder";
 import { resolveSeedCounts } from "./counts";
 
 dotenv.config();
@@ -42,6 +43,7 @@ export async function runAllSeeders(): Promise<void> {
   await seedSales(counts.sales);
   await seedProductSales(counts.product_sales);
   await seedUsers();
+  await seedRoles();
 
   console.log("SeedersRunner finalizado");
 }
