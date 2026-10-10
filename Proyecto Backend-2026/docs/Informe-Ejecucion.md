@@ -4278,3 +4278,18 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las rutas de lectura y escritura de ProductTypes con JWT y RBAC](trazabilidad/E-ISS13-P18-05-product-types-jwt-rbac-01.png)
 
 ![En esta captura se observan las rutas de actualización y eliminación de ProductTypes con JWT y RBAC](trazabilidad/E-ISS13-P18-05-product-types-jwt-rbac-02.png)
+
+### Paso 84 — Aplicar JWT + RBAC a Products *(ISS-13, 18.4 en curso)*
+
+**Referencia:** ISS-13, sección 18.4 — `features/business/products/products.routes.ts`.
+
+**Acción:** protegí las siete operaciones de Products con `authenticate` seguido de `authorize`, manteniendo intactos los handlers del controller.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas protegidas en el commit local `3dff399`.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las rutas de lectura, creación y actualización de Products protegidas](trazabilidad/E-ISS13-P18-06-products-jwt-rbac-01.png)
+
+![En esta captura se observan las rutas de actualización y eliminación de Products con JWT y RBAC](trazabilidad/E-ISS13-P18-06-products-jwt-rbac-02.png)
