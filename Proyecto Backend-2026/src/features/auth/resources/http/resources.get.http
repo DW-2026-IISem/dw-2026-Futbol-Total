@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:3002/api
+@adminToken = REPLACE_WITH_ADMIN_ACCESS_TOKEN
+@sellerToken = REPLACE_WITH_SELLER_ACCESS_TOKEN
+@resourceId = 1
+
+### List active resources as ADMIN
+GET {{baseUrl}}/recursos
+Authorization: Bearer {{adminToken}}
+
+### Get one active resource as ADMIN
+GET {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+
+### Create a resource
+POST {{baseUrl}}/recursos
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "method": "GET",
+  "path": "/api/recursos/prueba-iss11",
+  "description": "Recurso temporal para validar el catálogo",
+  "status": "active"
+}
+
+### Duplicate operation should return 409
+POST {{baseUrl}}/recursos
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "method": "GET",
+  "path": "/api/recursos/prueba-iss11",
+  "description": "Operación duplicada",
+  "status": "active"
+}
+
+### Replace resource fields
+PUT {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "method": "GET",
+  "path": "/api/recursos/prueba-iss11-actualizado",
+  "description": "Recurso actualizado"
+}
+
+### Patch resource fields
+PATCH {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "description": "Descripción actualizada parcialmente"
+}
+
+### Deactivate resource
+PATCH {{baseUrl}}/recursos/{{resourceId}}/deactivate
+Authorization: Bearer {{adminToken}}
+
+### Permanently delete resource
+DELETE {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+
+### SELLER should be forbidden from listing resources
+GET {{baseUrl}}/recursos
+Authorization: Bearer {{sellerToken}}
