@@ -4370,3 +4370,20 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![La terminal muestra el intento de usar TOKEN sin un valor válido; las solicitudes reciben 401, por lo que no se comprueba el 403](trazabilidad/E-ISS13-P18-11-intento-403-sin-token.png)
+
+## ISS-14 — Feature RefreshTokens (sesiones renovables y revocables)
+
+**Objetivo:** persistir sesiones como refresh tokens opacos, renovables y revocables, sin exponer su hash en las respuestas HTTP.
+
+**Referencia:** `docs/ISS/ISS-14-auth-refresh-tokens.md`, secciones 19.1–19.6.
+
+**Dependencia:** ISS-13 — Middlewares de acceso.
+
+**Estado:** en curso. Se implementará por partes; las pruebas de sesión dependen de los endpoints de ISS-15.
+
+### Paso 91 — Crear DTO de respuesta de RefreshToken *(ISS-14, 19.1 en curso)*
+
+**Acción:** añadí `RefreshTokenResponseDto` y su mapper para devolver una sesión sin `token_hash`, junto con el campo derivado `is_expired`. Exporté el DTO desde el barrel `dto/index.ts`.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** DTOs implementados en el commit local de este paso.
