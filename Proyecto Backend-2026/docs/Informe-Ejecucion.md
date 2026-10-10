@@ -3951,3 +3951,9 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan los endpoints de asignación y consulta de RoleUsers](trazabilidad/E-ISS12-P17-10-role-users-swagger-02.png)
 
 ![En esta captura se observan la reactivación y los esquemas de RoleUser](trazabilidad/E-ISS12-P17-10-role-users-swagger-03.png)
+
+**Integración en Swagger:**
+
+![En esta captura se observa la importación de roleUsersSwagger en el documento compuesto](trazabilidad/E-ISS12-P17-11-role-users-swagger-integration-01.png)
+
+![En esta captura se observa el registro de roleUsersSwagger en la lista de módulos OpenAPI](trazabilidad/E-ISS12-P17-11-role-users-swagger-integration-02.png)
