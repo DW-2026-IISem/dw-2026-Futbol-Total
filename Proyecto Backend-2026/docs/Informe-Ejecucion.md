@@ -3771,3 +3771,16 @@ src/features/auth/users/http/users.write.http
 ![En esta captura se observan las solicitudes HTTP de listado, consulta, creación, conflicto duplicado y actualización de Resources](trazabilidad/E-ISS11-P16-32-resources-http-01.png)
 
 ![En esta captura se observan las solicitudes HTTP de actualización parcial, desactivación, eliminación física y verificación de acceso de SELLER](trazabilidad/E-ISS11-P16-32-resources-http-02.png)
+
+### Paso 52 — Registrar Resources en el enrutador *(ISS-11, integración en curso)*
+
+**Referencia:** `src/routes/index.ts`.
+
+**Acción:** importé `ResourcesRoutes` y lo registré como instancia de la clase agregadora `Routes`, habilitando su montaje desde la configuración Express.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** cambio implementado y guardado en el commit local `df3db88`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa la importación de ResourcesRoutes y su registro en el enrutador](trazabilidad/E-ISS11-P16-33-resources-route-registry.png)
