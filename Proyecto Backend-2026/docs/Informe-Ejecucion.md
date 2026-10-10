@@ -3757,3 +3757,17 @@ src/features/auth/users/http/users.write.http
 **Integración en Swagger:**
 
 ![En esta captura se observa la importación y el registro de resourcesSwagger en el documento OpenAPI compuesto](trazabilidad/E-ISS11-P16-31-resources-swagger-integration.png)
+
+### Paso 51 — Preparar solicitudes HTTP de Resources *(ISS-11, 16.7 en curso)*
+
+**Referencia:** ISS-11, sección 16.7 — `resources/http/resources.get.http`.
+
+**Acción:** preparé solicitudes HTTP para consultar, crear, actualizar y eliminar recursos, verificar el conflicto por operación duplicada y comprobar el acceso denegado esperado para `SELLER`.
+
+- **Estado:** archivo implementado en el commit local `7f268df`; las solicitudes no se han ejecutado y los tokens de ejemplo deben reemplazarse antes de probar.
+
+**Evidencia recibida:**
+
+![En esta captura se observan las solicitudes HTTP de listado, consulta, creación, conflicto duplicado y actualización de Resources](trazabilidad/E-ISS11-P16-32-resources-http-01.png)
+
+![En esta captura se observan las solicitudes HTTP de actualización parcial, desactivación, eliminación física y verificación de acceso de SELLER](trazabilidad/E-ISS11-P16-32-resources-http-02.png)
