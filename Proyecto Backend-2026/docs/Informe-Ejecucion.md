@@ -4408,3 +4408,10 @@ src/features/auth/users/http/users.write.http
 ![Repository con búsqueda por hash, bloqueo durante transacción y consultas de sesiones](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-queries.png)
 
 ![Repository con actualización, revocación por familia y usuario, purga y conteo](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-revocation.png)
+
+### Paso 93 — Implementar RefreshTokensService *(ISS-14, 19.3 en curso)*
+
+**Acción:** implementé la gestión de sesiones propias y el ciclo de vida de los refresh tokens: emitir tokens opacos almacenando únicamente SHA-256, rotar dentro de una transacción con bloqueo, detectar reutilización y revocar la familia, controlar expiración y revocar sesiones.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** service implementado en el commit local de este paso.
