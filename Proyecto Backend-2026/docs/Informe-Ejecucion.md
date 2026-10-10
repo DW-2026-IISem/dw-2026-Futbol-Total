@@ -3924,3 +3924,7 @@ src/features/auth/users/http/users.write.http
 
 - **Validación:** `npx tsc --noEmit` finalizó correctamente.
 - **Estado:** seeder implementado y guardado en el commit local `6ec9870`. No se ha ejecutado contra la base de datos.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el seeder de las asignaciones admin a ADMIN y seller a SELLER](trazabilidad/E-ISS12-P17-08-role-users-seeder.png)
