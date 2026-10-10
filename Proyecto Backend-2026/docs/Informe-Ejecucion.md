@@ -3646,3 +3646,20 @@ src/features/auth/users/http/users.write.http
 **Integración en Swagger:**
 
 ![En esta captura se observa la importación de rolesSwagger y su registro entre los módulos del documento compuesto](trazabilidad/E-ISS11-P16-12-swagger-roles-integration.png)
+
+### Paso 44 — Definir el catálogo de recursos RBAC *(ISS-11, 16.4 en curso)*
+
+**Referencia:** ISS-11, sección 16.4 — `resources/resource-catalog.ts`.
+
+**Acción:** definí los 58 recursos autorizables del sistema, incluyendo las operaciones establecidas para Business, Users, Roles, Resources, RoleUsers y ResourceRoles. También declaré los siete recursos asignados al rol `SELLER`, manteniendo explícitamente fuera del catálogo los endpoints de sesión.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** catálogo RBAC implementado y guardado en el commit local `3423c65`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el inicio del catálogo RBAC y las rutas de Business y Users](trazabilidad/E-ISS11-P16-24-resource-catalog-01.png)
+
+![En esta captura se observan los recursos administrativos de RoleUsers y ResourceRoles](trazabilidad/E-ISS11-P16-24-resource-catalog-02.png)
+
+![En esta captura se observa el cierre del catálogo con sus 58 entradas y los siete recursos de SELLER](trazabilidad/E-ISS11-P16-24-resource-catalog-03.png)
