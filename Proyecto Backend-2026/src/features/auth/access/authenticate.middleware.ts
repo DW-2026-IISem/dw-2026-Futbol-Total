@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import type { AuthUser } from "../../../shared/auth/auth-user";
 import { extractBearerToken, verifyAccessToken } from "../../../shared/auth/jwt";
 import { AppError } from "../../../shared/errors/app-error";
 import { sendError } from "../../../shared/http/error-response";
@@ -28,12 +29,13 @@ export async function authenticate(
       throw new AppError(401, "User is not active");
     }
 
-    req.auth = {
+    const authUser: AuthUser = {
       id: user.id,
       username: user.username,
       email: user.email,
       tokenId: payload.jti,
     };
+    req.auth = authUser;
     next();
   } catch (error) {
     sendError(res, error);
