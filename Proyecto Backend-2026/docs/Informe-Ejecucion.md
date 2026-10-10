@@ -3784,3 +3784,16 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observa la importación de ResourcesRoutes y su registro en el enrutador](trazabilidad/E-ISS11-P16-33-resources-route-registry.png)
+
+### Paso 53 — Montar Resources en Express *(ISS-11, integración en curso)*
+
+**Referencia:** `src/config/index.ts`.
+
+**Acción:** añadí el montaje de `resourcesRoutes` en la configuración Express, para exponer las rutas registradas por el enrutador.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** montaje implementado y guardado en el commit local `0e19bff`.
+
+**Evidencia recibida:**
+
+![En esta captura se observa el montaje de resourcesRoutes en la aplicación Express](trazabilidad/E-ISS11-P16-34-resources-express-mount.png)
