@@ -3915,3 +3915,12 @@ src/features/auth/users/http/users.write.http
 **Evidencia recibida:**
 
 ![En esta captura se observan los endpoints protegidos del feature RoleUsers](trazabilidad/E-ISS12-P17-07-role-users-routes.png)
+
+### Paso 63 — Crear el seeder de asignaciones canónicas *(ISS-12, 17.3 en curso)*
+
+**Referencia:** ISS-12, sección 17.3 — `role-users/role-users.seeder.ts`.
+
+**Acción:** implementé las asignaciones canónicas `admin → ADMIN` y `seller → SELLER`; el seeder crea las que faltan y reactiva las existentes inactivas. Si el usuario o rol no existe o está inactivo, informa la omisión.
+
+- **Validación:** `npx tsc --noEmit` finalizó correctamente.
+- **Estado:** seeder implementado y guardado en el commit local `6ec9870`. No se ha ejecutado contra la base de datos.
