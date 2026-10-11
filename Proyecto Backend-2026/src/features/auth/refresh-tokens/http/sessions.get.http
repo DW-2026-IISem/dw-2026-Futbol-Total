@@ -1,6 +1,7 @@
 ### ISS-14 — RefreshTokens, sesiones propias (modalidad JWT, sin RBAC)
 ### Preparado según la guía; no ejecutar hasta que ISS-15 implemente el login.
 ### Un id ajeno debe responder 404, sin revelar la existencia de otra sesión.
+### Reemplaza <SEED_SELLER_PASSWORD> localmente por el valor de SEED_SELLER_PASSWORD en .env.
 @baseUrl = http://localhost:3002
 
 # @name loginSeller
@@ -9,7 +10,7 @@ Content-Type: application/json
 
 {
   "identifier": "seller",
-  "password": "Seller123!"
+  "password": "<SEED_SELLER_PASSWORD>"
 }
 
 @token = {{loginSeller.response.body.$.access_token}}

@@ -1,5 +1,6 @@
 ### ISS-15 — Login (modalidad OPEN)
 ### OPEN significa que no requiere identidad previa; valida credenciales y crea una sesión.
+### Reemplaza <SEED_ADMIN_PASSWORD> localmente por el valor de SEED_ADMIN_PASSWORD en .env.
 @baseUrl = http://localhost:3002
 
 # @name loginAdmin
@@ -8,7 +9,7 @@ Content-Type: application/json
 
 {
   "identifier": "admin",
-  "password": "Admin123!"
+  "password": "<SEED_ADMIN_PASSWORD>"
 }
 
 ### Login por correo (opcional; mismo endpoint)
@@ -17,7 +18,7 @@ Content-Type: application/json
 
 {
   "identifier": "admin@storelab.local",
-  "password": "Admin123!"
+  "password": "<SEED_ADMIN_PASSWORD>"
 }
 
 ### Credenciales incorrectas deben responder 401 con mensaje genérico

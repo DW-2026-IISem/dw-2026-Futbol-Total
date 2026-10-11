@@ -1,4 +1,5 @@
 ### ISS-15 — Perfil y permisos (modalidad JWT)
+### Reemplaza <SEED_SELLER_PASSWORD> localmente por el valor de SEED_SELLER_PASSWORD en .env.
 @baseUrl = http://localhost:3002
 
 # @name loginSeller
@@ -7,7 +8,7 @@ Content-Type: application/json
 
 {
   "identifier": "seller",
-  "password": "Seller123!"
+  "password": "<SEED_SELLER_PASSWORD>"
 }
 
 @sellerAccessToken = {{loginSeller.response.body.$.access_token}}

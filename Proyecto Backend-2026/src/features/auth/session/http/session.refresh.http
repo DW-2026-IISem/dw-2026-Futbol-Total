@@ -1,5 +1,6 @@
 ### ISS-15 — Refresh (OPEN con credencial de sesión)
 ### Ejecutar loginAdmin primero para obtener refresh_token.
+### Reemplaza <SEED_ADMIN_PASSWORD> localmente por el valor de SEED_ADMIN_PASSWORD en .env.
 @baseUrl = http://localhost:3002
 
 # @name loginAdmin
@@ -8,7 +9,7 @@ Content-Type: application/json
 
 {
   "identifier": "admin",
-  "password": "Admin123!"
+  "password": "<SEED_ADMIN_PASSWORD>"
 }
 
 ### Rota el refresh token y devuelve un par nuevo

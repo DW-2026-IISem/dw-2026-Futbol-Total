@@ -4469,6 +4469,16 @@ src/features/auth/users/http/users.write.http
 
 ![Solicitudes JWT de perfil y permisos, y logout OPEN](trazabilidad/E-ISS15-P20-06-session-profile-http.png)
 
+### Paso 105 — Registrar intento de login no exitoso
+
+**Resultado observado:** los intentos con el valor de ejemplo `Admin123!` devolvieron HTTP 401; la captura no muestra credenciales válidas ni emisión de tokens.
+
+**Diagnóstico:** el seeder exige que `SEED_ADMIN_PASSWORD` tenga al menos 12 caracteres, así que `Admin123!` no puede ser la contraseña creada por ese seeder. Además, `findOrCreate` conserva la contraseña de un usuario ya existente; no la restablece. Se actualizaron los archivos `.http` para indicar que se utilice localmente el valor configurado, sin compartirlo ni guardarlo.
+
+**Evidencia recibida:**
+
+![Terminal con respuestas 401 a los intentos de login usando el valor de ejemplo; no se exponen tokens](trazabilidad/E-ISS15-P20-06-login-401-credencial-ejemplo.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
@@ -4612,6 +4622,8 @@ src/features/auth/users/http/users.write.http
 **Dependencia:** ISS-14 — Feature RefreshTokens.
 
 **Estado:** en curso. Se avanzará por partes; al finalizar el login podrán retomarse las verificaciones de ISS-13 e ISS-14 que requieren un access token.
+
+**Nota para credenciales de prueba:** `users.seeder.ts` requiere `SEED_ADMIN_PASSWORD` y `SEED_SELLER_PASSWORD` de al menos 12 caracteres. Los valores cortos de ejemplo de la guía no necesariamente coinciden con las contraseñas sembradas; se deben sustituir localmente en los archivos `.http` por los valores del `.env`, sin compartirlos ni guardarlos en Git.
 
 ### Paso 99 — Crear DTOs de Session *(ISS-15, 20.1 en curso)*
 
