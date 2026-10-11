@@ -4491,7 +4491,9 @@ src/features/auth/users/http/users.write.http
 
 - **Resultado observado:** `HTTP 200`; la respuesta incluyó `access_token`, `token_type`, `expires_in`, `refresh_token` y `refresh_expires_in`.
 - **Manejo de credenciales:** los tokens no se imprimieron ni se persistieron. La sesión emitida quedó registrada en la base local.
-- **Evidencia visual:** pendiente de captura desde el cliente HTTP local, con los valores de ambos tokens ocultos.
+- **Evidencia visual:** la terminal muestra el `POST /api/sesion/login` exitoso y la inserción de una fila en `refresh_tokens`; en el panel de respuesta, una solicitud posterior de credenciales incorrectas devuelve `Invalid credentials`. La evidencia visual del cuerpo 200 con los valores de ambos tokens ocultos sigue pendiente.
+
+![La terminal muestra un login HTTP 200 con inserción de sesión y un intento posterior de credenciales incorrectas](trazabilidad/E-ISS15-P20-06-login-200-y-credenciales-incorrectas-401.png)
 
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
