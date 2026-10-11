@@ -4585,6 +4585,24 @@ src/features/auth/users/http/users.write.http
 
 ![Reutilización del refresh anterior: HTTP 401 y familia de sesión revocada](trazabilidad/E-ISS15-P20-17-refresh-reuse-401.png)
 
+### Paso 116 — Iniciar sesión como ADMIN para consultar permisos *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `POST /api/sesion/login` con el usuario admin.
+
+- **Resultado observado:** HTTP 200 y emisión de un par nuevo de tokens después de la revocación de la familia anterior.
+- **Evidencia:** se ocultaron la contraseña y los tokens en la copia de la captura.
+
+![Login de admin para verificar permisos con respuesta HTTP 200 y valores sensibles redactados](trazabilidad/E-ISS15-P20-18-admin-login-200-redactada.png)
+
+### Paso 117 — Consultar permisos efectivos de ADMIN *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `GET /api/permisos` con el access token recién emitido para admin.
+
+- **Resultado observado:** HTTP 200 con la lista de permisos asociados al rol `ADMIN`.
+- **Referencia de la guía:** se esperan 58 permisos para ADMIN; la captura permite ver la lista y su asociación al rol. El contador total no aparece explícitamente en la respuesta.
+
+![Permisos efectivos de ADMIN: respuesta HTTP 200 y lista asociada al rol](trazabilidad/E-ISS15-P20-19-admin-permissions-200.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
