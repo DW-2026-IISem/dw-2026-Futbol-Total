@@ -4485,6 +4485,14 @@ src/features/auth/users/http/users.write.http
 
 **Corrección local aplicada:** con autorización del usuario, actualicé una sola vez el hash de la contraseña de `admin` en la base de datos local, usando el valor de `SEED_ADMIN_PASSWORD` de `.env`. La operación se completó dentro de una transacción; no se ejecutó el seeder y el valor secreto no se mostró ni se guardó. Esta modificación afecta únicamente a la base local, no es parte de un commit.
 
+### Paso 106 — Verificar login de admin con credencial local
+
+**Acción:** envié una única solicitud local a `POST /api/sesion/login` leyendo `SEED_ADMIN_PASSWORD` desde `.env`.
+
+- **Resultado observado:** `HTTP 200`; la respuesta incluyó `access_token`, `token_type`, `expires_in`, `refresh_token` y `refresh_expires_in`.
+- **Manejo de credenciales:** los tokens no se imprimieron ni se persistieron. La sesión emitida quedó registrada en la base local.
+- **Evidencia visual:** pendiente de captura desde el cliente HTTP local, con los valores de ambos tokens ocultos.
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
