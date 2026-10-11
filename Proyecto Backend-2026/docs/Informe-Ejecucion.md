@@ -4506,6 +4506,16 @@ src/features/auth/users/http/users.write.http
 
 ![GET del perfil sin token: respuesta 401 por Bearer token ausente](trazabilidad/E-ISS15-P20-08-profile-401-sin-token.png)
 
+### Paso 108 — Iniciar sesión de seller para pruebas JWT *(ISS-15, 20.6 en curso)*
+
+**Acción:** envié `POST /api/sesion/login` con el identificador `seller`.
+
+- **Resultado observado:** la terminal registra HTTP 200 y la creación de un refresh token para la sesión.
+- **Evidencia:** se archivó una copia redactada que oculta el cuerpo de la solicitud y la respuesta, donde aparecen la contraseña y los tokens.
+- **Siguiente acción:** no se reutilizarán los tokens expuestos en la captura; antes de probar perfil y permisos se debe revocar esa sesión y obtener un par nuevo sin compartirlo.
+
+![Login de seller con respuesta HTTP 200 y valores sensibles redactados](trazabilidad/E-ISS15-P20-09-login-seller-200-redactada.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
