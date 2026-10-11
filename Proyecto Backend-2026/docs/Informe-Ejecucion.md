@@ -4457,8 +4457,17 @@ src/features/auth/users/http/users.write.http
 **Acción:** preparé archivos `.http` separados para login, refresh y perfil/permisos/logout, con base URL en el puerto 3002 y variables que enlazan los tokens emitidos por login y refresh.
 
 - **Ejecución:** no se ejecutaron. Las pruebas deben realizarse manualmente, en orden y con las credenciales de desarrollo configuradas para la base de datos.
+
 - **Precaución:** la solicitud de reutilización del refresh token invalida intencionalmente toda la familia; ejecutarla solo como prueba controlada.
 - **Estado:** archivos HTTP preparados en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Solicitud de login OPEN preparada con usuario, correo y manejo de credenciales inválidas](trazabilidad/E-ISS15-P20-06-session-login-http.png)
+
+![Solicitudes de refresh con rotación y comprobación controlada de reuso](trazabilidad/E-ISS15-P20-06-session-refresh-http.png)
+
+![Solicitudes JWT de perfil y permisos, y logout OPEN](trazabilidad/E-ISS15-P20-06-session-profile-http.png)
 
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
