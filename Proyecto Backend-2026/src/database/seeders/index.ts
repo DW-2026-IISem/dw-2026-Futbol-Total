@@ -40,16 +40,17 @@ export async function runAllSeeders(): Promise<void> {
   }
 
   await sequelize.sync({ force: false });
+  await seedRoles();
+  await seedResources();
+  await seedUsers();
+  await seedRoleUsers();
+  await seedResourceRoles();
+
   await seedClients(counts.clients);
   await seedProductTypes(counts.product_types);
   await seedProducts(counts.products);
   await seedSales(counts.sales);
   await seedProductSales(counts.product_sales);
-  await seedUsers();
-  await seedRoles();
-  await seedResources();
-  await seedRoleUsers();
-  await seedResourceRoles();
 
   console.log("SeedersRunner finalizado");
 }
