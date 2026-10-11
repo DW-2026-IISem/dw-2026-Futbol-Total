@@ -4400,6 +4400,125 @@ src/features/auth/users/http/users.write.http
 
 ![DTO de respuesta con tokens y perfil público](trazabilidad/E-ISS15-P20-01-session-response-profile-dto.png)
 
+### Paso 92 — Implementar RefreshTokensRepository *(ISS-14, 19.2 en curso)*
+
+**Acción:** implementé el repository con búsqueda por hash, listado y consulta por usuario/sesión, alta y actualización dentro de transacción, bloqueo `UPDATE` al buscar durante la rotación, revocación por familia o usuario, purga y conteo de sesiones activas.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** repository implementado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Repository con búsqueda por hash, bloqueo durante transacción y consultas de sesiones](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-queries.png)
+
+![Repository con actualización, revocación por familia y usuario, purga y conteo](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-revocation.png)
+
+### Paso 93 — Implementar RefreshTokensService *(ISS-14, 19.3 en curso)*
+
+**Acción:** implementé la gestión de sesiones propias y el ciclo de vida de los refresh tokens: emitir tokens opacos almacenando únicamente SHA-256, rotar dentro de una transacción con bloqueo, detectar reutilización y revocar la familia, controlar expiración y revocar sesiones.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** service implementado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![RefreshTokensService con gestión de sesiones propias y tipos del ciclo de rotación](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-session-management.png)
+
+![Emisión y rotación transaccional de refresh tokens con detección de reutilización](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-issue-rotate.png)
+
+![Rotación, revocación y control de pertenencia de las sesiones](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-revoke.png)
+
+### Paso 94 — Implementar RefreshTokensController *(ISS-14, 19.4 en curso)*
+
+**Acción:** añadí el controller para listar y consultar sesiones propias, revocar una o todas las sesiones y purgar las inactivas. Cada handler ejecuta la operación mediante `BaseController.run` y obtiene el usuario autenticado con `requireAuthUser`; estas operaciones no requieren `authorize` porque se limitan a sesiones propias.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** controller implementado en el commit local de este paso. Las rutas JWT y su registro en la aplicación siguen pendientes.
+
+**Evidencia recibida:**
+
+![Controller de RefreshTokens que opera sobre las sesiones del usuario autenticado](trazabilidad/E-ISS14-P19-04-refresh-tokens-controller.png)
+
+### Paso 95 — Registrar rutas JWT de RefreshTokens *(ISS-14, 19.4 en curso)*
+
+**Acción:** añadí las rutas para listar, consultar, revocar y purgar sesiones propias. Cada endpoint utiliza `authenticate` sin `authorize`; registré las rutas en `Routes` y en la configuración Express. La ruta literal `deactivate-all` queda antes de la ruta parametrizada.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas registradas en la aplicación en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Rutas JWT de RefreshTokens para listar, consultar, revocar y purgar sesiones propias](trazabilidad/E-ISS14-P19-04-refresh-tokens-routes.png)
+
+### Paso 96 — Documentar RefreshTokens en Swagger *(ISS-14, 19.5 en curso)*
+
+**Acción:** documenté las rutas JWT de sesiones propias, sus respuestas y el esquema `Session`, sin exponer `token_hash`. Registré el módulo en OpenAPI y actualicé la descripción general de Swagger para reflejar la autenticación JWT y autorización RBAC del backend.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** Swagger de RefreshTokens registrado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Swagger documenta endpoints de sesiones propias y su esquema de autenticación JWT](trazabilidad/E-ISS14-P19-05-refresh-tokens-swagger-endpoints.png)
+
+![Swagger documenta el esquema de respuesta Session sin token_hash](trazabilidad/E-ISS14-P19-05-refresh-tokens-swagger-schema.png)
+
+### Paso 97 — Preparar solicitudes HTTP de sesiones propias *(ISS-14, 19.6 en curso)*
+
+**Acción:** preparé `sessions.get.http` con el flujo de login requerido para obtener el Bearer token y las solicitudes para listar, consultar, revocar y purgar sesiones propias. Ajusté la URL base al puerto 3002 configurado para el servidor.
+
+- **Ejecución:** aplazada hasta ISS-15, cuando exista el endpoint de login. No se han ejecutado estas solicitudes.
+- **Estado:** archivo HTTP preparado en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Archivo sessions.get.http con las solicitudes de sesiones propias y autenticación Bearer preparadas](trazabilidad/E-ISS14-P19-06-sessions-http-preparado.png)
+
+### Paso 98 — Verificar arranque del servidor para ISS-14
+
+**Acción:** el usuario ejecutó `npm run dev`.
+
+- **Resultado observado:** conexión a MySQL y sincronización de tablas exitosas; el servidor informa `Servidor ejecutándose en puerto 3002`.
+- **Ejecución HTTP de sesiones:** pendiente hasta ISS-15, cuando se implemente el endpoint de login y se pueda obtener un access token.
+
+**Evidencia recibida:**
+
+![Terminal con conexión y sincronización de la base de datos exitosas y servidor iniciado en el puerto 3002](trazabilidad/E-ISS14-P19-07-servidor-iniciado-puerto-3002.png)
+
+## ISS-15 — Feature Session (login, refresh, logout, perfil y permisos)
+
+**Objetivo:** implementar login, renovación y cierre de sesión, junto con el perfil y los permisos efectivos del usuario autenticado.
+
+**Referencia:** `docs/ISS/ISS-15-auth-session.md`, secciones 20.1–20.7.
+
+**Dependencia:** ISS-14 — Feature RefreshTokens.
+
+**Estado:** en curso. Se avanzará por partes; al finalizar el login podrán retomarse las verificaciones de ISS-13 e ISS-14 que requieren un access token.
+
+**Nota para credenciales de prueba:** `users.seeder.ts` requiere `SEED_ADMIN_PASSWORD` y `SEED_SELLER_PASSWORD` de al menos 12 caracteres. Los valores cortos de ejemplo de la guía no necesariamente coinciden con las contraseñas sembradas; se deben sustituir localmente en los archivos `.http` por los valores del `.env`, sin compartirlos ni guardarlos en Git.
+
+**Corrección de datos de prueba:** el ejemplo `admin@storelab.local` era heredado de la guía base StoreLab y no corresponde a Pedalibre. Se cambió el correo canónico de las cuentas de prueba a `admin@pedalibre.com` y `seller@pedalibre.com`; el seeder ahora sincroniza el correo canónico de usuarios existentes y reactiva los inactivos sin modificar sus contraseñas. Esta sincronización solo ocurre cuando se ejecute el seeder; no se modificó directamente la base de datos.
+
+## ISS-15 — Feature Session (login, refresh, logout, perfil y permisos)
+
+**Objetivo:** implementar login, renovación y cierre de sesión, junto con el perfil y los permisos efectivos del usuario autenticado.
+
+**Referencia:** `docs/ISS/ISS-15-auth-session.md`, secciones 20.1–20.7.
+
+**Dependencia:** ISS-14 — Feature RefreshTokens.
+
+**Estado:** en curso. Se avanzará por partes; al finalizar el login podrán retomarse las verificaciones de ISS-13 e ISS-14 que requieren un access token.
+
+**Nota para credenciales de prueba:** `users.seeder.ts` requiere `SEED_ADMIN_PASSWORD` y `SEED_SELLER_PASSWORD` de al menos 12 caracteres. Los valores cortos de ejemplo de la guía no necesariamente coinciden con las contraseñas sembradas; se deben sustituir localmente en los archivos `.http` por los valores del `.env`, sin compartirlos ni guardarlos en Git.
+
+**Corrección de datos de prueba:** el ejemplo `admin@storelab.local` era heredado de la guía base StoreLab y no corresponde a Pedalibre. Se cambió el correo canónico de las cuentas de prueba a `admin@pedalibre.com` y `seller@pedalibre.com`; el seeder ahora sincroniza el correo canónico de usuarios existentes y reactiva los inactivos sin modificar sus contraseñas. Esta sincronización solo ocurre cuando se ejecute el seeder; no se modificó directamente la base de datos.
+
+### Paso 99 — Crear DTOs de Session *(ISS-15, 20.1 en curso)*
+
+**Acción:** añadí los DTO de login, refresh, logout, respuesta con par de tokens y perfil público; los exporté desde `session/dto/index.ts`.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** DTOs implementados en el commit local de este paso.
 ### Paso 100 — Implementar SessionService *(ISS-15, 20.2 en curso)*
 
 **Acción:** implementé login con rechazo genérico de credenciales inválidas y de usuarios inactivos; refresh con rotación y detección de reutilización; logout idempotente; perfil público y consulta de permisos efectivos. El servicio reutiliza `UsersRepository.findByUsernameOrEmail`, `RefreshTokensService` y `ResourceRolesService`.
@@ -4622,158 +4741,3 @@ src/features/auth/users/http/users.write.http
 - **Evidencia:** se ocultaron los diagnósticos SQL de token del terminal.
 
 ![El refresh token rotado también responde HTTP 401 tras revocarse la familia](trazabilidad/E-ISS15-P20-22-rotated-refresh-reuse-401.png)
-
-### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
-
-**Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** rutas registradas en Express en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![Barrel que exporta los DTO de Session](trazabilidad/E-ISS15-P20-01-session-dto-index.png)
-
-![DTO de entrada para iniciar sesión con usuario o correo](trazabilidad/E-ISS15-P20-01-login-dto.png)
-
-![DTO de entrada para cerrar una sesión](trazabilidad/E-ISS15-P20-01-logout-dto.png)
-
-![DTO de entrada para renovar una sesión](trazabilidad/E-ISS15-P20-01-refresh-dto.png)
-
-![DTO de respuesta de tokens y perfil público](trazabilidad/E-ISS15-P20-01-session-response-profile-dto.png)
-
-### Paso 100 — Implementar SessionService *(ISS-15, 20.2 en curso)*
-
-**Acción:** implementé login con respuesta genérica para credenciales incorrectas y rechazo de usuarios inactivos; renovación con rotación del refresh token y detección de reutilización; logout idempotente; perfil público y consulta de permisos efectivos. El servicio reutiliza `UsersRepository.findByUsernameOrEmail`, que ya normaliza el identificador y recupera el hash de contraseña, además de los servicios existentes de RefreshTokens y ResourceRoles.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** service implementado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![SessionService valida credenciales y abre sesión sin distinguir usuario de contraseña incorrectos](trazabilidad/E-ISS15-P20-02-session-service-login.png)
-
-![SessionService rota refresh tokens con errores controlados y permite cerrar sesión](trazabilidad/E-ISS15-P20-02-session-service-refresh-logout.png)
-
-![SessionService obtiene el perfil y permisos efectivos y construye el par de tokens](trazabilidad/E-ISS15-P20-02-session-service-profile-tokens.png)
-
-### Paso 101 — Implementar SessionController *(ISS-15, 20.3 en curso)*
-
-**Acción:** añadí los handlers OPEN para login, refresh y logout, además de los handlers JWT para perfil y permisos efectivos. Los métodos delegan en `SessionService`, se ejecutan mediante `BaseController.run` y registran `User-Agent` como `device_info` para login y refresh.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** controller implementado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![DTO de respuesta que excluye token_hash y calcula is_expired](trazabilidad/E-ISS14-P19-01-refresh-token-response-dto.png)
-
-![Barrel que exporta el DTO de RefreshToken](trazabilidad/E-ISS14-P19-01-refresh-token-dto-index.png)
-
-![Modelo RefreshToken existente que define los datos proyectados por el DTO](trazabilidad/E-ISS14-P19-01-refresh-token-model-context.png)
-
-### Paso 92 — Implementar RefreshTokensRepository *(ISS-14, 19.2 en curso)*
-
-**Acción:** implementé el repository con búsqueda por hash, listado y consulta por usuario/sesión, alta y actualización dentro de transacción, bloqueo `UPDATE` al buscar durante la rotación, revocación por familia o usuario, purga y conteo de sesiones activas.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** repository implementado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![Repository con búsqueda por hash, bloqueo durante transacción y consultas de sesiones](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-queries.png)
-
-![Repository con actualización, revocación por familia y usuario, purga y conteo](trazabilidad/E-ISS14-P19-02-refresh-tokens-repository-revocation.png)
-
-### Paso 93 — Implementar RefreshTokensService *(ISS-14, 19.3 en curso)*
-
-**Acción:** implementé la gestión de sesiones propias y el ciclo de vida de los refresh tokens: emitir tokens opacos almacenando únicamente SHA-256, rotar dentro de una transacción con bloqueo, detectar reutilización y revocar la familia, controlar expiración y revocar sesiones.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** service implementado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![RefreshTokensService con gestión de sesiones propias y tipos del ciclo de rotación](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-session-management.png)
-
-![Emisión y rotación transaccional de refresh tokens con detección de reutilización](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-issue-rotate.png)
-
-![Rotación, revocación y control de pertenencia de las sesiones](trazabilidad/E-ISS14-P19-03-refresh-tokens-service-revoke.png)
-
-### Paso 94 — Implementar RefreshTokensController *(ISS-14, 19.4 en curso)*
-
-**Acción:** añadí el controller para listar y consultar sesiones propias, revocar una o todas las sesiones y purgar las inactivas. Cada handler ejecuta la operación mediante `BaseController.run` y obtiene el usuario autenticado con `requireAuthUser`; estas operaciones no requieren `authorize` porque se limitan a sesiones propias.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** controller implementado en el commit local de este paso. Las rutas JWT y su registro en la aplicación siguen pendientes.
-
-**Evidencia recibida:**
-
-![Controller de RefreshTokens que opera sobre las sesiones del usuario autenticado](trazabilidad/E-ISS14-P19-04-refresh-tokens-controller.png)
-
-### Paso 95 — Registrar rutas JWT de RefreshTokens *(ISS-14, 19.4 en curso)*
-
-**Acción:** añadí las rutas para listar, consultar, revocar y purgar sesiones propias. Cada endpoint utiliza `authenticate` sin `authorize`; registré las rutas en `Routes` y en la configuración Express. La ruta literal `deactivate-all` queda antes de la ruta parametrizada.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** rutas registradas en la aplicación en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![Rutas JWT de RefreshTokens para listar, consultar, revocar y purgar sesiones propias](trazabilidad/E-ISS14-P19-04-refresh-tokens-routes.png)
-
-### Paso 96 — Documentar RefreshTokens en Swagger *(ISS-14, 19.5 en curso)*
-
-**Acción:** documenté las rutas JWT de sesiones propias, sus respuestas y el esquema `Session`, sin exponer `token_hash`. Registré el módulo en OpenAPI y actualicé la descripción general de Swagger para reflejar la autenticación JWT y autorización RBAC del backend.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** Swagger de RefreshTokens registrado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![Swagger documenta endpoints de sesiones propias y su esquema de autenticación JWT](trazabilidad/E-ISS14-P19-05-refresh-tokens-swagger-endpoints.png)
-
-![Swagger documenta el esquema de respuesta Session sin token_hash](trazabilidad/E-ISS14-P19-05-refresh-tokens-swagger-schema.png)
-
-### Paso 97 — Preparar solicitudes HTTP de sesiones propias *(ISS-14, 19.6 en curso)*
-
-**Acción:** preparé `sessions.get.http` con el flujo de login requerido para obtener el Bearer token y las solicitudes para listar, consultar, revocar y purgar sesiones propias. Ajusté la URL base al puerto 3002 configurado para el servidor.
-
-- **Ejecución:** aplazada hasta ISS-15, cuando exista el endpoint de login. No se han ejecutado estas solicitudes.
-- **Estado:** archivo HTTP preparado en el commit local de este paso.
-
-**Evidencia recibida:**
-
-![Archivo sessions.get.http con las solicitudes de sesiones propias y autenticación Bearer preparadas](trazabilidad/E-ISS14-P19-06-sessions-http-preparado.png)
-
-### Paso 98 — Verificar arranque del servidor para ISS-14
-
-**Acción:** el usuario ejecutó `npm run dev`.
-
-- **Resultado observado:** conexión a MySQL y sincronización de tablas exitosas; el servidor informa `Servidor ejecutándose en puerto 3002`.
-- **Ejecución HTTP de sesiones:** pendiente hasta ISS-15, cuando se implemente el endpoint de login y se pueda obtener un access token.
-
-**Evidencia recibida:**
-
-![Terminal con conexión y sincronización de la base de datos exitosas y servidor iniciado en el puerto 3002](trazabilidad/E-ISS14-P19-07-servidor-iniciado-puerto-3002.png)
-
-## ISS-15 — Feature Session (login, refresh, logout, perfil y permisos)
-
-**Objetivo:** implementar login, renovación y cierre de sesión, junto con el perfil y los permisos efectivos del usuario autenticado.
-
-**Referencia:** `docs/ISS/ISS-15-auth-session.md`, secciones 20.1–20.7.
-
-**Dependencia:** ISS-14 — Feature RefreshTokens.
-
-**Estado:** en curso. Se avanzará por partes; al finalizar el login podrán retomarse las verificaciones de ISS-13 e ISS-14 que requieren un access token.
-
-**Nota para credenciales de prueba:** `users.seeder.ts` requiere `SEED_ADMIN_PASSWORD` y `SEED_SELLER_PASSWORD` de al menos 12 caracteres. Los valores cortos de ejemplo de la guía no necesariamente coinciden con las contraseñas sembradas; se deben sustituir localmente en los archivos `.http` por los valores del `.env`, sin compartirlos ni guardarlos en Git.
-
-**Corrección de datos de prueba:** el ejemplo `admin@storelab.local` era heredado de la guía base StoreLab y no corresponde a Pedalibre. Se cambió el correo canónico de las cuentas de prueba a `admin@pedalibre.com` y `seller@pedalibre.com`; el seeder ahora sincroniza el correo canónico de usuarios existentes y reactiva los inactivos sin modificar sus contraseñas. Esta sincronización solo ocurre cuando se ejecute el seeder; no se modificó directamente la base de datos.
-
-### Paso 99 — Crear DTOs de Session *(ISS-15, 20.1 en curso)*
-
-**Acción:** añadí los DTO de login, refresh, logout, respuesta con par de tokens y perfil público; los exporté desde `session/dto/index.ts`.
-
-- **Validación:** `tsc --noEmit` finalizó correctamente.
-- **Estado:** DTOs implementados en el commit local de este paso.
