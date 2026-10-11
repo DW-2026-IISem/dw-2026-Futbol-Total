@@ -4741,3 +4741,18 @@ src/features/auth/users/http/users.write.http
 - **Evidencia:** se ocultaron los diagnósticos SQL de token del terminal.
 
 ![El refresh token rotado también responde HTTP 401 tras revocarse la familia](trazabilidad/E-ISS15-P20-22-rotated-refresh-reuse-401.png)
+
+## CIERRE-AUTH — Cierre Fase II: Auth con RBAC
+
+**Referencia:** `docs/ISS/CIERRE-AUTH-cierre-fase-II.md`.
+
+### Paso 120 — Revisar cableado final de configuración *(CIERRE-AUTH)*
+
+**Acción:** revisé `src/config/index.ts` según el apartado “Cableado final” de la guía CIERRE-AUTH.
+
+- **Resultado observado:** las importaciones incluyen los modelos de negocio y autenticación, asociaciones RBAC, agregador `Routes` y configuración de Swagger. El método `routes()` registra las rutas de las features, incluida Session.
+- **Evidencia recibida:** capturas del inicio de `src/config/index.ts` y de sus métodos de middlewares, rutas, documentación y conexión.
+
+![Importaciones de modelos, asociaciones y Swagger en src/config/index.ts](trazabilidad/E-CIERRE-AUTH-P01-config-imports.png)
+
+![Registro de rutas de negocio y autenticación en src/config/index.ts](trazabilidad/E-CIERRE-AUTH-P01-config-routes.png)
