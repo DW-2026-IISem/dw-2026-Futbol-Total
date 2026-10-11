@@ -4771,7 +4771,8 @@ src/features/auth/users/http/users.write.http
 **Acción:** revisé las capturas de `src/swagger/index.ts` según el apartado “Cableado final” de la guía CIERRE-AUTH.
 
 - **Resultado observado:** se muestran los 12 módulos Swagger registrados, la función que reúne la documentación OpenAPI, el esquema `bearerAuth`, la seguridad global predeterminada y las respuestas comunes 401/403.
-- **Estado:** verificación visual completada con las capturas recibidas.
+- **Verificación visual en `/api/docs`:** Swagger UI carga los grupos de rutas de negocio y autenticación y presenta los esquemas. Las operaciones protegidas muestran candado; las rutas OPEN de sesión aparecen sin candado. Las capturas no muestran respuestas ejecutadas, por lo que no se afirma que se hayan probado allí los códigos HTTP 401/403.
+- **Estado:** revisión estática y visual de la documentación completada.
 - **Evidencia recibida:**
 
 ![Imports y registro de los 12 módulos Swagger](trazabilidad/E-CIERRE-AUTH-P03-swagger-modules.png)
@@ -4781,3 +4782,17 @@ src/features/auth/users/http/users.write.http
 ![Imports de bearerSecurityScheme y respuestas comunes](trazabilidad/E-CIERRE-AUTH-P03-swagger-security-imports.png)
 
 ![Seguridad global bearerAuth y componentes OpenAPI](trazabilidad/E-CIERRE-AUTH-P03-swagger-security-document.png)
+
+![Swagger UI con el encabezado de Pedalibre API y rutas de negocio](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-01-overview.png)
+
+![Swagger UI con operaciones de negocio](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-02-business.png)
+
+![Swagger UI con operaciones protegidas de autenticación y RBAC](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-03-auth.png)
+
+![Swagger UI con rutas de sesiones y sesión](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-04-session.png)
+
+![Swagger UI con los esquemas OpenAPI](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-05-schemas.png)
+
+![Swagger UI con esquemas adicionales](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-06-schemas.png)
+
+![Swagger UI con esquemas de recursos, roles y sesiones](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-07-schemas.png)
