@@ -4435,6 +4435,24 @@ src/features/auth/users/http/users.write.http
 
 **Evidencia recibida:**
 
+![Rutas OPEN de login, refresh y logout y rutas JWT de perfil y permisos](trazabilidad/E-ISS15-P20-04-session-routes.png)
+
+### Paso 103 — Documentar Session en Swagger *(ISS-15, 20.5 en curso)*
+
+**Acción:** documenté los tres endpoints OPEN con `security: []` y los endpoints JWT de perfil y permisos efectivos con `bearerSecurity`, incluyendo los esquemas de entrada y respuesta. Registré `sessionSwagger` en el documento OpenAPI.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** Swagger de Session registrado en el commit local de este paso.
+
+### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
+
+**Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas registradas en Express en el commit local de este paso.
+
+**Evidencia recibida:**
+
 ![Barrel que exporta los DTO de Session](trazabilidad/E-ISS15-P20-01-session-dto-index.png)
 
 ![DTO de entrada para iniciar sesión con usuario o correo](trazabilidad/E-ISS15-P20-01-login-dto.png)
