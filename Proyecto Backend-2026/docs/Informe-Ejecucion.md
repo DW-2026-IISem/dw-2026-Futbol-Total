@@ -4827,3 +4827,13 @@ src/features/auth/users/http/users.write.http
 - **Evidencia:**
 
 ![Ejecución de npx tsc --noEmit sin errores](trazabilidad/E-CIERRE-AUTH-P07-typescript-noemit.png)
+
+### Paso 126 — Smoke test E2E de las tres modalidades *(CIERRE-AUTH; completado con evidencias previas)*
+
+**Acción:** consolidé las pruebas ya realizadas durante ISS-15 para OPEN, JWT y JWT + RBAC, sin repetir solicitudes.
+
+- **OPEN:** login con HTTP 200.
+- **JWT:** consulta de perfil autenticado con HTTP 200.
+- **JWT + RBAC:** lectura de clientes permitida con HTTP 200 y creación de clientes denegada con HTTP 403 al rol SELLER por falta de concesión.
+- **Estado:** las tres modalidades quedan verificadas con las evidencias previas de ISS-15.
+- **Evidencias:** [login OPEN](trazabilidad/E-ISS15-P20-07-login-200-redactada.png), [perfil JWT](trazabilidad/E-ISS15-P20-11-profile-seller-200.png), [GET clientes permitido](trazabilidad/E-ISS15-P20-13-seller-get-clientes-200.png) y [POST clientes denegado](trazabilidad/E-ISS15-P20-14-seller-post-clientes-403.png).
