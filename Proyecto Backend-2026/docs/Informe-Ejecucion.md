@@ -4837,3 +4837,25 @@ src/features/auth/users/http/users.write.http
 - **JWT + RBAC:** lectura de clientes permitida con HTTP 200 y creación de clientes denegada con HTTP 403 al rol SELLER por falta de concesión.
 - **Estado:** las tres modalidades quedan verificadas con las evidencias previas de ISS-15.
 - **Evidencias:** [login OPEN](trazabilidad/E-ISS15-P20-07-login-200-redactada.png), [perfil JWT](trazabilidad/E-ISS15-P20-11-profile-seller-200.png), [GET clientes permitido](trazabilidad/E-ISS15-P20-13-seller-get-clientes-200.png) y [POST clientes denegado](trazabilidad/E-ISS15-P20-14-seller-post-clientes-403.png).
+
+### Paso 127 — Completar autoevaluación del cuaderno *(CIERRE-AUTH)*
+
+**Referencia:** [Evaluación del cuaderno CIERRE-AUTH](https://tecnogua.com/academic/site/backend2026/aprendizaje/CIERRE-AUTH-aprendizaje/#evaluacion).
+
+**Respuestas de comprensión:**
+
+1. **Por qué el cierre no crea archivos:** es una auditoría del backend construido entre ISS-09 e ISS-15; en este paso se verifica la integración y no se implementa otra feature.
+2. **JWT frente a JWT + RBAC:** JWT valida la identidad; JWT + RBAC también consulta si el rol tiene una concesión activa para el método y la ruta. La falta de identidad corresponde a 401; la falta de concesión, a 403.
+3. **Dónde vive el permiso:** en la relación `resource_roles (role_id, resource_id)`; no existe una entidad independiente `Permission`.
+4. **Propiedades del refresh token:** es opaco y se almacena hasheado; cada renovación lo rota; el logout revoca el refresh. El access JWT emitido previamente sigue siendo válido hasta expirar, según las pruebas ya registradas; reutilizar un refresh invalida la familia.
+5. **`deny by default`:** si no existe concesión activa para la operación, se rechaza con 403 en vez de otorgar acceso implícito.
+6. **58 recursos y 65 concesiones:** los recursos son puntos de acceso del catálogo y las concesiones son relaciones entre roles y recursos; un recurso puede concederse a más de un rol.
+7. **Significado del mapa completo:** refleja la integración de negocio y seguridad en las tres modalidades. El estado final depende de cumplir el DoD; la adaptación de mantener dos usuarios canónicos fijos quedó documentada en el paso 124.
+
+**Ejercicios aplicados al proyecto:**
+
+- `POST /api/sesion/login` y `GET /api/docs` son OPEN; `GET /api/sesion/perfil` y `PATCH /api/sesiones/:id/deactivate` son JWT; `GET /api/clientes` es JWT + RBAC.
+- En la denegación de SELLER, `authenticate` acepta el token; `authorize` consulta la concesión de `(method, path)`, no encuentra una concesión activa y responde 403.
+- El runner ejecuta primero `roles → resources → users → role_users → resource_roles` y luego los seeders de negocio, respetando dependencias y dejando la matriz de seguridad disponible.
+
+- **Estado:** autoevaluación de comprensión y ejercicios completada con base en el comportamiento y evidencias registrados; no se repitieron pruebas.
