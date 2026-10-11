@@ -4409,6 +4409,21 @@ src/features/auth/users/http/users.write.http
 
 **Evidencia recibida:**
 
+![SessionService valida credenciales y abre sesión sin distinguir usuario de contraseña incorrectos](trazabilidad/E-ISS15-P20-02-session-service-login.png)
+
+![SessionService rota refresh tokens con errores controlados y permite cerrar sesión](trazabilidad/E-ISS15-P20-02-session-service-refresh-logout.png)
+
+![SessionService obtiene el perfil y permisos efectivos y construye el par de tokens](trazabilidad/E-ISS15-P20-02-session-service-profile-tokens.png)
+
+### Paso 101 — Implementar SessionController *(ISS-15, 20.3 en curso)*
+
+**Acción:** añadí los handlers OPEN para login, refresh y logout, además de los handlers JWT para perfil y permisos efectivos. Los métodos delegan en `SessionService`, se ejecutan mediante `BaseController.run` y registran `User-Agent` como `device_info` para login y refresh.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** controller implementado en el commit local de este paso.
+
+**Evidencia recibida:**
+
 ![DTO de respuesta que excluye token_hash y calcula is_expired](trazabilidad/E-ISS14-P19-01-refresh-token-response-dto.png)
 
 ![Barrel que exporta el DTO de RefreshToken](trazabilidad/E-ISS14-P19-01-refresh-token-dto-index.png)

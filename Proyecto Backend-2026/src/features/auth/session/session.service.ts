@@ -1,6 +1,4 @@
-import {
-  EffectivePermissionDto,
-} from "../resource-roles/dto";
+import { EffectivePermissionDto } from "../resource-roles/dto";
 import { ResourceRolesService } from "../resource-roles/resource-roles.service";
 import { RefreshTokensService } from "../refresh-tokens/refresh-tokens.service";
 import { User } from "../users/user.model";
