@@ -4479,6 +4479,10 @@ src/features/auth/users/http/users.write.http
 
 ![Terminal con respuestas 401 a los intentos de login usando el valor de ejemplo; no se exponen tokens](trazabilidad/E-ISS15-P20-06-login-401-credencial-ejemplo.png)
 
+**Intento posterior:** tras actualizar los correos canónicos, el usuario probó nuevamente el login con `admin`; el servidor respondió `401 Invalid credentials`. El correo y la identidad no cambian la contraseña de una cuenta ya existente: `findOrCreate` solo establece la contraseña cuando crea al usuario. No se ha emitido ningún token ni se ha cambiado la contraseña de la base de datos.
+
+![Respuesta Invalid credentials al intentar iniciar sesión como admin con el seeder actualizado](trazabilidad/E-ISS15-P20-06-login-401-admin-existente.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
