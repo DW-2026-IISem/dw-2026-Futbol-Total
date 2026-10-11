@@ -17,7 +17,7 @@ POST {{baseUrl}}/api/sesion/login
 Content-Type: application/json
 
 {
-  "identifier": "admin@storelab.local",
+  "identifier": "admin@pedalibre.com",
   "password": "<SEED_ADMIN_PASSWORD>"
 }
 

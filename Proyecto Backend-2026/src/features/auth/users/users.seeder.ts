@@ -4,12 +4,12 @@ import { User } from "./user.model";
 const canonicalUsers = [
   {
     username: "admin",
-    email: "admin@storelab.local",
+    email: "admin@pedalibre.com",
     passwordEnv: "SEED_ADMIN_PASSWORD",
   },
   {
     username: "seller",
-    email: "seller@storelab.local",
+    email: "seller@pedalibre.com",
     passwordEnv: "SEED_SELLER_PASSWORD",
   },
 ] as const;
@@ -28,6 +28,7 @@ export async function seedUsers(): Promise<number> {
 
   let created = 0;
   let reactivated = 0;
+  let updated = 0;
   let unchanged = 0;
 
   for (const canonicalUser of usersWithPasswords) {
@@ -44,16 +45,21 @@ export async function seedUsers(): Promise<number> {
 
     if (wasCreated) {
       created++;
-    } else if (user.status !== "active") {
-      await user.update({ status: "active" });
-      reactivated++;
     } else {
-      unchanged++;
+      const needsReactivation = user.status !== "active";
+      const needsEmailUpdate = user.email !== canonicalUser.email;
+      if (needsReactivation || needsEmailUpdate) {
+        await user.update({ email: canonicalUser.email, status: "active" });
+        if (needsReactivation) reactivated++;
+        else updated++;
+      } else {
+        unchanged++;
+      }
     }
   }
 
   console.log(
-    `users: ${created} created, ${reactivated} reactivated, ${unchanged} already active`,
+    `users: ${created} created, ${reactivated} reactivated, ${updated} updated, ${unchanged} unchanged`,
   );
   return created;
 }

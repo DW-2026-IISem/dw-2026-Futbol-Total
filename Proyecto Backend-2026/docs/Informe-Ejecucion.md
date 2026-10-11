@@ -4625,6 +4625,8 @@ src/features/auth/users/http/users.write.http
 
 **Nota para credenciales de prueba:** `users.seeder.ts` requiere `SEED_ADMIN_PASSWORD` y `SEED_SELLER_PASSWORD` de al menos 12 caracteres. Los valores cortos de ejemplo de la guía no necesariamente coinciden con las contraseñas sembradas; se deben sustituir localmente en los archivos `.http` por los valores del `.env`, sin compartirlos ni guardarlos en Git.
 
+**Corrección de datos de prueba:** el ejemplo `admin@storelab.local` era heredado de la guía base StoreLab y no corresponde a Pedalibre. Se cambió el correo canónico de las cuentas de prueba a `admin@pedalibre.com` y `seller@pedalibre.com`; el seeder ahora sincroniza el correo canónico de usuarios existentes y reactiva los inactivos sin modificar sus contraseñas. Esta sincronización solo ocurre cuando se ejecute el seeder; no se modificó directamente la base de datos.
+
 ### Paso 99 — Crear DTOs de Session *(ISS-15, 20.1 en curso)*
 
 **Acción:** añadí los DTO de login, refresh, logout, respuesta con par de tokens y perfil público; los exporté desde `session/dto/index.ts`.
