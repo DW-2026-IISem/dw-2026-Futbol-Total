@@ -12,6 +12,11 @@ import { roleUsersSwagger } from "../features/auth/role-users/role-users.swagger
 import { resourceRolesSwagger } from "../features/auth/resource-roles/resource-roles.swagger";
 import { refreshTokensSwagger } from "../features/auth/refresh-tokens/refresh-tokens.swagger";
 import { sessionSwagger } from "../features/auth/session/session.swagger";
+import {
+  bearerSecurityScheme,
+  forbiddenResponse,
+  unauthorizedResponse,
+} from "../shared/http/swagger-security";
 
 export type FeatureSwaggerModule = {
   tags: unknown[];
@@ -70,7 +75,18 @@ export function buildOpenApiDocument() {
     ],
     tags,
     paths,
-    components: { schemas, securitySchemes },
+    security: [{ bearerAuth: [] }],
+    components: {
+      schemas,
+      securitySchemes: {
+        ...securitySchemes,
+        ...bearerSecurityScheme,
+      },
+      responses: {
+        Unauthorized: unauthorizedResponse,
+        Forbidden: forbiddenResponse,
+      },
+    },
   };
 }
 
