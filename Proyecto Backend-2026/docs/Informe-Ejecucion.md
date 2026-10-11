@@ -4392,6 +4392,51 @@ src/features/auth/users/http/users.write.http
 
 ![Barrel que exporta los DTO de Session](trazabilidad/E-ISS15-P20-01-session-dto-index.png)
 
+![DTO de entrada para login](trazabilidad/E-ISS15-P20-01-login-dto.png)
+
+![DTO de entrada para logout](trazabilidad/E-ISS15-P20-01-logout-dto.png)
+
+![DTO de entrada para refresh](trazabilidad/E-ISS15-P20-01-refresh-dto.png)
+
+![DTO de respuesta con tokens y perfil público](trazabilidad/E-ISS15-P20-01-session-response-profile-dto.png)
+
+### Paso 100 — Implementar SessionService *(ISS-15, 20.2 en curso)*
+
+**Acción:** implementé login con rechazo genérico de credenciales inválidas y de usuarios inactivos; refresh con rotación y detección de reutilización; logout idempotente; perfil público y consulta de permisos efectivos. El servicio reutiliza `UsersRepository.findByUsernameOrEmail`, `RefreshTokensService` y `ResourceRolesService`.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** service implementado en el commit local `b89789b`.
+
+**Evidencia recibida:**
+
+![SessionService valida credenciales y emite una sesión](trazabilidad/E-ISS15-P20-02-session-service-login.png)
+
+![SessionService rota refresh tokens y permite cerrar sesión](trazabilidad/E-ISS15-P20-02-session-service-refresh-logout.png)
+
+![SessionService consulta perfil y permisos y compone los tokens](trazabilidad/E-ISS15-P20-02-session-service-profile-tokens.png)
+
+### Paso 101 — Implementar SessionController *(ISS-15, 20.3 en curso)*
+
+**Acción:** añadí handlers OPEN para login, refresh y logout, y handlers JWT para perfil y permisos efectivos. Todos delegan en `SessionService` mediante `BaseController.run`; login y refresh guardan `User-Agent` como información del dispositivo.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** controller implementado en el commit local `f14cdb5`.
+
+**Evidencia recibida:**
+
+![SessionController con handlers OPEN de sesión y handlers JWT de perfil y permisos](trazabilidad/E-ISS15-P20-03-session-controller.png)
+
+### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
+
+**Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
+
+- **Validación:** `tsc --noEmit` finalizó correctamente.
+- **Estado:** rutas registradas en Express en el commit local de este paso.
+
+**Evidencia recibida:**
+
+![Barrel que exporta los DTO de Session](trazabilidad/E-ISS15-P20-01-session-dto-index.png)
+
 ![DTO de entrada para iniciar sesión con usuario o correo](trazabilidad/E-ISS15-P20-01-login-dto.png)
 
 ![DTO de entrada para cerrar una sesión](trazabilidad/E-ISS15-P20-01-logout-dto.png)
