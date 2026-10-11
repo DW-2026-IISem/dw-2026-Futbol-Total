@@ -4556,6 +4556,35 @@ src/features/auth/users/http/users.write.http
 
 ![POST de clientes con token SELLER: HTTP 403 por falta de concesión](trazabilidad/E-ISS15-P20-14-seller-post-clientes-403.png)
 
+### Paso 113 — Rotar el refresh token de admin *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `POST /api/sesion/refresh` con el refresh token emitido por el login de admin.
+
+- **Resultado observado:** HTTP 200; la respuesta devolvió un nuevo par de tokens y el refresh anterior quedó rotado.
+- **Evidencia:** se ocultaron la contraseña local y los valores completos de los tokens.
+
+![Rotación del refresh token de admin con respuesta HTTP 200 y tokens redactados](trazabilidad/E-ISS15-P20-15-refresh-rotation-200.png)
+
+### Paso 114 — Consultar perfil con el access token renovado *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `GET /api/sesion/perfil` con el access token de la respuesta de refresh.
+
+- **Resultado observado:** HTTP 200 y perfil activo de admin.
+- **Dato de prueba pendiente:** el perfil aún devuelve el correo heredado `admin@storelab.local`; los cambios del seeder no se han sincronizado en esta cuenta existente.
+- **Evidencia:** se ocultaron el perfil y los detalles SQL de los tokens en la copia archivada.
+
+![Perfil de admin consultado con el access token renovado: HTTP 200](trazabilidad/E-ISS15-P20-16-refresh-profile-200.png)
+
+### Paso 115 — Detectar reutilización del refresh anterior *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié nuevamente el refresh token anterior, ya rotado.
+
+- **Resultado observado:** HTTP 401 con `Refresh token reuse detected: session family revoked`.
+- **Efecto:** la detección revocó la familia completa, incluido el refresh token rotado; se necesitará un nuevo login para continuar usando refresh.
+- **Evidencia:** se ocultaron la contraseña local y los detalles SQL no pertinentes.
+
+![Reutilización del refresh anterior: HTTP 401 y familia de sesión revocada](trazabilidad/E-ISS15-P20-17-refresh-reuse-401.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
