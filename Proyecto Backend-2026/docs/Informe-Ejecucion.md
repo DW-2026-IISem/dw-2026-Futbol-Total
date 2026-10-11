@@ -4817,3 +4817,13 @@ src/features/auth/users/http/users.write.http
 - **Evidencia:**
 
 ![Conteos predeterminados y resolución por variables de entorno y argumentos CLI](trazabilidad/E-CIERRE-AUTH-P06-seed-counts.png)
+
+### Paso 125 — Compilar TypeScript *(CIERRE-AUTH; completado)*
+
+**Acción:** ejecuté `npx tsc --noEmit` desde `Proyecto Backend-2026`, según el DoD de CIERRE-AUTH.
+
+- **Resultado observado:** el proceso terminó y devolvió el control al prompt sin mostrar errores de TypeScript.
+- **Estado:** compilación TypeScript completada correctamente.
+- **Evidencia:**
+
+![Ejecución de npx tsc --noEmit sin errores](trazabilidad/E-CIERRE-AUTH-P07-typescript-noemit.png)
