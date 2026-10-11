@@ -4497,6 +4497,15 @@ src/features/auth/users/http/users.write.http
 
 ![Login HTTP 200 con credenciales y cuerpo de respuesta redactados](trazabilidad/E-ISS15-P20-07-login-200-redactada.png)
 
+### Paso 107 — Verificar perfil sin token *(ISS-15, 20.6 en curso)*
+
+**Acción:** envié `GET /api/sesion/perfil` sin encabezado `Authorization`.
+
+- **Resultado observado:** HTTP 401 con el mensaje `Missing or invalid Bearer token`, según lo esperado para una ruta protegida sin token.
+- **Evidencia:** se archivó una copia de la captura con la contraseña visible en el editor ocultada.
+
+![GET del perfil sin token: respuesta 401 por Bearer token ausente](trazabilidad/E-ISS15-P20-08-profile-401-sin-token.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
