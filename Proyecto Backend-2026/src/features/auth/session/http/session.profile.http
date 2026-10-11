@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "identifier": "seller",
-  "password": "<SEED_SELLER_PASSWORD>"
+  "password": "Daza1118801292"
 }
 
 ###
@@ -32,3 +32,7 @@ Content-Type: application/json
 {
   "refresh_token": "{{loginSeller.response.body.$.refresh_token}}"
 }
+
+### SELLER puede consultar clientes
+GET {{baseUrl}}/api/clientes
+Authorization: Bearer {{sellerAccessToken}}
