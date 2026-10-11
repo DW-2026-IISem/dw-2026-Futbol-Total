@@ -21,6 +21,14 @@ Content-Type: application/json
   "refresh_token": "{{loginAdmin.response.body.$.refresh_token}}"
 }
 
+### Después de detectar reuse, el refresh recién rotado también debe responder 401
+POST {{baseUrl}}/api/sesion/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{refresh.response.body.$.refresh_token}}"
+}
+
 ### El nuevo access token sirve para consultar el perfil (modalidad JWT)
 GET {{baseUrl}}/api/sesion/perfil
 Authorization: Bearer {{refresh.response.body.$.access_token}}
