@@ -4765,3 +4765,15 @@ src/features/auth/users/http/users.write.http
 - **Evidencia recibida:** captura de imports e instancias del agregador.
 
 ![Agregador Routes con las cinco rutas de negocio y siete de autenticación](trazabilidad/E-CIERRE-AUTH-P02-routes-index.png)
+
+### Paso 122 — Revisar registry OpenAPI *(CIERRE-AUTH; verificación parcial)*
+
+**Acción:** revisé las capturas de `src/swagger/index.ts` según el apartado “Cableado final” de la guía CIERRE-AUTH.
+
+- **Resultado observado:** se muestran los 12 módulos Swagger registrados y la función que reúne la documentación OpenAPI.
+- **Pendiente:** las capturas no dejan visible con claridad la declaración `bearerAuth` ni la configuración global `security`; por ello, esas partes aún no se consideran verificadas.
+- **Evidencia recibida:**
+
+![Imports y registro de los 12 módulos Swagger](trazabilidad/E-CIERRE-AUTH-P03-swagger-modules.png)
+
+![Armado del documento OpenAPI en src/swagger/index.ts](trazabilidad/E-CIERRE-AUTH-P03-swagger-openapi.png)
