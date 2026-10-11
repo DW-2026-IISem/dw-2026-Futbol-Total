@@ -4538,6 +4538,15 @@ src/features/auth/users/http/users.write.http
 
 ![Permisos efectivos del rol SELLER: siete permisos con respuesta HTTP 200](trazabilidad/E-ISS15-P20-12-permisos-seller-200.png)
 
+### Paso 111 — Verificar permiso SELLER para consultar clientes *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `GET /api/clientes` con el access token de seller.
+
+- **Resultado observado:** HTTP 200; el terminal confirma la respuesta exitosa de la ruta permitida al rol SELLER.
+- **Evidencia:** se ocultaron la contraseña local que aparecía en el editor y los datos de clientes devueltos.
+
+![GET de clientes con token SELLER: respuesta HTTP 200 y datos sensibles redactados](trazabilidad/E-ISS15-P20-13-seller-get-clientes-200.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
