@@ -4599,9 +4599,11 @@ src/features/auth/users/http/users.write.http
 **Acción:** envié `GET /api/permisos` con el access token recién emitido para admin.
 
 - **Resultado observado:** HTTP 200 con la lista de permisos asociados al rol `ADMIN`.
-- **Referencia de la guía:** se esperan 58 permisos para ADMIN; la captura permite ver la lista y su asociación al rol. El contador total no aparece explícitamente en la respuesta.
+- **Resultado observado:** el contador de coincidencias de `role_name: ADMIN` muestra 58; se confirma el total esperado por la guía.
 
 ![Permisos efectivos de ADMIN: respuesta HTTP 200 y lista asociada al rol](trazabilidad/E-ISS15-P20-19-admin-permissions-200.png)
+
+![Búsqueda en la respuesta confirma 58 permisos asociados a ADMIN](trazabilidad/E-ISS15-P20-20-admin-permissions-count-58.png)
 
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
