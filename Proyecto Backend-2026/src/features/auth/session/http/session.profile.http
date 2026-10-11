@@ -33,6 +33,14 @@ Content-Type: application/json
   "refresh_token": "{{loginSeller.response.body.$.refresh_token}}"
 }
 
+### Después del logout no se puede renovar la sesión (esperado: 401)
+POST {{baseUrl}}/api/sesion/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{loginSeller.response.body.$.refresh_token}}"
+}
+
 ### SELLER puede consultar clientes
 GET {{baseUrl}}/api/clientes
 Authorization: Bearer {{sellerAccessToken}}
