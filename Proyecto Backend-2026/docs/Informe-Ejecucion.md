@@ -4512,9 +4512,22 @@ src/features/auth/users/http/users.write.http
 
 - **Resultado observado:** la terminal registra HTTP 200 y la creación de un refresh token para la sesión.
 - **Evidencia:** se archivó una copia redactada que oculta el cuerpo de la solicitud y la respuesta, donde aparecen la contraseña y los tokens.
-- **Siguiente acción:** no se reutilizarán los tokens expuestos en la captura; antes de probar perfil y permisos se debe revocar esa sesión y obtener un par nuevo sin compartirlo.
+- **Siguiente acción:** la sesión se cerró posteriormente; no se reutilizará el access token expuesto en la captura para otras pruebas.
 
 ![Login de seller con respuesta HTTP 200 y valores sensibles redactados](trazabilidad/E-ISS15-P20-09-login-seller-200-redactada.png)
+
+### Paso 109 — Cerrar sesión y verificar perfil SELLER *(ISS-15, 20.6 en curso)*
+
+**Acción:** envié `POST /api/sesion/logout` con el refresh token de seller; la respuesta indicó `Session closed`. Después se consultó `GET /api/sesion/perfil` con el access token que ya estaba cargado en REST Client.
+
+- **Resultado observado:** logout respondió HTTP 200 y el perfil respondió HTTP 200 con el usuario activo `seller` (id 2).
+- **Interpretación:** el logout revocó la sesión de refresh, pero el access token JWT continuó aceptándose hasta su expiración. La ruta de perfil valida el JWT; no comprueba el estado del refresh token. No se reutilizará ese access token expuesto para las siguientes pruebas.
+- **Dato de prueba pendiente de sincronizar:** el perfil aún devuelve `seller@storelab.local`, correo heredado; el seeder fue corregido para usar `seller@pedalibre.com`, pero la cuenta existente no se ha vuelto a sincronizar en la base local.
+- **Evidencias:** se ocultaron los hashes de refresh token que aparecían en los logs SQL.
+
+![Logout de seller confirmado con HTTP 200](trazabilidad/E-ISS15-P20-10-logout-seller-ok.png)
+
+![Perfil de seller autenticado con HTTP 200](trazabilidad/E-ISS15-P20-11-profile-seller-200.png)
 
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
