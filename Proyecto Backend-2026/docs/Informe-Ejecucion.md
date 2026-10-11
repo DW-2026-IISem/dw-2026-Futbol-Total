@@ -4547,6 +4547,15 @@ src/features/auth/users/http/users.write.http
 
 ![GET de clientes con token SELLER: respuesta HTTP 200 y datos sensibles redactados](trazabilidad/E-ISS15-P20-13-seller-get-clientes-200.png)
 
+### Paso 112 — Verificar denegación de creación de clientes para SELLER *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `POST /api/clientes` con el token de seller y un cuerpo vacío para comprobar la autorización sin crear datos.
+
+- **Resultado observado:** HTTP 403 con `Forbidden: no active grant for this operation`, tal como se espera cuando SELLER no tiene permiso para crear clientes.
+- **Evidencia:** se ocultaron los logs terminales no pertinentes.
+
+![POST de clientes con token SELLER: HTTP 403 por falta de concesión](trazabilidad/E-ISS15-P20-14-seller-post-clientes-403.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
