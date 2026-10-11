@@ -11,6 +11,7 @@ Content-Type: application/json
   "password": "<SEED_SELLER_PASSWORD>"
 }
 
+###
 @sellerAccessToken = {{loginSeller.response.body.$.access_token}}
 
 ### Perfil público del usuario autenticado
