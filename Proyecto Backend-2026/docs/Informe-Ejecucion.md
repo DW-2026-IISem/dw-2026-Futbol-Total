@@ -4605,6 +4605,15 @@ src/features/auth/users/http/users.write.http
 
 ![Búsqueda en la respuesta confirma 58 permisos asociados a ADMIN](trazabilidad/E-ISS15-P20-20-admin-permissions-count-58.png)
 
+### Paso 118 — Verificar refresh después de logout *(ISS-15, 20.7 en curso)*
+
+**Acción:** envié `POST /api/sesion/refresh` con el refresh token de seller que se había revocado previamente mediante logout.
+
+- **Resultado observado:** HTTP 401; la respuesta indica que se detectó la reutilización y se revocó la familia de sesión.
+- **Evidencia:** se ocultaron los diagnósticos SQL de token del terminal.
+
+![Intento de renovar después del logout: HTTP 401 y familia de sesión revocada](trazabilidad/E-ISS15-P20-21-refresh-after-logout-401.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
