@@ -36,3 +36,10 @@ Content-Type: application/json
 ### SELLER puede consultar clientes
 GET {{baseUrl}}/api/clientes
 Authorization: Bearer {{sellerAccessToken}}
+
+### SELLER no debe poder crear clientes (esperado: 403)
+POST {{baseUrl}}/api/clientes
+Authorization: Bearer {{sellerAccessToken}}
+Content-Type: application/json
+
+{}
