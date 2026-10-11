@@ -4614,6 +4614,15 @@ src/features/auth/users/http/users.write.http
 
 ![Intento de renovar después del logout: HTTP 401 y familia de sesión revocada](trazabilidad/E-ISS15-P20-21-refresh-after-logout-401.png)
 
+### Paso 119 — Verificar que el token rotado también queda revocado *(ISS-15, 20.7 en curso)*
+
+**Acción:** después de detectar la reutilización del refresh anterior, envié una solicitud con el refresh token que se había emitido en la rotación.
+
+- **Resultado observado:** HTTP 401 con `Refresh token reuse detected: session family revoked`; se confirma que el refresh rotado también quedó invalidado.
+- **Evidencia:** se ocultaron los diagnósticos SQL de token del terminal.
+
+![El refresh token rotado también responde HTTP 401 tras revocarse la familia](trazabilidad/E-ISS15-P20-22-rotated-refresh-reuse-401.png)
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
