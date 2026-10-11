@@ -4444,6 +4444,22 @@ src/features/auth/users/http/users.write.http
 - **Validación:** `tsc --noEmit` finalizó correctamente.
 - **Estado:** Swagger de Session registrado en el commit local de este paso.
 
+**Evidencia recibida:**
+
+![Swagger de Session con login y refresh OPEN](trazabilidad/E-ISS15-P20-05-session-swagger-login-refresh.png)
+
+![Swagger de logout OPEN y endpoints JWT de perfil y permisos](trazabilidad/E-ISS15-P20-05-session-swagger-logout-profile-permissions.png)
+
+![Esquemas OpenAPI de login, refresh y respuesta con tokens](trazabilidad/E-ISS15-P20-05-session-swagger-schemas.png)
+
+### Paso 104 — Preparar solicitudes HTTP de Session *(ISS-15, 20.6 en curso)*
+
+**Acción:** preparé archivos `.http` separados para login, refresh y perfil/permisos/logout, con base URL en el puerto 3002 y variables que enlazan los tokens emitidos por login y refresh.
+
+- **Ejecución:** no se ejecutaron. Las pruebas deben realizarse manualmente, en orden y con las credenciales de desarrollo configuradas para la base de datos.
+- **Precaución:** la solicitud de reutilización del refresh token invalida intencionalmente toda la familia; ejecutarla solo como prueba controlada.
+- **Estado:** archivos HTTP preparados en el commit local de este paso.
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.

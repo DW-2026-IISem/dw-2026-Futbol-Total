@@ -1,0 +1,34 @@
+### ISS-15 — Login (modalidad OPEN)
+### OPEN significa que no requiere identidad previa; valida credenciales y crea una sesión.
+@baseUrl = http://localhost:3002
+
+# @name loginAdmin
+POST {{baseUrl}}/api/sesion/login
+Content-Type: application/json
+
+{
+  "identifier": "admin",
+  "password": "Admin123!"
+}
+
+### Login por correo (opcional; mismo endpoint)
+POST {{baseUrl}}/api/sesion/login
+Content-Type: application/json
+
+{
+  "identifier": "admin@storelab.local",
+  "password": "Admin123!"
+}
+
+### Credenciales incorrectas deben responder 401 con mensaje genérico
+POST {{baseUrl}}/api/sesion/login
+Content-Type: application/json
+
+{
+  "identifier": "admin",
+  "password": "password-incorrecta"
+}
+
+### Tokens devueltos por loginAdmin para las solicitudes de refresh/perfil
+@adminAccessToken = {{loginAdmin.response.body.$.access_token}}
+@adminRefreshToken = {{loginAdmin.response.body.$.refresh_token}}

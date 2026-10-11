@@ -1,0 +1,32 @@
+### ISS-15 — Perfil y permisos (modalidad JWT)
+@baseUrl = http://localhost:3002
+
+# @name loginSeller
+POST {{baseUrl}}/api/sesion/login
+Content-Type: application/json
+
+{
+  "identifier": "seller",
+  "password": "Seller123!"
+}
+
+@sellerAccessToken = {{loginSeller.response.body.$.access_token}}
+
+### Perfil público del usuario autenticado
+GET {{baseUrl}}/api/sesion/perfil
+Authorization: Bearer {{sellerAccessToken}}
+
+### Permisos efectivos del usuario autenticado (seller: 7)
+GET {{baseUrl}}/api/permisos
+Authorization: Bearer {{sellerAccessToken}}
+
+### Sin token debe responder 401
+GET {{baseUrl}}/api/sesion/perfil
+
+### Logout (OPEN con refresh token); revoca la sesión
+POST {{baseUrl}}/api/sesion/logout
+Content-Type: application/json
+
+{
+  "refresh_token": "{{loginSeller.response.body.$.refresh_token}}"
+}
