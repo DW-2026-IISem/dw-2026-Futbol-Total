@@ -4796,3 +4796,13 @@ src/features/auth/users/http/users.write.http
 ![Swagger UI con esquemas adicionales](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-06-schemas.png)
 
 ![Swagger UI con esquemas de recursos, roles y sesiones](trazabilidad/E-CIERRE-AUTH-P04-swagger-ui-07-schemas.png)
+
+### Paso 123 — Revisar orden de SeedersRunner *(CIERRE-AUTH; completado)*
+
+**Acción:** revisé `src/database/seeders/index.ts` y ajusté el orden de ejecución conforme a la guía CIERRE-AUTH.
+
+- **Resultado observado:** después de comprobar la conexión y sincronizar el esquema, el runner ejecuta primero los seeders de seguridad (`roles`, `resources`, `users`, `role_users`, `resource_roles`) y luego los seeders de negocio.
+- **Estado:** el orden requerido queda implementado y se verificó visualmente en el archivo.
+- **Evidencia:**
+
+![SeedersRunner comprueba conexión, sincroniza y ejecuta seguridad antes que negocio](trazabilidad/E-CIERRE-AUTH-P05-seeders-runner-order.png)
