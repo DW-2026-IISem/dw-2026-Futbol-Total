@@ -4806,3 +4806,13 @@ src/features/auth/users/http/users.write.http
 - **Evidencia:**
 
 ![SeedersRunner comprueba conexión, sincroniza y ejecuta seguridad antes que negocio](trazabilidad/E-CIERRE-AUTH-P05-seeders-runner-order.png)
+
+### Paso 124 — Revisar conteos configurables de seed *(CIERRE-AUTH; completado)*
+
+**Acción:** revisé `src/database/seeders/counts.ts` y sus conteos predeterminados y configurables.
+
+- **Resultado observado:** la captura muestra conteos predeterminados para clientes, tipos de producto, productos, ventas y detalles de venta. Los valores pueden sobrescribirse con variables `SEED_*` y argumentos CLI `--clave=valor`; si coinciden, CLI prevalece sobre entorno y valor predeterminado.
+- **Estado:** revisión visual completada.
+- **Evidencia:**
+
+![Conteos predeterminados y resolución por variables de entorno y argumentos CLI](trazabilidad/E-CIERRE-AUTH-P06-seed-counts.png)
