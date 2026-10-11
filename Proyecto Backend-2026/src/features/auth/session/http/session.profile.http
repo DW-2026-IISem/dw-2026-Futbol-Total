@@ -43,3 +43,20 @@ Authorization: Bearer {{sellerAccessToken}}
 Content-Type: application/json
 
 {}
+
+### ISS-15 — Iniciar sesión como ADMIN para consultar sus permisos
+# @name loginAdminPermissions
+POST {{baseUrl}}/api/sesion/login
+Content-Type: application/json
+
+{
+  "identifier": "admin",
+  "password": "<SEED_ADMIN_PASSWORD>"
+}
+
+###
+@adminAccessToken = {{loginAdminPermissions.response.body.$.access_token}}
+
+### ADMIN debe tener 58 permisos efectivos
+GET {{baseUrl}}/api/permisos
+Authorization: Bearer {{adminAccessToken}}
