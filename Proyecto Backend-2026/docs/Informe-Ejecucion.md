@@ -4756,3 +4756,12 @@ src/features/auth/users/http/users.write.http
 ![Importaciones de modelos, asociaciones y Swagger en src/config/index.ts](trazabilidad/E-CIERRE-AUTH-P01-config-imports.png)
 
 ![Registro de rutas de negocio y autenticación en src/config/index.ts](trazabilidad/E-CIERRE-AUTH-P01-config-routes.png)
+
+### Paso 121 — Revisar agregador de rutas *(CIERRE-AUTH)*
+
+**Acción:** revisé `src/routes/index.ts` y su agregador `Routes`.
+
+- **Resultado observado:** importa y crea instancias de las cinco rutas de negocio y las siete rutas de autenticación, incluida `SessionRoutes`.
+- **Evidencia recibida:** captura de imports e instancias del agregador.
+
+![Agregador Routes con las cinco rutas de negocio y siete de autenticación](trazabilidad/E-CIERRE-AUTH-P02-routes-index.png)
