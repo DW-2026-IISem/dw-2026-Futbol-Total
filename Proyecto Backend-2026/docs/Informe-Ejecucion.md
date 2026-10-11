@@ -4483,6 +4483,8 @@ src/features/auth/users/http/users.write.http
 
 ![Respuesta Invalid credentials al intentar iniciar sesión como admin con el seeder actualizado](trazabilidad/E-ISS15-P20-06-login-401-admin-existente.png)
 
+**Corrección local aplicada:** con autorización del usuario, actualicé una sola vez el hash de la contraseña de `admin` en la base de datos local, usando el valor de `SEED_ADMIN_PASSWORD` de `.env`. La operación se completó dentro de una transacción; no se ejecutó el seeder y el valor secreto no se mostró ni se guardó. Esta modificación afecta únicamente a la base local, no es parte de un commit.
+
 ### Paso 102 — Registrar rutas OPEN y JWT de Session *(ISS-15, 20.4 en curso)*
 
 **Acción:** añadí y registré las rutas de login, refresh y logout como OPEN, y perfil y permisos efectivos con el middleware `authenticate`. Ninguna ruta utiliza `authorize`, de acuerdo con el diseño de la guía.
