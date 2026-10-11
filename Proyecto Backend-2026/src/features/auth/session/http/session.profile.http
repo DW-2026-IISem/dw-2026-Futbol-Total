@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "identifier": "seller",
-  "password": "Daza1118801292"
+  "password": "<SEED_SELLER_PASSWORD>"
 }
 
 ###
