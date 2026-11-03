@@ -11,7 +11,7 @@ Uso exclusivamente las comprobaciones y evidencias de PedalLibre y su backend. E
 | Fase | ISS | Estado |
 |---|---|---|
 | Preparación | [ISS-00 — Requisitos previos](./ISS-00-Requisitos-previos.md) | Completado |
-| Construcción inicial | [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md) | Pendiente |
+| Construcción inicial | [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md) | Completado |
 
 ## Paso 1 — ISS-00: Requisitos previos
 
@@ -101,7 +101,7 @@ Me resultó útil avanzar comprobación por comprobación y conservar evidencia 
 
 ## Paso 2 — ISS-01: Bootstrap Angular
 
-**Estado:** pendiente de ejecución. Registraré el procedimiento, la evidencia y, al final, los resultados y aprendizajes cuando realice este ISS.
+**Estado:** completado. Generé el workspace, instalé las dependencias, configuré Aura, implementé la portada de PedalLibre y actualicé los metadatos de `src/index.html`. El build y las dos pruebas terminan correctamente.
 
 ### Objetivo
 
@@ -109,24 +109,128 @@ Crear Angular en la carpeta `Frontd-2026`, integrar Tailwind CSS y PrimeNG en ve
 
 ### Procedimiento
 
-Pendiente. Lo completaré cuando ejecute ISS-01.
+1. Confirmé desde la terminal que estaba en `Frontd-2026` y que ya existían `docs/` y `trazabilidad/`.
+2. Ejecuté `ng new pedalibre-frontend --directory . --style=tailwind --routing --ssr=false --skip-git --package-manager=npm --defaults` para crear el workspace en la carpeta actual.
+3. Comprobé que se conservaron `docs/` y `trazabilidad/` y que los archivos de Angular quedaron en la raíz.
+4. Consulté `ng version` y los peers publicados de PrimeNG para revisar su compatibilidad con Angular 22.
+5. Instalé PrimeNG, Aura, PrimeIcons y Angular CDK, y revisé las versiones con `npm ls`.
+6. Actualicé `src/styles.css` con las capas CSS, Tailwind y PrimeIcons.
+7. Configuré `providePrimeNG` con el preset Aura y las capas CSS en `src/app/app.config.ts`; ejecuté el build y abrí la aplicación.
+8. Reemplacé la plantilla inicial por una portada local de PedalLibre y actualicé la prueba de `App`.
+9. Ejecuté las comprobaciones de build y pruebas, repetí el runner en modo de una sola ejecución y revisé la consola del navegador y los metadatos de `src/index.html`.
+10. Cambié el idioma de `src/index.html` a español, definí el título `PedalLibre` y añadí una descripción del frontend.
+11. Volví a ejecutar build y pruebas después del cambio de metadatos.
 
 ### Evidencia visual
 
-Pendiente. Guardaré las capturas reales en `../trazabilidad/` y las insertaré aquí después de realizar el procedimiento.
+Guardé las capturas recibidas en `../trazabilidad/` y las incorporo aquí. Las seis primeras corresponden al avance inicial:
+
+1. Estado de `Frontd-2026` antes de generar el workspace:
+
+   ![ISS-01 — estructura previa del frontend](../trazabilidad/E-FRONT-ISS-01-01-estructura-previa.png)
+
+2. Creación de Angular CLI y generación de sus archivos:
+
+   ![ISS-01 — creación del workspace con Angular CLI](../trazabilidad/E-FRONT-ISS-01-02-creacion-angular-cli.png)
+
+3. Verificación de que se conservaron las carpetas y que los archivos Angular quedaron en la raíz:
+
+   ![ISS-01 — verificación de la estructura del workspace](../trazabilidad/E-FRONT-ISS-01-03-verificacion-workspace.png)
+
+4. Versiones de Angular y peers declarados por PrimeNG:
+
+   ![ISS-01 — versiones y compatibilidad de peers](../trazabilidad/E-FRONT-ISS-01-04-versiones-y-peers.png)
+
+5. Instalación y versiones resueltas de PrimeNG, Aura, PrimeIcons y Angular CDK:
+
+   ![ISS-01 — instalación de dependencias](../trazabilidad/E-FRONT-ISS-01-05-instalacion-dependencias.png)
+
+6. Imports de Tailwind y PrimeIcons y orden de capas en `src/styles.css`:
+
+   ![ISS-01 — estilos globales](../trazabilidad/E-FRONT-ISS-01-06-estilos-globales.png)
+
+Las siguientes capturas documentan la configuración, la portada y las verificaciones:
+
+7. Configuración de PrimeNG con Aura y capas en `app.config.ts`:
+
+   ![ISS-01 — configuración de PrimeNG y Aura](../trazabilidad/E-FRONT-ISS-01-07-configuracion-primeng-aura.png)
+
+8. Build de producción completado:
+
+   ![ISS-01 — build de producción](../trazabilidad/E-FRONT-ISS-01-08-build-produccion.png)
+
+9. Primera visualización de la plantilla del CLI y aviso de licencia:
+
+   ![ISS-01 — plantilla Angular inicial](../trazabilidad/E-FRONT-ISS-01-09-pantalla-inicial-cli.png)
+
+10. Console con aviso de licencia y consulta de la variable CSS del tema:
+
+   ![ISS-01 — consola, tema y aviso de licencia](../trazabilidad/E-FRONT-ISS-01-10-console-tema-y-licencia.png)
+
+11. Componente raíz `App` después de retirar la plantilla:
+
+   ![ISS-01 — componente App](../trazabilidad/E-FRONT-ISS-01-11-componente-app.png)
+
+12. Portada PedalLibre renderizada mientras se edita la plantilla:
+
+   ![ISS-01 — portada PedalLibre](../trazabilidad/E-FRONT-ISS-01-12-portada-pedallibre.png)
+
+13. Pruebas actualizadas del componente:
+
+   ![ISS-01 — prueba de App](../trazabilidad/E-FRONT-ISS-01-13-prueba-app.png)
+
+14. Runner muestra dos pruebas aprobadas:
+
+   ![ISS-01 — pruebas reportadas como aprobadas](../trazabilidad/E-FRONT-ISS-01-14-pruebas-aprobadas.png)
+
+15. Portada servida en `http://localhost:4200`:
+
+   ![ISS-01 — portada en el servidor local](../trazabilidad/E-FRONT-ISS-01-15-portada-servidor-local.png)
+
+16. `src/index.html` conserva aún idioma y título predeterminados:
+
+   ![ISS-01 — metadatos de index.html pendientes de adaptar](../trazabilidad/E-FRONT-ISS-01-16-index-html-pendiente.png)
+
+17. Terminal con la secuencia de comandos de verificación:
+
+   ![ISS-01 — ejecución de verificaciones](../trazabilidad/E-FRONT-ISS-01-17-ejecucion-verificaciones.png)
+
+18. Build y pruebas durante la verificación:
+
+   ![ISS-01 — build y pruebas](../trazabilidad/E-FRONT-ISS-01-18-build-y-pruebas.png)
+
+19. Salida de build y estado del runner:
+
+   ![ISS-01 — salida de build y pruebas](../trazabilidad/E-FRONT-ISS-01-19-salida-build-pruebas.png)
+
+20. Primer intento: el runner en modo watch reportó las pruebas y después terminó con un error de deadlock:
+
+   ![ISS-01 — deadlock del runner de pruebas](../trazabilidad/E-FRONT-ISS-01-20-deadlock-runner-pruebas.png)
+
+21. `src/index.html` ya declara `lang="es"`; build y las dos pruebas terminan correctamente. El título predeterminado aún está pendiente de cambiar:
+
+   ![ISS-01 — idioma en español, build y pruebas aprobados](../trazabilidad/E-FRONT-ISS-01-21-lang-es-build-pruebas.png)
+
+22. `src/index.html` actualizado con idioma, título y descripción de PedalLibre:
+
+   ![ISS-01 — metadatos de PedalLibre](../trazabilidad/E-FRONT-ISS-01-22-index-html-pedallibre.png)
+
+23. Build de producción y las dos pruebas finalizan correctamente después de actualizar los metadatos:
+
+   ![ISS-01 — build y pruebas finales aprobados](../trazabilidad/E-FRONT-ISS-01-23-build-pruebas-finales.png)
 
 ### Resultado
 
-Pendiente de ejecución.
+Generé el workspace Angular en `Frontd-2026` y comprobé que los archivos principales quedaron en la raíz y que las carpetas de documentación y trazabilidad permanecieron. La terminal muestra Angular CLI `22.2.5` y Angular `22.2.4`. Consulté PrimeNG `22.1.4`, cuyos peers requieren Angular y Angular CDK `^22.1.0`; instalé PrimeNG `22.1.4`, `@primeuix/themes` `3.1.0`, PrimeIcons `8.0.2` y Angular CDK `22.2.5`. La salida de instalación indicó cero vulnerabilidades en esa ejecución. Configuré PrimeNG con Aura y confirmé en DevTools que `--p-primary-color` devuelve un valor. La consola muestra `[PrimeUI] PrimeUI license is not configured` y la interfaz muestra `Invalid PrimeUI License`; lo registré como aviso de licencia, no como error del build. Reemplacé la pantalla de bienvenida por una portada PedalLibre que indica que la integración con la API está pendiente. Actualicé `src/index.html` con `lang="es"`, el título `PedalLibre` y una descripción del frontend. Tras ese cambio, `npm run build` completó y `npm test -- --watch=false` terminó con 1 archivo y 2 pruebas aprobadas. Con esta evidencia cerré ISS-01.
 
 ### Lo que aprendí
 
-Lo completaré después de ejecutar el ISS y verificar el resultado.
+Comprobé que `--directory .` permite generar Angular en la carpeta de trabajo sin crear otra carpeta de proyecto, y que conviene verificar las carpetas existentes antes de ejecutar el CLI. También confirmé la compatibilidad de PrimeNG revisando sus peers antes de instalarlo, en lugar de suponerla por el número de versión. Aprendí además a distinguir el aviso de licencia de PrimeUI de los errores de compilación, y que `--watch=false` permite una ejecución de pruebas que termina con un resultado y código de salida verificables.
 
 ### Retroalimentación personal
 
-La escribiré al final del paso, a partir de lo que realice y observe.
+La salida del CLI y las verificaciones de terminal me permitieron avanzar por etapas y conservar evidencia concreta. Aprendí que una comprobación final debe repetirse después de editar los metadatos para verificar el estado real de la entrega.
 
 ### Estado del paso
 
-**Pendiente de ejecución.**
+**Completado.** La portada, los metadatos, el build y las pruebas están verificados.
