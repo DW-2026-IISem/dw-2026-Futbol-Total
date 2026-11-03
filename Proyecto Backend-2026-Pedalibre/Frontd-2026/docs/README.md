@@ -28,5 +28,5 @@ El backend no crea ni altera tablas automáticamente al arrancar. Para definir t
 - [Informe frontend paso a paso](./informe%20front-paso%20a%20paso.md): procedimiento, resultados, aprendizajes y evidencia visual, actualizado por etapas.
 - [ISS-00 — Requisitos previos](./ISS-00-Requisitos-previos.md): preparación del entorno para comenzar el frontend de PedalLibre.
 - [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md): guía para crear la aplicación PedalLibre con Angular, Tailwind y PrimeNG.
-- ISS-01A e ISS-01B — Esqueleto e interacción del menú: pasos pendientes antes de conectar servicios y rutas de negocio.
-- [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md): guía pendiente, adaptada a los contratos del backend PedalLibre; requiere completar ISS-01A e ISS-01B.
+- [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md): completado; incluye el Shell, Header, Aside, Footer, navegación responsive, servicios y componentes compartidos.
+- [ISS-03 — CRUD de clientes con Signals](./ISS-03-CRUD-Clientes-Signals.md): guía preparada según el contrato PedalLibre; lista para iniciar tras el cierre de ISS-02.

@@ -12,8 +12,8 @@ Uso exclusivamente las comprobaciones y evidencias de PedalLibre y su backend. E
 |---|---|---|
 | Preparación | [ISS-00 — Requisitos previos](./ISS-00-Requisitos-previos.md) | Completado |
 | Construcción inicial | [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md) | Completado |
-| Esqueleto visual | ISS-01A e ISS-01B — Header, Aside, Footer y navegación | Pendiente |
-| Núcleo del frontend | [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md) | Pendiente; depende de ISS-01A e ISS-01B |
+| Núcleo y esqueleto visual | [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md) | Completado; build y 30 pruebas aprobadas; Shell validado en escritorio y móvil |
+| Primer CRUD de negocio | [ISS-03 — CRUD de clientes con Signals](./ISS-03-CRUD-Clientes-Signals.md) | Listo para iniciar |
 
 ## Paso 1 — ISS-00: Requisitos previos
 
@@ -236,3 +236,194 @@ La salida del CLI y las verificaciones de terminal me permitieron avanzar por et
 ### Estado del paso
 
 **Completado.** La portada, los metadatos, el build y las pruebas están verificados.
+
+## Paso 3 — ISS-02: Núcleo del frontend
+
+**Estado:** completado el 3 de noviembre de 2026. Adapté los servicios, modelos, Shell y componentes compartidos al contrato y la interfaz de PedalLibre. La verificación final pasó con 12 archivos y 30 pruebas; el build de producción también pasó. Las capturas muestran el menú abierto/cerrado en escritorio y móvil a 375 × 667 px. El detalle se registra en [E-FRONT-ISS-02-38](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md).
+
+### Procedimiento observado
+
+1. Generé los environments y revisé los cambios de Angular CLI en `angular.json`.
+2. Configuré `environment.ts` y `environment.development.ts` con `http://localhost:3002/api`, y confirmé el reemplazo para desarrollo.
+3. Añadí los modelos comunes `Money`/`ApiError` y los tipos de lectura/escritura iniciales de `Client`.
+4. Implementé `ClientApi` para las respuestas `{ clients }` y `{ client }`, y la utilidad `toApiMessage`.
+5. Generé con Angular CLI los scaffolds de `PageHeader`, `EmptyState` y `StatusTag`.
+6. Registré `provideHttpClient()` y `MessageService` en `app.config.ts`.
+7. Las capturas muestran `npm run build` exitoso y `npm test -- --watch=false` con 1 archivo y 2 pruebas aprobadas.
+8. Generé con Angular CLI los scaffolds de Header, Aside, Footer, Shell y HomePage para continuar el bloque 2.6. La captura confirma la generación de archivos, no su implementación funcional.
+9. Implementé Header, Aside, Footer, Shell, HomePage y las rutas del recorrido; las capturas 15–26 muestran los archivos y el código correspondiente.
+10. Recibí una ejecución en la que el build pasó, pero fallaron cuatro pruebas por la falta de Router en los TestBed y por una aserción de portada ubicada en `App` en lugar de `HomePage`. Corregí las pruebas y repetí build y suite: build correcto, 6 archivos de prueba y 7 pruebas aprobadas. El detalle está en [E-FRONT-ISS-02-27-verificacion-y-correccion-de-pruebas.md](../trazabilidad/E-FRONT-ISS-02-27-verificacion-y-correccion-de-pruebas.md).
+11. Añadí pruebas HTTP para `ClientApi` con `HttpTestingController`: verifican `GET` de lista y detalle, `POST`, `PUT`, `PATCH`, payloads y respuestas desenvueltas. `httpTestingController.verify()` comprueba al final de cada caso que no queden solicitudes pendientes. El registro está en [E-FRONT-ISS-02-28-client-api-tests.md](../trazabilidad/E-FRONT-ISS-02-28-client-api-tests.md).
+12. Revisé las capturas del Shell: en escritorio se ve el Aside expandido y contraído; en DevTools se ve abierto y cerrado con un dispositivo iPhone SE a 375 × 667 px.
+13. Implementé `NotificationService` para enviar avisos de éxito, atención y error por `MessageService`; los errores se traducen con `toApiMessage`. Añadí pruebas de severidad, resumen, detalle y duración, incluido un mensaje de error devuelto por la API. El registro está en [E-FRONT-ISS-02-37-notification-service.md](../trazabilidad/E-FRONT-ISS-02-37-notification-service.md).
+14. Reemplacé las plantillas scaffold de `PageHeader`, `EmptyState` y `StatusTag` por componentes standalone con inputs tipados, proyección de acciones y severidad PrimeNG neutral por defecto. Añadí pruebas para su contenido, proyección y severidades.
+15. Añadí pruebas de `toApiMessage` para backend inaccesible, respuestas 401/403, mensaje de error de API y error inesperado. Amplié las pruebas de Shell para toggle, estado accesible, cierre por overlay y evento de navegación.
+16. Ejecuté la suite completa: 12 archivos y 30 pruebas aprobadas. Ejecuté `npm run build`: build de producción exitoso. El resumen está en [E-FRONT-ISS-02-38-cierre-tecnico.md](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md).
+
+### Evidencia visual
+
+Guardé las capturas recibidas en `../trazabilidad/` y las enlazo aquí:
+
+1. Generación de environments y reemplazo de Angular CLI:
+
+   ![ISS-02 — generar environments](../trazabilidad/E-FRONT-ISS-02-01-generate-environments.png)
+
+2. Environment de producción con URL API:
+
+   ![ISS-02 — environment de producción](../trazabilidad/E-FRONT-ISS-02-02-environment-production.png)
+
+3. Environment de desarrollo:
+
+   ![ISS-02 — environment de desarrollo](../trazabilidad/E-FRONT-ISS-02-03-environment-development.png)
+
+4. Configuración de build en `angular.json`:
+
+   ![ISS-02 — configuración Angular](../trazabilidad/E-FRONT-ISS-02-04-angular-json-development.png)
+
+5. Reemplazo de environment de desarrollo:
+
+   ![ISS-02 — fileReplacements](../trazabilidad/E-FRONT-ISS-02-05-file-replacements.png)
+
+6. Verificación de URL y reemplazo desde terminal:
+
+   ![ISS-02 — verificar environments](../trazabilidad/E-FRONT-ISS-02-06-verify-environments.png)
+
+7. Tipos comunes `Money`, `IsoDateTime` y `ApiError`:
+
+   ![ISS-02 — modelo común de API](../trazabilidad/E-FRONT-ISS-02-07-api-model.png)
+
+8. Modelo y payloads iniciales de clientes:
+
+   ![ISS-02 — modelo Client](../trazabilidad/E-FRONT-ISS-02-08-client-model.png)
+
+9. Servicio `ClientApi` con las envolturas del backend:
+
+   ![ISS-02 — ClientApi](../trazabilidad/E-FRONT-ISS-02-09-client-api.png)
+
+10. Conversión de errores HTTP en mensajes:
+
+   ![ISS-02 — toApiMessage](../trazabilidad/E-FRONT-ISS-02-10-to-api-message.png)
+
+11. Generación de los componentes compartidos:
+
+   ![ISS-02 — scaffolds UI](../trazabilidad/E-FRONT-ISS-02-11-shared-components.png)
+
+12. Registro de HttpClient y MessageService:
+
+   ![ISS-02 — configuración de HttpClient](../trazabilidad/E-FRONT-ISS-02-12-http-client-config.png)
+
+13. Build y pruebas capturados:
+
+   ![ISS-02 — build y pruebas](../trazabilidad/E-FRONT-ISS-02-13-build-tests.png)
+
+14. Generación de scaffolds de layout y la página de inicio:
+
+   ![ISS-02 — scaffolds del Shell y la página de inicio](../trazabilidad/E-FRONT-ISS-02-14-layout-scaffolds.png)
+
+15. Componente Header y estado/evento del menú:
+
+   ![ISS-02 — Header TypeScript](../trazabilidad/E-FRONT-ISS-02-15-header-typescript.png)
+
+16. Plantilla Header con navegación y botón accesible:
+
+   ![ISS-02 — plantilla Header](../trazabilidad/E-FRONT-ISS-02-16-header-template.png)
+
+17. Componente Aside y entradas para controlar navegación:
+
+   ![ISS-02 — Aside TypeScript](../trazabilidad/E-FRONT-ISS-02-17-aside-typescript.png)
+
+18. Plantilla Aside con enlace de inicio y estados responsive:
+
+   ![ISS-02 — plantilla Aside](../trazabilidad/E-FRONT-ISS-02-18-aside-template.png)
+
+19. Componente Footer:
+
+   ![ISS-02 — Footer TypeScript](../trazabilidad/E-FRONT-ISS-02-19-footer-typescript.png)
+
+20. Plantilla Footer:
+
+   ![ISS-02 — plantilla Footer](../trazabilidad/E-FRONT-ISS-02-20-footer-template.png)
+
+21. Componente Shell y control del menú con Signals:
+
+   ![ISS-02 — Shell TypeScript](../trazabilidad/E-FRONT-ISS-02-21-shell-typescript.png)
+
+22. Plantilla Shell con Header, Aside, outlet y Footer:
+
+   ![ISS-02 — plantilla Shell](../trazabilidad/E-FRONT-ISS-02-22-shell-template.png)
+
+23. Plantilla HomePage con mensaje de integración pendiente:
+
+   ![ISS-02 — plantilla HomePage](../trazabilidad/E-FRONT-ISS-02-23-home-page-template.png)
+
+24. Componente raíz conectado al `router-outlet`:
+
+   ![ISS-02 — App router outlet](../trazabilidad/E-FRONT-ISS-02-24-app-router-outlet.png)
+
+25. Declaración standalone del componente raíz:
+
+   ![ISS-02 — componente App](../trazabilidad/E-FRONT-ISS-02-25-app-component.png)
+
+26. Rutas para Shell y HomePage:
+
+   ![ISS-02 — rutas Angular](../trazabilidad/E-FRONT-ISS-02-26-routes.png)
+
+27. Incidencia inicial de pruebas, corrección y nueva ejecución:
+
+   [Registro de build y pruebas de ISS-02](../trazabilidad/E-FRONT-ISS-02-27-verificacion-y-correccion-de-pruebas.md)
+
+28. Pruebas del contrato HTTP de `ClientApi`:
+
+   [Registro de pruebas de ClientApi](../trazabilidad/E-FRONT-ISS-02-28-client-api-tests.md)
+
+29. Shell en escritorio con el menú expandido:
+
+   ![ISS-02 — escritorio con menú expandido](../trazabilidad/E-FRONT-ISS-02-29-shell-escritorio-menu-expandido.png)
+
+30. Shell en escritorio con el menú contraído:
+
+   ![ISS-02 — escritorio con menú contraído](../trazabilidad/E-FRONT-ISS-02-30-shell-escritorio-menu-contraido.png)
+
+31. DevTools en viewport responsive de 980 px con navegación expandida:
+
+   ![ISS-02 — vista responsive con menú expandido a 980 px](../trazabilidad/E-FRONT-ISS-02-31-shell-responsive-menu-expandido.png)
+
+32. DevTools en viewport responsive de 980 px con navegación contraída:
+
+   ![ISS-02 — vista responsive con menú contraído a 980 px](../trazabilidad/E-FRONT-ISS-02-32-shell-responsive-menu-contraido.png)
+
+33. Ejecución de la prueba de `ClientApi` y la suite:
+
+   ![ISS-02 — prueba de ClientApi y suite aprobada](../trazabilidad/E-FRONT-ISS-02-33-client-api-pruebas.png)
+
+34. Build y suite de pruebas aprobados:
+
+   ![ISS-02 — build y 12 pruebas aprobadas](../trazabilidad/E-FRONT-ISS-02-34-build-y-pruebas.png)
+
+35. Shell en móvil (iPhone SE, 375 × 667 px) con el menú abierto:
+
+   ![ISS-02 — menú abierto en móvil a 375 × 667](../trazabilidad/E-FRONT-ISS-02-35-shell-movil-375-menu-abierto.png)
+
+36. Shell en móvil (iPhone SE, 375 × 667 px) con el menú cerrado:
+
+   ![ISS-02 — menú cerrado en móvil a 375 × 667](../trazabilidad/E-FRONT-ISS-02-36-shell-movil-375-menu-cerrado.png)
+
+37. Verificación de `NotificationService`:
+
+   [Registro de implementación y pruebas de NotificationService](../trazabilidad/E-FRONT-ISS-02-37-notification-service.md)
+
+38. Cierre técnico del ISS-02: lista completa, suite y build:
+
+   [Registro de verificaciones finales](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md)
+
+### Resultado
+
+La evidencia registra la configuración de environments, modelos y payloads de clientes según PedalLibre; el `ClientApi` con envolturas `{ clients }`/`{ client }`; el mapper de errores; `NotificationService`; los tres componentes compartidos terminados; y el Shell con navegación en escritorio y móvil a 375 × 667 px. Las pruebas unitarias cubren los contratos HTTP simulados, errores, notificaciones, componentes compartidos y menú. La verificación final pasó con 12 archivos y 30 pruebas aprobadas y el build exitoso. Las ejecuciones previas fallidas se conservaron como historial y se corrigieron antes del cierre.
+
+### Lo que aprendí
+
+Las respuestas de la API deben convertirse en tipos útiles dentro del servicio, no propagarse como envolturas hasta la pantalla. Las pruebas simuladas del `ClientApi` verifican contratos sin debilitar la autenticación del backend. Los componentes compartidos reciben solo los datos de presentación que necesitan; el mapeo de estados de negocio corresponde a cada feature.
+
+### Retroalimentación personal
+
+Corregí los fallos detectados en las pruebas, terminé los componentes que habían quedado en scaffolding y repetí build y suite antes de cerrar ISS-02. El siguiente paso del recorrido documental es ISS-03 — CRUD de clientes con Signals.

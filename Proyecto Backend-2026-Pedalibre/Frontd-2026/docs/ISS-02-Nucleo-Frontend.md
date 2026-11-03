@@ -1,11 +1,11 @@
 # Fase I: Frontend — ISS-02: Núcleo: environment, modelos, servicios y layout
 
-**Estado:** pendiente
+**Estado:** Completado — verificaciones locales aprobadas (3-nov-2026)
 **Proyecto:** PedalLibre, carpeta `Frontd-2026`
-**Depende de:** ISS-01A — Esqueleto de la interfaz e ISS-01B — Interacción del menú
+**Depende de:** ISS-01 — Bootstrap Angular
 **Habilita:** ISS-03 — CRUD de clientes
 
-> **Estado real del proyecto:** ISS-01 dejó una portada local, pero `app.routes.ts` sigue vacío y todavía no existen Header, Aside, Footer ni Shell. Este ISS se redacta ahora para continuar la ruta, pero no se debe marcar iniciado ni dar por existente el layout hasta completar ISS-01A e ISS-01B. En esta guía, los nombres de las entidades y los contratos corresponden a PedalLibre, no al proyecto de referencia.
+> **Cierre local al 3-nov-2026:** ISS-02 se completó sobre el workspace PedalLibre. El contrato de clientes se contrastó con sus DTO/backend; `ClientApi`, `toApiMessage`, `NotificationService`, componentes compartidos y Shell cuentan con pruebas. El Shell se verificó en navegador de escritorio y viewport móvil 375 × 667 px. La verificación final pasó con 12 archivos y 30 pruebas; el build de producción también pasó. Las pruebas HTTP usan `HttpTestingController` y no requieren levantar el backend ni omitir autenticación. La evidencia está enlazada en el informe y el registro final [E-FRONT-ISS-02-38](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md).
 
 ## Contexto de PedalLibre
 
@@ -18,7 +18,7 @@
 
 ## Objetivo
 
-Preparar la infraestructura que usarán las pantallas de negocio: environments, modelos TypeScript basados en las respuestas reales de PedalLibre, el primer servicio HTTP tipado, utilidades de error y notificaciones, componentes compartidos y la composición del Shell con el layout construido en ISS-01A/01B.
+Preparar la infraestructura que usarán las pantallas de negocio: environments, modelos TypeScript basados en las respuestas reales de PedalLibre, el primer servicio HTTP tipado, utilidades de error y notificaciones, componentes compartidos y el Shell funcional (Header, Aside, contenido y Footer) con navegación responsive. El esqueleto visual y su interacción se construyen aquí como parte de ISS-02.
 
 La cadena que debe quedar clara es:
 
@@ -31,19 +31,24 @@ La respuesta se desenvuelve en el servicio, no en la plantilla ni en cada compon
 
 ## Criterios de aceptación
 
-- [ ] `environment.ts` y `environment.development.ts` existen; `angular.json` reemplaza el environment para desarrollo.
-- [ ] `apiUrl` es `http://localhost:3002/api`, sin slash final, y no contiene secretos.
-- [ ] Los modelos reflejan los nombres y nulabilidad del JSON que devuelve PedalLibre; no exponen hashes ni tokens persistidos.
-- [ ] Los tipos monetarios aceptan `number | string`, porque Sequelize puede serializar `DECIMAL` como texto.
-- [ ] Los DTO de escritura distinguen crear, reemplazar y actualizar parcialmente; no presentan transiciones de negocio como cambios genéricos.
-- [ ] `ClientApi` construye su URL desde `environment.apiUrl` y devuelve `Client`/`Client[]`, no las envolturas HTTP.
-- [ ] `ClientApi` usa las envolturas reales de clientes: `{ clients }` y `{ client }`; no las del controlador genérico `{ items }` y `{ item }`.
-- [ ] `toApiMessage` diferencia una API inaccesible (`status === 0`) de un `401` o `403`, y extrae el campo `error` cuando el backend lo devuelve.
-- [ ] `NotificationService` centraliza los mensajes PrimeNG y no oculta los errores.
-- [ ] `PageHeader`, `EmptyState` y `StatusTag` son standalone y no agregan CSS de negocio.
-- [ ] Shell compone una vez Header, Aside, `router-outlet` y Footer, conservando el diseño/responsive y la navegación de ISS-01A/01B.
-- [ ] `provideHttpClient()` está registrado sin interceptores de autenticación.
-- [ ] Build y pruebas terminan correctamente; la prueba de `ClientApi` comprueba el URL, el método HTTP y el desenvolvimiento de la respuesta.
+- [x] `environment.ts` y `environment.development.ts` existen; `angular.json` reemplaza el environment para desarrollo.
+- [x] `apiUrl` es `http://localhost:3002/api`, sin slash final, y no contiene secretos.
+- [x] Los modelos iniciales de clientes reflejan sus nombres y nulabilidad (`user_id`, `phone` y `email` pueden ser `null`) y no exponen hashes ni tokens persistidos.
+- [x] El tipo monetario común acepta `number | string`, porque Sequelize puede serializar `DECIMAL` como texto.
+- [x] Los payloads de clientes distinguen crear, reemplazar y actualizar parcialmente, según los DTO reales del backend; los cambios de estado de negocio no se confunden con un CRUD genérico.
+- [x] `ClientApi` construye su URL desde `environment.apiUrl` y devuelve `Client`/`Client[]`, no las envolturas HTTP.
+- [x] `ClientApi` usa las envolturas reales de clientes: `{ clients }` y `{ client }`; no las del controlador genérico `{ items }` y `{ item }`.
+- [x] `client-api.spec.ts` verifica `list`, `get`, `create`, `replace` y `update` con `HttpTestingController`; confirma método, URL, payload, respuesta desenvuelta y que no queden solicitudes pendientes.
+- [x] `toApiMessage` diferencia una API inaccesible (`status === 0`) de un `401` o `403`, y extrae el campo `error` cuando el backend lo devuelve.
+- [x] `NotificationService` centraliza notificaciones de éxito, aviso y error en PrimeNG; traduce los errores con `toApiMessage` y las pruebas confirman severidad, resumen, detalle y duración.
+- [x] `PageHeader`, `EmptyState` y `StatusTag` son standalone, exponen inputs tipados, proyectan acciones donde aplica y no agregan CSS de negocio.
+- [x] Header, Aside, Footer, Shell y la pantalla de inicio son componentes standalone creados en este ISS.
+- [x] Shell compone una vez Header, Aside, `router-outlet` y Footer; el menú navega a la página de inicio existente.
+- [x] El botón del Header alterna el Aside en escritorio y abre/cierra su navegación en móvil; `aria-expanded`/`aria-controls` describen el estado.
+- [x] El layout responde a viewport móvil/escritorio con Tailwind y PrimeNG, sin PrimeFlex ni CSS de negocio propio.
+- [x] La portada local de ISS-01 continúa accesible como contenido de inicio bajo el Shell.
+- [x] `provideHttpClient()` está registrado sin interceptores de autenticación.
+- [x] Build y pruebas terminan correctamente; las pruebas cubren `ClientApi`, notificaciones, errores y comportamiento del menú, con evidencia visual responsive.
 
 ## 2.1 Environments: una URL para el frontend
 
@@ -347,7 +352,7 @@ Registra `provideHttpClient()` en `app.config.ts`, conservando `provideRouter`, 
 
 ## 2.5 Componentes compartidos
 
-Después de completar el prerrequisito visual, crea componentes standalone sin CSS específico de negocio:
+Genera componentes standalone sin CSS específico de negocio. Usa el CLI desde la raíz de `Frontd-2026`:
 
 ```bash
 ng generate component shared/ui/page-header --standalone --skip-tests
@@ -355,19 +360,307 @@ ng generate component shared/ui/empty-state --standalone --skip-tests
 ng generate component shared/ui/status-tag --standalone --skip-tests
 ```
 
-- `PageHeader`: recibe título y, si hace falta, una descripción y acciones proyectadas.
-- `EmptyState`: recibe un mensaje y permite proyectar una acción de recuperación.
-- `StatusTag`: recibe el texto de estado y presenta una severidad PrimeNG; no asumas que todos los módulos usan los mismos valores. Conserva un caso neutral para estados que aún no estén mapeados.
+- `PageHeader`: `title` requerido, `description` opcional y acciones proyectadas con el atributo `pageHeaderActions`.
+- `EmptyState`: `message` requerido, título neutral por defecto y acción de recuperación proyectada con `emptyStateAction`.
+- `StatusTag`: `value` requerido y severidad PrimeNG opcional, con `secondary` neutral por defecto. El feature decide su mapeo de estados; el componente no impone vocabulario de negocio.
 
 Usa componentes PrimeNG y clases Tailwind existentes. No agregues PrimeFlex ni estilos globales para resolver la composición de una pantalla.
 
-## 2.6 Shell y navegación
+## 2.6 Construir el Shell y la navegación responsive
 
-El Shell depende de Header, Aside y Footer construidos e integrados en ISS-01A/01B. En el estado actual esos componentes no existen: no copies una referencia de otro proyecto ni marques esta sección como completada antes de que estén implementados.
+Este bloque incorpora aquí el trabajo de esqueleto visual e interacción: Header, Aside, Footer, Shell, menú y estados responsive. No esperes ni dependas de un ISS-01A/01B separado. Primero comprueba que la portada actual funciona; después muévela a una página standalone `HomePage`, conservando su contenido y sus textos (la página todavía no consulta el backend).
 
-Al completar el prerrequisito, integra esos componentes una sola vez en el Shell. El botón del Header debe controlar la navegación lateral según el comportamiento responsive definido en ISS-01B. `app.routes.ts` debe conservar la portada como ruta local y usar el Shell sin duplicar encabezado o menú al navegar. Las rutas de negocio se agregan en los ISS de cada feature; no anuncies enlaces que conduzcan a pantallas inexistentes.
+En la evidencia recibida el CLI ya generó estos componentes y sus archivos. Si partes de otra copia y aún no están, ejecuta:
 
-`App` debe renderizar la salida del router si la estrategia de ISS-01A/01B usa un Shell enrutado. Conserva la portada actual como pantalla local hasta que una etapa posterior la reemplace con una ruta real.
+```bash
+ng generate component layout/header --standalone
+ng generate component layout/aside --standalone
+ng generate component layout/footer --standalone
+ng generate component layout/shell --standalone
+ng generate component features/home/home-page --standalone
+```
+
+La captura de esta generación es evidencia de scaffolding, no de componentes terminados. Desde `Frontd-2026`, reemplaza el contenido de los archivos TypeScript y HTML generados con los siguientes bloques. Los CSS generados pueden permanecer vacíos; la composición visual se hace con Tailwind y PrimeNG.
+
+`src/app/layout/header/header.ts`:
+
+```bash
+cat > src/app/layout/header/header.ts <<'EOF'
+import { Component, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-header',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './header.html',
+  styleUrl: './header.css',
+})
+export class Header {
+  readonly menuExpanded = input(false);
+  readonly menuToggle = output<void>();
+}
+EOF
+```
+
+`src/app/layout/header/header.html`:
+
+```bash
+cat > src/app/layout/header/header.html <<'EOF'
+<header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
+  <a routerLink="/" class="text-lg font-bold tracking-tight text-emerald-800">
+    PedalLibre
+  </a>
+  <button
+    type="button"
+    class="inline-flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+    aria-label="Alternar menú de navegación"
+    aria-controls="app-navigation"
+    [attr.aria-expanded]="menuExpanded()"
+    (click)="menuToggle.emit()"
+  >
+    <i class="pi pi-bars text-lg" aria-hidden="true"></i>
+  </button>
+</header>
+EOF
+```
+
+`src/app/layout/aside/aside.ts`:
+
+```bash
+cat > src/app/layout/aside/aside.ts <<'EOF'
+import { Component, input, output } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+@Component({
+  selector: 'app-aside',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './aside.html',
+  styleUrl: './aside.css',
+})
+export class Aside {
+  readonly collapsed = input(false);
+  readonly mobileOpen = input(false);
+  readonly navigate = output<void>();
+}
+EOF
+```
+
+`src/app/layout/aside/aside.html`:
+
+```bash
+cat > src/app/layout/aside/aside.html <<'EOF'
+<aside
+  id="app-navigation"
+  class="fixed inset-y-16 left-0 z-40 w-72 border-r border-slate-200 bg-white transition-all duration-200 md:static md:inset-auto md:z-auto md:translate-x-0"
+  [class.-translate-x-full]="!mobileOpen()"
+  [class.translate-x-0]="mobileOpen()"
+  [class.md:w-20]="collapsed()"
+  [class.md:w-64]="!collapsed()"
+>
+  <nav aria-label="Navegación principal" class="space-y-2 p-3">
+    <a
+      routerLink="/"
+      routerLinkActive="bg-emerald-50 text-emerald-800"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-slate-700 hover:bg-slate-100"
+      (click)="navigate.emit()"
+    >
+      <i class="pi pi-home" aria-hidden="true"></i>
+      <span [class.md:hidden]="collapsed()">Inicio</span>
+    </a>
+  </nav>
+</aside>
+EOF
+```
+
+`src/app/layout/footer/footer.ts`:
+
+```bash
+cat > src/app/layout/footer/footer.ts <<'EOF'
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  templateUrl: './footer.html',
+  styleUrl: './footer.css',
+})
+export class Footer {}
+EOF
+```
+
+`src/app/layout/footer/footer.html`:
+
+```bash
+cat > src/app/layout/footer/footer.html <<'EOF'
+<footer class="border-t border-slate-200 bg-white px-4 py-4 text-center text-sm text-slate-500 sm:px-6">
+  PedalLibre · Plataforma de movilidad compartida
+</footer>
+EOF
+```
+
+`src/app/layout/shell/shell.ts`:
+
+```bash
+cat > src/app/layout/shell/shell.ts <<'EOF'
+import { Component, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Aside } from '../aside/aside';
+import { Footer } from '../footer/footer';
+import { Header } from '../header/header';
+
+@Component({
+  selector: 'app-shell',
+  standalone: true,
+  imports: [Aside, Footer, Header, RouterOutlet],
+  templateUrl: './shell.html',
+  styleUrl: './shell.css',
+})
+export class Shell {
+  readonly menuExpanded = signal(false);
+
+  toggleMenu(): void {
+    this.menuExpanded.update((expanded) => !expanded);
+  }
+
+  closeMenu(): void {
+    this.menuExpanded.set(false);
+  }
+}
+EOF
+```
+
+`src/app/layout/shell/shell.html`:
+
+```bash
+cat > src/app/layout/shell/shell.html <<'EOF'
+<div class="flex min-h-dvh flex-col bg-slate-50 text-slate-900">
+  <app-header
+    [menuExpanded]="menuExpanded()"
+    (menuToggle)="toggleMenu()"
+  />
+  <div class="relative flex flex-1">
+    @if (menuExpanded()) {
+      <button
+        type="button"
+        class="fixed inset-x-0 bottom-0 top-16 z-30 bg-slate-950/40 md:hidden"
+        aria-label="Cerrar menú de navegación"
+        (click)="closeMenu()"
+      ></button>
+    }
+    <app-aside
+      [collapsed]="!menuExpanded()"
+      [mobileOpen]="menuExpanded()"
+      (navigate)="closeMenu()"
+    />
+    <main id="main-content" class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <router-outlet />
+    </main>
+  </div>
+  <app-footer />
+</div>
+EOF
+```
+
+`src/app/features/home/home-page/home-page.html` conserva la portada de ISS-01 como contenido interno del Shell:
+
+```bash
+cat > src/app/features/home/home-page/home-page.html <<'EOF'
+<section
+  aria-labelledby="welcome-title"
+  class="mx-auto flex min-h-[65dvh] w-full max-w-5xl flex-col justify-center"
+>
+  <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
+    Movilidad compartida
+  </p>
+  <h1 id="welcome-title" class="text-4xl font-bold tracking-tight sm:text-6xl">
+    PedalLibre
+  </h1>
+  <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+    Frontend en construcción. La conexión con los servicios de PedalLibre se
+    incorporará en las siguientes etapas.
+  </p>
+  <p class="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-slate-700 shadow-sm ring-1 ring-slate-200">
+    <span aria-hidden="true" class="size-2 rounded-full bg-amber-500"></span>
+    Integración con la API pendiente
+  </p>
+</section>
+EOF
+```
+
+`src/app/app.html`:
+
+```bash
+cat > src/app/app.html <<'EOF'
+<router-outlet />
+EOF
+```
+
+`src/app/app.ts`:
+
+```bash
+cat > src/app/app.ts <<'EOF'
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
+})
+export class App {}
+EOF
+```
+
+`src/app/app.routes.ts`:
+
+```bash
+cat > src/app/app.routes.ts <<'EOF'
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./layout/shell/shell').then((module) => module.Shell),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./features/home/home-page/home-page').then(
+            (module) => module.HomePage,
+          ),
+      },
+    ],
+  },
+  { path: '**', redirectTo: '' },
+];
+EOF
+```
+
+Los nombres de importación corresponden a los archivos generados en este workspace (`*.ts`, `*.html`). No reemplaces `app.config.ts`: debe conservar `provideRouter(routes)`, PrimeNG y los providers globales de ISS-01/02.
+
+Contrato de interacción que implementan los bloques:
+
+- `Header` muestra el nombre PedalLibre y un botón de menú accesible. Emite `menuToggle` con `output<void>()`; no conoce el estado del Shell.
+- `Aside` muestra la navegación y recibe el estado de colapso/visibilidad por `input()`. Deja como enlace real la pantalla de inicio; no muestres destinos sin ruta.
+- `Footer` muestra información breve de la aplicación sin datos operativos inventados.
+- `Shell` es dueño del estado con `signal()`: recibe `menuToggle`, alterna el menú en escritorio y móvil, e incluye `<router-outlet />` una sola vez entre Header/Aside y Footer.
+- `HomePage` conserva la portada actual de PedalLibre como contenido de `/`; no presenta datos de clientes, bicicletas ni estaciones como si fueran datos reales.
+
+Usa Tailwind para grid/flex, anchuras, espaciado y breakpoints. En escritorio, el menú lateral queda visible junto al contenido y el botón del Header puede colapsarlo. En móvil, el mismo Aside se muestra como panel superpuesto con fondo de cierre; al seleccionar una ruta, cierra el panel. El control debe tener `aria-label`, `aria-expanded` y `aria-controls`, y el fondo debe ser un botón accesible que cierre el menú. No mantengas dos copias independientes del menú para desktop/móvil.
+
+Después de escribir los archivos, valida rutas y compilación. Prueba en navegador ancho móvil y escritorio, botón de menú, cierre del panel y portada conservada:
+
+```bash
+npm run build
+npm test -- --watch=false
+```
 
 ## 2.7 Registrar HttpClient sin interceptores de sesión
 
@@ -401,4 +694,11 @@ No cuentes los resultados de esta guía como ejecutados. Al cerrar el ISS, regis
 
 ## Cierre del ISS
 
-Antes de marcarlo completado, explica con tus palabras qué servicio desenvuelve `{ clients }`, por qué `DECIMAL` se modela como `number | string`, y por qué la interfaz no debe cambiar estados de alquiler por un CRUD genérico. El siguiente paso es ISS-03 — CRUD de clientes, después de completar las comprobaciones y registrar evidencia real.
+Verificación local registrada el 3-nov-2026:
+
+```bash
+npm test -- --watch=false
+npm run build
+```
+
+Resultado: 12 archivos de prueba y 30 pruebas aprobadas; build de producción exitoso. La navegación del Shell tiene capturas en escritorio y móvil (375 × 667 px), y las pruebas confirman toggle, estado accesible, cierre por overlay y cierre al emitir navegación desde Aside. Los criterios de aceptación quedan completados para este núcleo inicial de PedalLibre. El siguiente ISS es ISS-03 — CRUD de clientes.
