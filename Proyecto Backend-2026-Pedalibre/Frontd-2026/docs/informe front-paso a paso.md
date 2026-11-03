@@ -12,6 +12,8 @@ Uso exclusivamente las comprobaciones y evidencias de PedalLibre y su backend. E
 |---|---|---|
 | Preparación | [ISS-00 — Requisitos previos](./ISS-00-Requisitos-previos.md) | Completado |
 | Construcción inicial | [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md) | Completado |
+| Esqueleto visual | ISS-01A e ISS-01B — Header, Aside, Footer y navegación | Pendiente |
+| Núcleo del frontend | [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md) | Pendiente; depende de ISS-01A e ISS-01B |
 
 ## Paso 1 — ISS-00: Requisitos previos
 

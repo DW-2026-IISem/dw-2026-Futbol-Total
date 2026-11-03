@@ -1,3 +1,4 @@
+
 # Prompts de IA por issue
 
 Estos son los prompts operativos definidos en `docs/Guion_IA_Desarrollo_Software.md`. Usa un único prompt, el del issue en curso y el modo que corresponda. No mezcles varios issues en una misma solicitud.

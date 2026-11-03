@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:3002/api
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzkxOTkzNTM2LCJleHAiOjE3OTE5OTQ0MzYsImF1ZCI6ImFwcC1zdG9yZWxhYi1hcGkiLCJpc3MiOiJhcHAtc3RvcmVsYWItZXhwcmVzcyIsInN1YiI6IjEiLCJqdGkiOiIwNjY3MjM5Ni1lN2ZlLTRiYTgtODBjZi1iYzJhNDA5MjkzZjUifQ.2J7uovvcphqp4iB0IAnCRsCNf4gxmuPPYWn3Mma3eQI
+@userId = 1
+
+### List active users
+GET {{baseUrl}}/usuarios
+Authorization: Bearer {{accessToken}}
+
+### Get one active user
+GET {{baseUrl}}/usuarios/{{userId}}
+Authorization: Bearer {{accessToken}}
+
+### Get effective permissions
+GET {{baseUrl}}/usuarios/{{userId}}/permisos
+Authorization: Bearer {{accessToken}}

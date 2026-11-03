@@ -1,0 +1,27 @@
+### Feature Sale - UPDATE (PUT) / UPDATE (PATCH) (público, sin token)
+### Sustituye @id por una venta destinada a pruebas.
+### El DTO actualiza la cabecera; las líneas se administran en ProductSale.
+@baseUrl = http://localhost:3002
+@id = REPLACE_WITH_TEST_ID
+
+# @name updateSalePut
+PUT {{baseUrl}}/api/ventas/{{id}}
+Content-Type: application/json
+
+{
+  "client_id": 1,
+  "tax": 20,
+  "discounts": 10,
+  "sale_date": "2026-10-08T12:00:00.000Z"
+}
+
+###
+
+# @name updateSalePatch
+PATCH {{baseUrl}}/api/ventas/{{id}}
+Content-Type: application/json
+
+{
+  "tax": 15,
+  "discounts": 0
+}

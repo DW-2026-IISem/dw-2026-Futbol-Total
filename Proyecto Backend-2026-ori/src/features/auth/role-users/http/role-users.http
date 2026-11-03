@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:4000/api
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzkxOTkxMjM5LCJleHAiOjE3OTE5OTIxMzksImF1ZCI6ImFwcC1zdG9yZWxhYi1hcGkiLCJpc3MiOiJhcHAtc3RvcmVsYWItZXhwcmVzcyIsInN1YiI6IjEiLCJqdGkiOiI1MjM2Mzk4Ni0wNDgxLTQ0OTctOGIyYi0zMWIyMzYzNDhiYjkifQ.zNcAjUnyjLy6wtKT068RXLIMnEG6xouH4XoTTvCMVR0
+@userId = 3
+@roleId = 1
+
+### List active user-role assignments
+GET {{baseUrl}}/asignaciones-rol
+Authorization: Bearer {{adminToken}}
+
+### Get one assignment
+GET {{baseUrl}}/asignaciones-rol/{{assignmentId}}
+Authorization: Bearer {{adminToken}}
+
+### Assign a role to a user; replace IDs with active records
+# @name assignCreate
+POST {{baseUrl}}/asignaciones-rol
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "user_id": {{userId}},
+  "role_id": {{roleId}}
+}
+
+@assignmentId = {{assignCreate.response.body.$.assignment.id}}
+
+### Repeating an active assignment should return 409
+POST {{baseUrl}}/asignaciones-rol
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "user_id": {{userId}},
+  "role_id": {{roleId}}
+}
+
+### Deactivate the assignment (logical removal)
+PATCH {{baseUrl}}/asignaciones-rol/{{assignmentId}}/deactivate
+Authorization: Bearer {{adminToken}}
+
+### Reactivate the assignment
+PATCH {{baseUrl}}/asignaciones-rol/{{assignmentId}}/reactivate
+Authorization: Bearer {{adminToken}}
+
+### Check effective permissions for the user
+GET {{baseUrl}}/usuarios/{{userId}}/permisos
+Authorization: Bearer {{adminToken}}

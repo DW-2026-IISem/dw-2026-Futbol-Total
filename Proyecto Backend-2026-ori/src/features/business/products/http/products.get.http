@@ -1,0 +1,12 @@
+### Feature Product - GET ALL / GET ONE
+@baseUrl = http://localhost:3002
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlY3Rvci5wcm9kdWN0b3MiLCJpYXQiOjE3OTE5OTUzOTUsImV4cCI6MTc5MTk5NjI5NSwiYXVkIjoiYXBwLXN0b3JlbGFiLWFwaSIsImlzcyI6ImFwcC1zdG9yZWxhYi1leHByZXNzIiwic3ViIjoiNSIsImp0aSI6IjdhMjc1NDZmLTkxODUtNDU0Mi05ZDRmLTg0M2RiMjRjNzMxZiJ9._tVPn-Xo3HgJPl-l3KYmMj5HmGAVfIGM08uRFsN5VgQ
+
+GET {{baseUrl}}/api/productos
+Authorization: Bearer {{accessToken}}
+
+###
+
+# @name getOneProductPublic
+GET {{baseUrl}}/api/productos/{{id}}
+Authorization: Bearer {{accessToken}}

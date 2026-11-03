@@ -1,0 +1,54 @@
+@baseUrl = http://localhost:3002/api
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9zY2FyLXBydWViYSIsImlhdCI6MTc5MTk5NDU2OSwiZXhwIjoxNzkxOTk1NDY5LCJhdWQiOiJhcHAtc3RvcmVsYWItYXBpIiwiaXNzIjoiYXBwLXN0b3JlbGFiLWV4cHJlc3MiLCJzdWIiOiI0IiwianRpIjoiMWE5YjBhNjQtYjVkYy00MzJmLTg0ZjMtODBkNDhmNzg5ZGY5In0.lULtYLVoiljScOucj59kcSwziD2A-MfxjBCJPEAeotM
+@sellerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzkxOTkxMjM5LCJleHAiOjE3OTE5OTIxMzksImF1ZCI6ImFwcC1zdG9yZWxhYi1hcGkiLCJpc3MiOiJhcHAtc3RvcmVsYWItZXhwcmVzcyIsInN1YiI6IjEiLCJqdGkiOiI1MjM2Mzk4Ni0wNDgxLTQ0OTctOGIyYi0zMWIyMzYzNDhiYjkifQ.zNcAjUnyjLy6wtKT068RXLIMnEG6xouH4XoTTvCMVR0
+@roleId = 1
+
+### List active roles as ADMIN
+GET {{baseUrl}}/roles
+Authorization: Bearer {{adminToken}}
+
+### Get one active role as ADMIN
+GET {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{adminToken}}
+
+### Create role as ADMIN
+POST {{baseUrl}}/roles
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "Oscar",
+  "description": "Auditoría de operaciones",
+  "status": "active"
+}
+
+### Replace role fields as ADMIN
+PUT {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "AUDITOR",
+  "description": "Auditoría del sistema"
+}
+
+### Patch role fields as ADMIN
+PATCH {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "description": "Auditoría de operaciones"
+}
+
+### Deactivate role as ADMIN
+PATCH {{baseUrl}}/roles/{{roleId}}/deactivate
+Authorization: Bearer {{adminToken}}
+
+### Permanently delete role as ADMIN
+DELETE {{baseUrl}}/roles/{{roleId}}
+Authorization: Bearer {{adminToken}}
+
+### SELLER should be forbidden from listing roles (expect 403)
+GET {{baseUrl}}/roles
+Authorization: Bearer {{sellerToken}}

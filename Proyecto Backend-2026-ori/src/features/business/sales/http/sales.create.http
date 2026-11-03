@@ -1,0 +1,17 @@
+### Feature Sale - CREATE (público, sin token)
+### Requiere un cliente activo y productos activos con stock disponible.
+@baseUrl = http://localhost:3002
+
+# @name createSalePublic
+POST {{baseUrl}}/api/ventas
+Content-Type: application/json
+
+{
+  "client_id": 1,
+  "tax": 19,
+  "discounts": 5,
+  "items": [
+    { "product_id": 1, "quantity": 2 },
+    { "product_id": 2, "quantity": 1 }
+  ]
+}

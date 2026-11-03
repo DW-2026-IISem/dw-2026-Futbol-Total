@@ -1,0 +1,57 @@
+@baseUrl = http://localhost:4000/api
+@adminToken = REPLACE_WITH_ADMIN_ACCESS_TOKEN
+@sellerToken = REPLACE_WITH_SELLER_ACCESS_TOKEN
+@roleId = REPLACE_WITH_ROLE_ID
+@resourceId = REPLACE_WITH_RESOURCE_ID
+@grantId = REPLACE_WITH_GRANT_ID
+
+### List active resource grants
+GET {{baseUrl}}/concesiones-rol
+Authorization: Bearer {{adminToken}}
+
+### Filter grants by role
+GET {{baseUrl}}/concesiones-rol?role_id={{roleId}}
+Authorization: Bearer {{adminToken}}
+
+### Filter grants by resource
+GET {{baseUrl}}/concesiones-rol?resource_id={{resourceId}}
+Authorization: Bearer {{adminToken}}
+
+### Get one grant
+GET {{baseUrl}}/concesiones-rol/{{grantId}}
+Authorization: Bearer {{adminToken}}
+
+### Grant a resource to a role
+# @name grantCreate
+POST {{baseUrl}}/concesiones-rol
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "role_id": {{roleId}},
+  "resource_id": {{resourceId}}
+}
+
+@createdGrantId = {{grantCreate.response.body.$.grant.id}}
+
+### Repeating an active grant should return 409
+POST {{baseUrl}}/concesiones-rol
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "role_id": {{roleId}},
+  "resource_id": {{resourceId}}
+}
+
+### Deactivate the grant (logical permission revocation)
+PATCH {{baseUrl}}/concesiones-rol/{{createdGrantId}}/deactivate
+Authorization: Bearer {{adminToken}}
+
+### Reactivate the grant
+PATCH {{baseUrl}}/concesiones-rol/{{createdGrantId}}/reactivate
+Authorization: Bearer {{adminToken}}
+
+### SELLER should not be allowed to administer resource grants (expected 403)
+GET {{baseUrl}}/concesiones-rol
+Authorization: Bearer {{sellerToken}}

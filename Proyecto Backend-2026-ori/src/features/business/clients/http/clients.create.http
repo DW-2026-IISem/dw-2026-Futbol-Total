@@ -1,0 +1,16 @@
+### Feature Clients - CREATE (público, sin token)
+@baseUrl = http://localhost:3002
+
+# Cambia el email si vuelves a ejecutar la solicitud; debe ser único.
+# @name createClient
+POST {{baseUrl}}/api/clientes
+Content-Type: application/json
+
+{
+  "name": "Cliente de prueba ISS-03-C",
+  "address": "Dirección de prueba 123",
+  "phone": "3000000000",
+  "email": "iss03c.prueba@example.com",
+  "password": "REPLACE_WITH_THROWAWAY_TEST_PASSWORD",
+  "status": "active"
+}

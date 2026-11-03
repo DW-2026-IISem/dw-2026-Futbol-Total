@@ -1,0 +1,23 @@
+### Feature ProductType - UPDATE (PUT) / UPDATE (PATCH) (público, sin token)
+### Sustituye @id por el ID de un tipo de producto destinado a pruebas.
+@baseUrl = http://localhost:3002
+@id = REPLACE_WITH_TEST_ID
+
+# @name updateProductTypePut
+PUT {{baseUrl}}/api/tipos-producto/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Accesorios actualizados ISS-06",
+  "description": "Actualización completa de prueba"
+}
+
+###
+
+# @name updateProductTypePatch
+PATCH {{baseUrl}}/api/tipos-producto/{{id}}
+Content-Type: application/json
+
+{
+  "description": "Descripción parcial de prueba"
+}

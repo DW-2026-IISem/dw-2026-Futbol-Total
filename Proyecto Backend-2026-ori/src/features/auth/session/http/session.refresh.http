@@ -1,0 +1,43 @@
+### ISS-15 — Refresh (OPEN con credencial de sesión)
+### Ejecutar loginAdmin primero para obtener refresh_token.
+### Reemplaza <SEED_ADMIN_PASSWORD> localmente por el valor de SEED_ADMIN_PASSWORD en .env.
+@baseUrl = http://localhost:3002
+
+# @name loginAdmin
+POST {{baseUrl}}/api/sesion/login
+Content-Type: application/json
+
+{
+  "identifier": "admin",
+  "password": "<SEED_ADMIN_PASSWORD>"
+}
+
+### Rota el refresh token y devuelve un par nuevo
+# @name refresh
+POST {{baseUrl}}/api/sesion/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{loginAdmin.response.body.$.refresh_token}}"
+}
+
+### Después de detectar reuse, el refresh recién rotado también debe responder 401
+POST {{baseUrl}}/api/sesion/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{refresh.response.body.$.refresh_token}}"
+}
+
+### El nuevo access token sirve para consultar el perfil (modalidad JWT)
+GET {{baseUrl}}/api/sesion/perfil
+Authorization: Bearer {{refresh.response.body.$.access_token}}
+
+### Reutilizar el refresh token anterior debe responder 401 y revocar la familia.
+### Ejecutar solo después de revisar la consecuencia: también invalida el token rotado.
+POST {{baseUrl}}/api/sesion/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{loginAdmin.response.body.$.refresh_token}}"
+}

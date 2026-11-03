@@ -1,0 +1,11 @@
+### Feature ProductSale - GET ALL / GET ONE (público, sin token)
+@baseUrl = http://localhost:3002
+@id = 1
+
+# @name getAllProductSalesPublic
+GET {{baseUrl}}/api/detalle-ventas
+
+###
+
+# @name getOneProductSalePublic
+GET {{baseUrl}}/api/detalle-ventas/{{id}}

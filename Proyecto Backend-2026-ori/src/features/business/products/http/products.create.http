@@ -1,0 +1,17 @@
+### Feature Product - CREATE (pruébalo con el token del usuario AUDITOR)
+@baseUrl = http://localhost:3002
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlY3Rvci5wcm9kdWN0b3MiLCJpYXQiOjE3OTE5OTUzOTUsImV4cCI6MTc5MTk5NjI5NSwiYXVkIjoiYXBwLXN0b3JlbGFiLWFwaSIsImlzcyI6ImFwcC1zdG9yZWxhYi1leHByZXNzIiwic3ViIjoiNSIsImp0aSI6IjdhMjc1NDZmLTkxODUtNDU0Mi05ZDRmLTg0M2RiMjRjNzMxZiJ9._tVPn-Xo3HgJPl-l3KYmMj5HmGAVfIGM08uRFsN5VgQ
+
+POST {{baseUrl}}/api/productos
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Balón de fútbol ISS-07",
+  "brand": "Marca de prueba",
+  "price": 25.5,
+  "min_stock": 5,
+  "quantity": 20,
+  "product_type_id": 1,
+  "status": "active"
+}
