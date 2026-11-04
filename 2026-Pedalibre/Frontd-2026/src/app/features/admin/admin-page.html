@@ -1,0 +1,90 @@
+<section class="space-y-5">
+  <app-page-header [title]="title" [description]="description">
+    @if (section !== 'grants' && canCreate()) {
+      <button pButton type="button" (click)="startCreate()">Nuevo</button>
+    }
+  </app-page-header>
+
+  @if (canCreate() || canUpdate()) {
+  <section class="rounded-xl border border-slate-200 bg-white p-4">
+    <h2 class="mb-3 text-lg font-semibold">{{ editing() ? 'Editar' : section === 'grants' ? 'Crear concesión' : 'Crear' }}</h2>
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      @for (field of fields; track field.key) {
+        @if (!editing() || field.update !== false) {
+          <label class="flex flex-col gap-1 text-sm font-medium">
+            {{ field.label }} @if (field.required) { <span aria-hidden="true">*</span> }
+            @if (field.type === 'select') {
+              <select class="rounded-lg border border-slate-300 p-2" [value]="draft()[field.key] ?? ''"
+                (change)="setValue(field.key, $event)">
+                <option value="">Selecciona un método</option>
+                @for (method of ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']; track method) {
+                  <option [value]="method">{{ method }}</option>
+                }
+              </select>
+            } @else {
+              <input pInputText [type]="field.type" [value]="draft()[field.key] ?? ''"
+                (input)="setValue(field.key, $event)" [autocomplete]="field.type === 'password' ? 'new-password' : 'off'" />
+            }
+          </label>
+        }
+      }
+    </div>
+    @if (formError()) { <p-message class="mt-3" severity="error">{{ formError() }}</p-message> }
+    @if (section === 'grants') {
+      <p class="mt-3 text-sm text-slate-600">Vincula un rol con un recurso existente para concederle acceso.</p>
+    }
+    <div class="mt-4 flex gap-2">
+      @if (section === 'grants' && canCreate()) {
+        <button pButton type="button" [disabled]="saving()" (click)="submitGrant()">Conceder permiso</button>
+      } @else if (section !== 'grants' && (editing() ? canUpdate() : canCreate())) {
+        <button pButton type="button" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : editing() ? 'Guardar cambios' : 'Crear' }}</button>
+      }
+      @if (editing()) { <button pButton type="button" severity="secondary" (click)="startCreate()">Cancelar</button> }
+    </div>
+  </section>
+  }
+
+  <label for="admin-filter" class="sr-only">Buscar {{ title }}</label>
+  <input id="admin-filter" pInputText [value]="query()" (input)="setQuery($event)"
+    placeholder="Filtrar resultados" class="w-full sm:max-w-md" />
+  @if (section === 'grants') {
+    <div class="grid gap-3 sm:grid-cols-2 sm:max-w-xl">
+      <label class="flex flex-col gap-1 text-sm font-medium">Filtrar por ID de rol
+        <input pInputText type="number" min="1" [value]="roleFilter()" (input)="setFilter('role', $event)" />
+      </label>
+      <label class="flex flex-col gap-1 text-sm font-medium">Filtrar por ID de recurso
+        <input pInputText type="number" min="1" [value]="resourceFilter()" (input)="setFilter('resource', $event)" />
+      </label>
+      <button pButton type="button" class="sm:col-span-2" (click)="load()">Aplicar filtros</button>
+    </div>
+  }
+  @if (loading()) { <p role="status">Cargando {{ title.toLowerCase() }}…</p> }
+  @if (error()) { <p-message severity="error">{{ error() }}</p-message> }
+  @if (!loading() && !error()) {
+    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+      <p-table [value]="visibleRows()" dataKey="id">
+        <ng-template #header><tr>
+          @for (column of columns(); track column) { <th>{{ columnLabel(column) }}</th> }
+          @if (section === 'grants' ? (canDeactivate() || canReactivateGrant()) : (canUpdate() || canDeactivate() || canDelete())) { <th>Acciones</th> }
+        </tr></ng-template>
+        <ng-template #body let-row><tr>
+          @for (column of columns(); track column) { <td>{{ displayColumn(column, row[column]) }}</td> }
+          @if (section === 'grants' ? (canDeactivate() || canReactivateGrant()) : (canUpdate() || canDeactivate() || canDelete())) { <td class="whitespace-nowrap">
+            @if (section === 'grants') {
+              @if (row.status === 'active' ? canDeactivate() : canReactivateGrant()) {
+              <button pButton type="button" text (click)="changeGrant(row)">
+                {{ row.status === 'active' ? 'Revocar' : 'Reactivar' }}
+              </button>
+              }
+            } @else {
+              @if (canUpdate()) { <button pButton type="button" text (click)="startEdit(row)">Editar</button> }
+              @if (canDeactivate()) { <button pButton type="button" severity="secondary" text (click)="deactivate(row)">Desactivar</button> }
+              @if (canDelete()) { <button pButton type="button" severity="danger" text (click)="remove(row)">Eliminar</button> }
+            }
+          </td> }
+        </tr></ng-template>
+        <ng-template #emptymessage><tr><td [attr.colspan]="columns().length + 1">No hay registros.</td></tr></ng-template>
+      </p-table>
+    </div>
+  }
+</section>

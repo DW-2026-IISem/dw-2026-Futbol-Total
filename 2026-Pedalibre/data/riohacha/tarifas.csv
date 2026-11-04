@@ -1,0 +1,3 @@
+bicycle_type,name,calculation_rule,base_value,currency
+standard,Alquiler por hora - Bicicleta estándar,hourly,15000,COP
+electric,Alquiler por hora - Bicicleta eléctrica,hourly,20000,COP

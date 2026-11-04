@@ -1,0 +1,53 @@
+import { CreationAttributes, Transaction } from "sequelize";
+import { Client, ClientI } from "./client.model";
+
+/**
+ * Capa Repository del feature Clients.
+ * Única responsable de hablar con Sequelize (el modelo `Client`).
+ */
+export class ClientsRepository {
+  // ================== READ ==================
+  /** Todos los clientes activos. */
+  public async findAllActive(): Promise<Client[]> {
+    return Client.findAll({ where: { is_active: true } });
+  }
+
+  /** Un cliente por PK (o `null`). Acepta transacción para flujos de ventas. */
+  public async findById(
+    id: number,
+    transaction?: Transaction,
+  ): Promise<Client | null> {
+    return Client.findByPk(id, { transaction });
+  }
+
+  public async findByDocumentNumber(
+    documentNumber: string,
+    transaction?: Transaction,
+  ): Promise<Client | null> {
+    return Client.findOne({
+      where: { document_number: documentNumber.trim() },
+      transaction,
+    });
+  }
+
+  // ================== CREATE ==================
+  /** Inserta un cliente. */
+  public async create(
+    data: CreationAttributes<Client>,
+    transaction?: Transaction,
+  ): Promise<Client> {
+    return Client.create(data, { transaction });
+  }
+
+  // ================== UPDATE ==================
+  /** Persiste cambios sobre una instancia existente. */
+  public async update(client: Client, data: Partial<ClientI>): Promise<Client> {
+    return client.update(data);
+  }
+
+  // ================== DELETE ==================
+  /** Elimina físicamente una instancia. */
+  public async delete(client: Client): Promise<void> {
+    await client.destroy();
+  }
+}

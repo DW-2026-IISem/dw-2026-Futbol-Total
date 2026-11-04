@@ -1,0 +1,62 @@
+<section aria-labelledby="welcome-title" class="mx-auto w-full max-w-6xl py-5 sm:py-10">
+  <div class="overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-800 text-white shadow-2xl shadow-emerald-950/15">
+    <div class="grid items-center gap-10 px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.2fr_0.8fr] lg:px-16">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-emerald-100">
+          <i class="pi pi-compass" aria-hidden="true"></i>
+          Movilidad compartida en Riohacha
+        </p>
+        <h1 id="welcome-title" class="mt-6 max-w-2xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
+          La ciudad se disfruta mejor sobre dos ruedas.
+        </h1>
+        <p class="mt-5 max-w-xl text-lg leading-8 text-emerald-50/85">
+          Encuentra tu bicicleta, elige el horario y recorre Riohacha a tu propio ritmo con PedalLibre.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a routerLink="/register" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-emerald-300 px-5 font-bold text-emerald-950 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-emerald-200">
+            <i class="pi pi-user-plus" aria-hidden="true"></i>
+            Crear mi cuenta
+          </a>
+          <a routerLink="/login" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 font-semibold text-white transition hover:bg-white/15">
+            <i class="pi pi-sign-in" aria-hidden="true"></i>
+            Iniciar sesión
+          </a>
+        </div>
+        <p class="mt-5 text-sm text-emerald-100/75">Bicicletas estándar y eléctricas · Reserva y pago antes de iniciar</p>
+      </div>
+      <div class="relative mx-auto flex aspect-square w-full max-w-sm items-center justify-center rounded-full border border-white/15 bg-white/[0.07] p-8">
+        <div class="absolute inset-5 rounded-full border border-dashed border-emerald-100/30"></div>
+        <div class="absolute inset-12 rounded-full border border-white/10"></div>
+        <div class="relative flex size-44 items-center justify-center rounded-[2.5rem] bg-white p-6 shadow-2xl shadow-black/20 sm:size-52">
+          <img src="/pedalibre-icon.png" alt="Símbolo de PedalLibre" class="size-full object-contain" />
+        </div>
+        <span class="absolute right-2 top-10 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-emerald-950 shadow-lg">
+          <i class="pi pi-bolt text-amber-500" aria-hidden="true"></i>
+          Muévete libre
+        </span>
+        <span class="absolute bottom-8 left-0 inline-flex items-center gap-2 rounded-full border border-white/15 bg-emerald-950/70 px-4 py-2 text-sm font-medium text-emerald-50 shadow-lg">
+          <i class="pi pi-map-marker text-emerald-300" aria-hidden="true"></i>
+          Riohacha, La Guajira
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 grid gap-4 sm:grid-cols-3">
+    <article class="rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
+      <span class="flex size-11 items-center justify-center rounded-xl bg-emerald-50 text-xl text-emerald-800"><i class="pi pi-map" aria-hidden="true"></i></span>
+      <h2 class="mt-4 font-bold text-slate-900">Estaciones cercanas</h2>
+      <p class="mt-1 text-sm leading-6 text-slate-600">Consulta estaciones y puntos de anclaje disponibles en la ciudad.</p>
+    </article>
+    <article class="rounded-2xl border border-sky-100 bg-white p-5 shadow-sm">
+      <span class="flex size-11 items-center justify-center rounded-xl bg-sky-50 text-xl text-sky-800"><i class="pi pi-directions" aria-hidden="true"></i></span>
+      <h2 class="mt-4 font-bold text-slate-900">Elige cómo rodar</h2>
+      <p class="mt-1 text-sm leading-6 text-slate-600">Escoge una bicicleta estándar o eléctrica y una tarifa para tu recorrido.</p>
+    </article>
+    <article class="rounded-2xl border border-amber-100 bg-white p-5 shadow-sm">
+      <span class="flex size-11 items-center justify-center rounded-xl bg-amber-50 text-xl text-amber-800"><i class="pi pi-shield" aria-hidden="true"></i></span>
+      <h2 class="mt-4 font-bold text-slate-900">Todo bajo control</h2>
+      <p class="mt-1 text-sm leading-6 text-slate-600">Revisa tus reservas, pagos, recorridos y penalidades desde tu cuenta.</p>
+    </article>
+  </div>
+</section>

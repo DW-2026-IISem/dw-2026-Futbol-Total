@@ -1,0 +1,13 @@
+station_code,zone,priority,name,address,city,department,country,description,capacity,bicycle_count,electric_bicycle_count,docking_point_count
+RIO-01,Zona 1 - Centro histórico y turístico,Alta,Plaza José Prudencio Padilla,"Carrera 8, centro de Riohacha",Riohacha,La Guajira,Colombia,"Conexión con el centro histórico, comercio, instituciones y visitantes.",20,20,6,20
+RIO-02,Zona 1 - Centro histórico y turístico,Alta,Malecón de Riohacha,"Calle 1, Avenida La Marina",Riohacha,La Guajira,Colombia,"Turismo, recreación, recorridos costeros y restaurantes.",20,20,6,20
+RIO-03,Zona 1 - Centro histórico y turístico,Alta,Muelle Turístico,"Calle 1 con Carrera 6",Riohacha,La Guajira,Colombia,"Visitantes, artesanos, actividades turísticas y conexión con el Malecón.",20,20,6,20
+RIO-04,Zona 1 - Centro histórico y turístico,Alta,Parque Nicolás de Federman - Parque de los Cañones,"Calle 1 con Carrera 4",Riohacha,La Guajira,Colombia,"Conexión recreativa y turística del frente costero.",20,20,6,20
+RIO-05,Zona 2 - Transporte y movilidad,Alta,Terminal de Transporte,"Calle 16A #11-2 a 11-154",Riohacha,La Guajira,Colombia,"Conectar pasajeros que llegan a Riohacha con sus destinos urbanos.",20,20,6,20
+RIO-06,Zona 2 - Transporte y movilidad,Alta,Aeropuerto Almirante Padilla,"Acceso al aeropuerto, sector suroccidental",Riohacha,La Guajira,Colombia,"Movilidad alternativa para visitantes y trabajadores del aeropuerto.",20,20,6,20
+RIO-07,Zona 3 - Educación y comercio,Alta,Universidad de La Guajira,"Km 3 + 354, vía Riohacha-Maicao",Riohacha,La Guajira,Colombia,"Servicio para estudiantes, docentes y trabajadores universitarios.",20,20,6,20
+RIO-08,Zona 3 - Educación y comercio,Alta,Mercado Nuevo,"Carrera 7 #37-24",Riohacha,La Guajira,Colombia,"Servicio para comerciantes, compradores y trabajadores.",20,20,6,20
+RIO-09,Zona 3 - Educación y comercio,Alta,Centro Comercial Viva Wajiira,"Calle 15 #18-274",Riohacha,La Guajira,Colombia,"Conexión para trabajadores, clientes, estudiantes y visitantes.",20,20,6,20
+RIO-10,Zona 3 - Educación y comercio,Alta,Centro Comercial Suchiimma,"Calle 15 #8-56",Riohacha,La Guajira,Colombia,"Conexión comercial y desplazamientos urbanos.",20,20,6,20
+RIO-11,Zona 4 - Barrios y recreación,Media,Parque Simón Bolívar,"Carrera 15 #12A-12",Riohacha,La Guajira,Colombia,"Recreación, actividad física y conexión con sectores residenciales.",20,20,5,20
+RIO-12,Zona 4 - Barrios y recreación,Media,Parque Coquivacoa,"Sector Coquivacoa, referencia Carrera 14A",Riohacha,La Guajira,Colombia,"Movilidad para residentes, familias y usuarios de espacios deportivos.",20,20,5,20

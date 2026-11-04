@@ -1,0 +1,18 @@
+<aside
+  id="app-navigation"
+  class="app-sidebar fixed inset-y-16 left-0 z-40 w-72 overflow-y-auto border-r transition-all duration-200 md:static md:inset-auto md:z-auto md:w-64 md:translate-x-0"
+  [class.-translate-x-full]="!mobileOpen()"
+  [class.translate-x-0]="mobileOpen()"
+>
+  <nav aria-label="Navegación principal" class="space-y-1 p-3">
+    @for (item of items(); track item.path) {
+      <a [routerLink]="item.path" routerLinkActive="bg-emerald-50 text-emerald-800"
+        [routerLinkActiveOptions]="{ exact: item.path === '/dashboard' }"
+        class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-slate-700 hover:bg-slate-100"
+        (click)="navigate.emit()">
+        <i [class]="'pi ' + item.icon" aria-hidden="true"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</aside>

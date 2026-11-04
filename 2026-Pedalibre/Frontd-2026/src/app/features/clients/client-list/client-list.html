@@ -1,0 +1,47 @@
+<section class="space-y-4">
+  <app-page-header title="Clientes" description="Consulta y administra los clientes de PedalLibre.">
+    @if (canCreate()) {
+    <button pButton type="button" (click)="openCreate()">
+      <i pButtonIcon class="pi pi-plus"></i><span pButtonLabel>Nuevo cliente</span>
+    </button>
+    }
+  </app-page-header>
+  <label for="client-filter" class="sr-only">Buscar clientes</label>
+  <input id="client-filter" pInputText [value]="query()" (input)="setQuery($event)"
+    placeholder="Nombre, documento, correo o teléfono" class="w-full sm:max-w-md" />
+  @if (loading()) { <p class="text-slate-600" role="status">Cargando clientes…</p> }
+  @if (error()) { <p-message severity="error">{{ error() }}</p-message> }
+  @if (!loading() && !error()) {
+    <p-table [value]="visibleClients()" dataKey="id">
+      <ng-template #header>
+        <tr><th>Nombre</th><th>Documento</th><th>Contacto</th><th>Estado</th><th>Acciones</th></tr>
+      </ng-template>
+      <ng-template #body let-client>
+        <tr>
+          <td>{{ client.first_name }} {{ client.last_name }}</td>
+          <td>{{ client.document_type || '—' }} {{ client.document_number }}</td>
+          <td>{{ client.email || '—' }}<br />{{ client.phone || '—' }}</td>
+          <td>Activo</td>
+          <td class="flex flex-wrap gap-2">
+            @if (canUpdate()) { <button pButton type="button" text (click)="openEdit(client)"
+              [attr.aria-label]="'Editar cliente ' + client.first_name + ' ' + client.last_name">Editar</button>
+            }
+            @if (canDeactivate()) { <button pButton type="button" severity="secondary" (click)="deactivate(client)">Desactivar</button> }
+            @if (canDelete()) { <button pButton type="button" severity="danger" (click)="remove(client)">Eliminar definitivamente</button> }
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr><td colspan="5">{{ query().trim() ? 'No hay coincidencias.' : 'No hay clientes activos.' }}</td></tr>
+      </ng-template>
+    </p-table>
+  }
+  @if (dialogVisible()) {
+    <p-dialog [visible]="true" (visibleChange)="dialogVisible.set($event)"
+      [header]="editing() ? 'Editar cliente' : 'Nuevo cliente'" [modal]="true"
+      [style]="{ width: 'min(42rem, 95vw)' }">
+      <app-client-form [client]="editing()" [saving]="saving()" [error]="formError()"
+        (saved)="save($event)" (cancelled)="closeDialog()" />
+    </p-dialog>
+  }
+</section>

@@ -1,0 +1,25 @@
+<header class="app-header flex h-16 items-center justify-between border-b border-slate-200 px-4 sm:px-6">
+  <div class="flex min-w-0 items-center gap-3">
+  <button
+    type="button"
+    class="inline-flex size-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 md:hidden"
+    aria-label="Alternar menú de navegación"
+    aria-controls="app-navigation"
+    [attr.aria-expanded]="menuExpanded()"
+    (click)="menuToggle.emit()"
+  >
+    <i class="pi pi-bars text-lg" aria-hidden="true"></i>
+  </button>
+  <a routerLink="/dashboard" class="app-brand flex items-center gap-2 text-lg font-bold tracking-tight">
+    <img src="/pedalibre-icon.png" alt="" class="size-10 rounded-xl object-contain" />
+    <span>PedalLibre</span>
+  </a>
+  </div>
+  @if (username()) {
+    <div class="flex items-center gap-3">
+      <a routerLink="/profile" class="hidden text-sm text-slate-700 sm:inline">{{ username() }}</a>
+      <button type="button" class="rounded-lg border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
+        (click)="logoutRequest.emit()">Cerrar sesión</button>
+    </div>
+  }
+</header>

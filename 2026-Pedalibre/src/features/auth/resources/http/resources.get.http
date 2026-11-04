@@ -1,0 +1,68 @@
+@baseUrl = http://localhost:3002/api
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzkxOTkxMjM5LCJleHAiOjE3OTE5OTIxMzksImF1ZCI6ImFwcC1zdG9yZWxhYi1hcGkiLCJpc3MiOiJhcHAtc3RvcmVsYWItZXhwcmVzcyIsInN1YiI6IjEiLCJqdGkiOiI1MjM2Mzk4Ni0wNDgxLTQ0OTctOGIyYi0zMWIyMzYzNDhiYjkifQ.zNcAjUnyjLy6wtKT068RXLIMnEG6xouH4XoTTvCMVR0
+@sellerToken = REPLACE_WITH_SELLER_ACCESS_TOKEN
+@resourceId = 1
+ 
+### List active resources as ADMIN
+GET {{baseUrl}}/recursos
+Authorization: Bearer {{adminToken}}
+
+### Get one active resource as ADMIN
+GET {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+
+### Create a resource
+POST {{baseUrl}}/recursos
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "method": "GET",
+  "path": "/api/productos",
+  "description": "Consultar lista de productos",
+  "status": "active"
+}
+
+### Create resource to get one product
+POST {{baseUrl}}/recursos
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "method": "GET",
+  "path": "/api/productos/:id",
+  "description": "Consultar un producto",
+  "status": "active"
+}
+
+### Replace resource fields
+PUT {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "method": "GET",
+  "path": "/api/recursos/prueba-iss11-actualizado",
+  "description": "Recurso actualizado"
+}
+
+### Patch resource fields
+PATCH {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "description": "Descripción actualizada parcialmente"
+}
+
+### Deactivate resource
+PATCH {{baseUrl}}/recursos/{{resourceId}}/deactivate
+Authorization: Bearer {{adminToken}}
+
+### Permanently delete resource
+DELETE {{baseUrl}}/recursos/{{resourceId}}
+Authorization: Bearer {{adminToken}}
+
+### SELLER should be forbidden from listing resources
+GET {{baseUrl}}/recursos
+Authorization: Bearer {{sellerToken}}

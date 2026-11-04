@@ -1,0 +1,153 @@
+<section class="space-y-5">
+  <app-page-header [title]="title" [description]="description">
+    @if (workflow === 'dockings' && canDock()) {
+      <button pButton type="button" (click)="openDock()">Anclar bicicleta</button>
+    }
+    @if (workflow === 'rentals' && canStart()) {
+      <button pButton type="button" (click)="openStart()">Registrar llegada</button>
+    }
+  </app-page-header>
+
+  @if (workflow === 'rentals' && relatedFilter(); as filter) {
+    <div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+      <span>
+        Mostrando alquileres relacionados con
+        {{ filter.key === 'reservation_id' ? 'la reserva' : 'el alquiler' }} #{{ filter.id }}.
+      </span>
+      <button pButton type="button" text (click)="clearRelatedFilter()">Ver todos los alquileres</button>
+    </div>
+  }
+
+  @if (workflow === 'rentals' && canStart()) {
+    <section class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5" aria-labelledby="waiting-reservations-heading">
+      <div class="mb-4">
+        <h2 id="waiting-reservations-heading" class="text-lg font-semibold text-slate-900">Reservas pagadas: pendientes de inicio</h2>
+        <p class="mt-1 text-sm text-slate-600">
+          Solo aparecen reservas pagadas. Al confirmar la llegada, la estación se toma automáticamente de la reserva.
+        </p>
+      </div>
+      @if (pendingReservations().length) {
+        <div class="grid gap-3 md:grid-cols-2">
+          @for (reservation of pendingReservations(); track reservation.id) {
+            <article class="rounded-xl border border-slate-200 bg-white p-4">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <h3 class="font-semibold text-slate-900">{{ reservationLabel(reservation) }}</h3>
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">Pagada · pendiente de inicio</span>
+              </div>
+              <p class="mt-2 text-sm text-slate-600">
+                Inicio reservado: {{ formatDate(reservation['start_at']) }}
+              </p>
+              <button pButton type="button" class="mt-3" (click)="openStartForReservation(reservation)">
+                Registrar llegada e iniciar
+              </button>
+            </article>
+          }
+        </div>
+      } @else if (!catalogError()) {
+        <p class="rounded-xl border border-dashed border-slate-300 bg-white p-5 text-sm text-slate-600">
+          No hay reservas pendientes de llegada.
+        </p>
+      }
+    </section>
+  }
+
+  @if (activeAction(); as action) {
+    <section class="rounded-xl border border-slate-200 bg-white p-4">
+      <h2 class="mb-3 text-lg font-semibold">
+        {{ action === 'dock' ? 'Anclar bicicleta' : action === 'start' ? 'Registrar llegada e iniciar alquiler' : 'Finalizar alquiler #' + selectedRental()?.id }}
+      </h2>
+      @if (action === 'start') {
+        <p class="mb-3 text-sm text-slate-600">
+          El alquiler solo puede iniciarse con un pago exitoso. La estación de inicio proviene de la reserva.
+        </p>
+      }
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        @if (action === 'dock') {
+          <label class="flex flex-col gap-1">Identificador de bicicleta
+            <input pInputText type="number" min="1" (input)="setValue('bicycle_id', $event)" />
+          </label>
+          <label class="flex flex-col gap-1">Identificador de punto de anclaje
+            <input pInputText type="number" min="1" (input)="setValue('docking_point_id', $event)" />
+          </label>
+        }
+        @if (action === 'start') {
+          <label class="flex flex-col gap-1">Reserva que llegó
+            <select class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
+              aria-label="Reserva pendiente" [value]="draft()['reservation_id']"
+              (change)="setValue('reservation_id', $event)" required>
+              <option value="">Selecciona una reserva</option>
+              @for (reservation of pendingReservations(); track reservation.id) {
+                <option [value]="reservation.id">{{ reservationLabel(reservation) }}</option>
+              }
+            </select>
+          </label>
+        }
+        @if (action === 'finish') {
+          <label class="flex flex-col gap-1">Identificador de estación de devolución (opcional)
+            <input pInputText type="number" min="1" (input)="setValue('end_station_id', $event)" />
+          </label>
+          <label class="flex flex-col gap-1">Identificador de punto de anclaje (opcional)
+            <input pInputText type="number" min="1" (input)="setValue('docking_point_id', $event)" />
+          </label>
+        }
+      </div>
+      @if (formError()) { <p-message class="mt-3" severity="error">{{ formError() }}</p-message> }
+      <div class="mt-4 flex gap-2">
+        <button pButton type="button" [disabled]="saving()" (click)="execute()">
+          {{ saving() ? 'Procesando…' : 'Confirmar operación' }}
+        </button>
+        <button pButton type="button" severity="secondary" [disabled]="saving()" (click)="cancelAction()">Cancelar</button>
+      </div>
+    </section>
+  }
+
+  @if (loading()) { <p role="status">Cargando registros…</p> }
+  @if (error()) { <p-message severity="error">{{ error() }}</p-message> }
+  @if (catalogError()) { <p-message severity="error">{{ catalogError() }}</p-message> }
+  @if (!loading() && !error()) {
+    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+      <p-table [value]="visibleRows()" dataKey="id">
+        <ng-template #header><tr>
+          @for (column of columns(); track column) { <th>{{ columnLabel(column) }}</th> }
+          @if (workflow === 'dockings' || workflow === 'rentals') { <th>Acciones</th> }
+        </tr></ng-template>
+        <ng-template #body let-row><tr>
+          @for (column of columns(); track column) { <td>{{ displayColumn(row, column) }}</td> }
+          @if (workflow === 'dockings') {
+            <td>
+              @if (canUndock() && (row['undocked_at'] === null || row['undocked_at'] === undefined)) {
+                <button pButton type="button" text [disabled]="saving()" (click)="undock(row)">Desanclar</button>
+              } @else if (row['undocked_at'] !== null && row['undocked_at'] !== undefined) { <span>Movimiento cerrado</span> }
+            </td>
+          }
+          @if (workflow === 'rentals') {
+            <td>
+              @if (canFinish() && row['status'] === 'active' && !row['end_at']) {
+                <button pButton type="button" text (click)="openFinish(row)">Finalizar</button>
+              }
+              @if (isAdminAccount()) {
+                @if (row['reservation_id']) {
+                  <button pButton type="button" text
+                    (click)="openRentalRelatedPage('reservations', row)">Ver reserva</button>
+                }
+                <button pButton type="button" text
+                  (click)="openRentalRelatedPage('payments', row)">Ver pagos</button>
+                <button pButton type="button" text
+                  (click)="openRentalRelatedPage('penalties', row)">Ver penalidades</button>
+              }
+              @if ((!isAdminAccount() && !(canFinish() && row['status'] === 'active' && !row['end_at'])) ||
+                   (isAdminAccount() && !canFinish() && !row['reservation_id'])) { — }
+            </td>
+          }
+        </tr></ng-template>
+        <ng-template #emptymessage><tr><td [attr.colspan]="columns().length + (workflow === 'dockings' || workflow === 'rentals' ? 1 : 0)">
+          @if (workflow === 'rentals') {
+            Aún no hay alquileres iniciados. Las reservas con pago exitoso aparecen en la sección superior.
+          } @else {
+            No hay registros.
+          }
+        </td></tr></ng-template>
+      </p-table>
+    </div>
+  }
+</section>

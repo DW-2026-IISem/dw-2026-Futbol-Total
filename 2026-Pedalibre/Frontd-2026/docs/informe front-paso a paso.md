@@ -1,0 +1,450 @@
+# Informe del frontend PedalLibre — paso a paso
+
+## Propósito y forma de trabajo
+
+En este informe registro por etapas lo que realizo para construir el frontend de PedalLibre. Primero describo mi procedimiento y reúno la evidencia real en `../trazabilidad/`. Al final de cada etapa anoto los resultados que observé, lo que aprendí y mi retroalimentación. Solo registro como realizado lo que ejecuté y comprobé; oculto los datos sensibles de las capturas.
+
+Uso exclusivamente las comprobaciones y evidencias de PedalLibre y su backend. El texto original que conservo al final del ISS-00 es material de referencia; no utilizo sus credenciales, rutas, puertos ni resultados para validar este proyecto.
+
+## Ruta de trabajo
+
+| Fase | ISS | Estado |
+|---|---|---|
+| Preparación | [ISS-00 — Requisitos previos](./ISS-00-Requisitos-previos.md) | Completado |
+| Construcción inicial | [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md) | Completado |
+| Núcleo y esqueleto visual | [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md) | Completado; build y 30 pruebas aprobadas; Shell validado en escritorio y móvil |
+| Primer CRUD de negocio | [ISS-03 — CRUD de clientes con Signals](./ISS-03-CRUD-Clientes-Signals.md) | Ruta visual inspeccionada; 43 pruebas aprobadas y build exitoso con advertencia de presupuesto. API responde 401 sin sesión; listado vacío/CRUD autenticado pendientes de ISS-08 |
+| Operación de estaciones y flota | [ISS-04 — Estaciones y puntos de anclaje](./ISS-04-CRUD-Estaciones-y-Anclajes.md), [ISS-05 — Bicicletas y movimientos](./ISS-05-Bicicletas-y-Movimientos-de-Anclaje.md) | Implementadas; pruebas frontend aprobadas; API real pendiente |
+| Tarifas y negocio | [ISS-06 — Tarifas y reservas](./ISS-06-Tarifas-y-Reservas.md), [ISS-07 — Alquileres y cierre](./ISS-07-Alquileres-y-Cierre-de-Negocio.md) | Implementadas; pruebas frontend aprobadas; E2E pendiente |
+| Sesión y autorización | [ISS-08 — Sesión JWT](./ISS-08-Sesion-JWT-y-Permisos.md), [ISS-09 — Guards y RBAC](./ISS-09-Guards-y-RBAC-UI.md), [ISS-10 — Administración RBAC](./ISS-10-Administracion-RBAC-PedalLibre.md) | Implementadas; suite frontend aprobada; integración real pendiente |
+| Verificación final | [ISS-11 — Verificación, calidad y cierre](./ISS-11-Verificacion-Calidad-y-Cierre.md) | 68 pruebas frontend aprobadas; build e integración real documentados por separado |
+
+Las guías ISS-03 a ISS-11 adaptan los endpoints, campos y roles al backend PedalLibre. ISS-04 a ISS-10 ya están implementadas y tienen pruebas frontend; la suite más reciente aprobó 68 casos en 25 archivos. El build local también se completó, con advertencia de presupuesto documentada en ISS-11. Se verificaron visualmente el login y la redirección de rutas protegidas. La API local no estaba activa, así que las pruebas HTTP simuladas no acreditan integración real, transacciones ni autorización E2E. En ISS-03, la ruta `/clientes` fue inspeccionada en viewport móvil; la evidencia histórica está en [E-FRONT-ISS-03-01](../trazabilidad/E-FRONT-ISS-03-01-estructura-y-plantillas.md).
+
+## Paso 1 — ISS-00: Requisitos previos
+
+**Estado:** completado.
+
+### Objetivo
+
+Preparar el entorno antes de crear código Angular y comprobar el acceso al backend de PedalLibre.
+
+### Procedimiento
+
+1. Consulté las versiones de Node.js, npm y Angular CLI, y revisé los requisitos de Node del CLI.
+2. Desde la terminal del backend ejecuté la instalación de dependencias y la siembra RBAC.
+3. Inicié el backend y consulté `/api/clientes` sin token.
+4. Con el backend activo, inicié sesión como `admin` y consulté su perfil y permisos.
+5. Revisé la ruta de `ng`, la configuración local del backend y las tablas de `Proyecto-Pedalibre-DW`.
+6. Probé abrir la API desde WSL con `xdg-open`. Como no encontró navegador, abrí la dirección desde el navegador de Windows.
+7. Abrí DevTools y recargué la página con Network seleccionado.
+
+### Evidencia visual
+
+Guardé las capturas del procedimiento en `../trazabilidad/` y las incorporo aquí:
+
+1. Versiones de Node, npm y Angular CLI:
+
+   ![ISS-00 — versiones de Node, npm y Angular CLI](../trazabilidad/E-FRONT-ISS-00-01-node-npm-angular-cli.png)
+
+2. Versiones y requisitos de Angular CLI:
+
+   ![ISS-00 — requisitos de Angular CLI](../trazabilidad/E-FRONT-ISS-00-02-angular-cli-engines.png)
+
+3. Instalación y siembra en curso:
+
+   ![ISS-00 — siembra en progreso](../trazabilidad/E-FRONT-ISS-00-03-seed-en-progreso.png)
+
+4. Seeder completado e inicio del backend:
+
+   ![ISS-00 — siembra y servidor](../trazabilidad/E-FRONT-ISS-00-04-seed-y-servidor.png)
+
+5. Endpoint de clientes sin token:
+
+   ![ISS-00 — API de clientes responde 401](../trazabilidad/E-FRONT-ISS-00-05-api-clientes-401.png)
+
+6. Login de administrador, perfil y permisos efectivos:
+
+   ![ISS-00 — login, perfil y permisos del administrador](../trazabilidad/E-FRONT-ISS-00-06-login-perfil-permisos-admin.png)
+
+7. Ruta de `ng` y configuración del backend:
+
+   ![ISS-00 — ruta de Angular CLI y configuración](../trazabilidad/E-FRONT-ISS-00-07-ng-y-config-backend.png)
+
+8. Tablas del esquema PedalLibre en MySQL:
+
+   ![ISS-00 — tablas de Proyecto-Pedalibre-DW](../trazabilidad/E-FRONT-ISS-00-08-base-pedalibre-tablas.png)
+
+9. Intento de apertura de la API desde WSL:
+
+   ![ISS-00 — xdg-open no encontró navegador en WSL](../trazabilidad/E-FRONT-ISS-00-09-xdg-open-wsl.png)
+
+10. Respuesta del endpoint en el navegador de Windows:
+
+   ![ISS-00 — API de clientes en navegador sin token](../trazabilidad/E-FRONT-ISS-00-10-api-clientes-navegador.png)
+
+11. DevTools con Console disponible:
+
+   ![ISS-00 — DevTools Console](../trazabilidad/E-FRONT-ISS-00-11-devtools-console.png)
+
+12. DevTools con Network disponible antes de recargar:
+
+   ![ISS-00 — DevTools Network antes de recargar](../trazabilidad/E-FRONT-ISS-00-12-devtools-network.png)
+
+13. DevTools Network después de recargar:
+
+   ![ISS-00 — DevTools Network tras recarga](../trazabilidad/E-FRONT-ISS-00-13-devtools-network-reload.png)
+
+### Resultado
+
+Comprobé Node.js `v24.21.0`, npm `12.2.1` y Angular CLI `22.2.5`; `command -v ng` apunta a la instalación administrada por `nvm`. Revisé la configuración de MySQL en el puerto `3306`, la base `Proyecto-Pedalibre-DW` y las tablas del esquema. El seeder RBAC terminó, el backend escuchó en el puerto `3002` y `/api/clientes` respondió `401` sin token. El login, el perfil y la consulta de permisos respondieron HTTP 200; la lista de permisos contenía 84 elementos. En el navegador recibí el mensaje de token ausente o inválido. Abrí Console y Network; al recargar, Network registró una solicitud. La captura no muestra sus detalles, por lo que no afirmo que inspeccioné las cabeceras.
+
+### Lo que aprendí
+
+Aprendí que debo comprobar una ruta real de la API y no la raíz del servidor, y que WSL y el navegador de Windows son entornos distintos: `xdg-open` no encontró navegador, pero pude abrir la API desde Windows. También comprobé el flujo de login, perfil y permisos de PedalLibre. Revisaré las cabeceras de autorización cuando implemente solicitudes autenticadas desde el frontend.
+
+### Retroalimentación personal
+
+Me resultó útil avanzar comprobación por comprobación y conservar evidencia de lo que observé. Mi primer intento de login falló porque el backend no estaba activo; lo repetí después de iniciarlo y las consultas fueron exitosas. Con esta preparación completé ISS-00 sin crear todavía código Angular.
+
+## Paso 2 — ISS-01: Bootstrap Angular
+
+**Estado:** completado. Generé el workspace, instalé las dependencias, configuré Aura, implementé la portada de PedalLibre y actualicé los metadatos de `src/index.html`. El build y las dos pruebas terminan correctamente.
+
+### Objetivo
+
+Crear Angular en la carpeta `Frontd-2026`, integrar Tailwind CSS y PrimeNG en versiones compatibles con el CLI del entorno, y preparar una pantalla de arranque propia de PedalLibre, sin conectar todavía con la API.
+
+### Procedimiento
+
+1. Confirmé desde la terminal que estaba en `Frontd-2026` y que ya existían `docs/` y `trazabilidad/`.
+2. Ejecuté `ng new pedalibre-frontend --directory . --style=tailwind --routing --ssr=false --skip-git --package-manager=npm --defaults` para crear el workspace en la carpeta actual.
+3. Comprobé que se conservaron `docs/` y `trazabilidad/` y que los archivos de Angular quedaron en la raíz.
+4. Consulté `ng version` y los peers publicados de PrimeNG para revisar su compatibilidad con Angular 22.
+5. Instalé PrimeNG, Aura, PrimeIcons y Angular CDK, y revisé las versiones con `npm ls`.
+6. Actualicé `src/styles.css` con las capas CSS, Tailwind y PrimeIcons.
+7. Configuré `providePrimeNG` con el preset Aura y las capas CSS en `src/app/app.config.ts`; ejecuté el build y abrí la aplicación.
+8. Reemplacé la plantilla inicial por una portada local de PedalLibre y actualicé la prueba de `App`.
+9. Ejecuté las comprobaciones de build y pruebas, repetí el runner en modo de una sola ejecución y revisé la consola del navegador y los metadatos de `src/index.html`.
+10. Cambié el idioma de `src/index.html` a español, definí el título `PedalLibre` y añadí una descripción del frontend.
+11. Volví a ejecutar build y pruebas después del cambio de metadatos.
+
+### Evidencia visual
+
+Guardé las capturas recibidas en `../trazabilidad/` y las incorporo aquí. Las seis primeras corresponden al avance inicial:
+
+1. Estado de `Frontd-2026` antes de generar el workspace:
+
+   ![ISS-01 — estructura previa del frontend](../trazabilidad/E-FRONT-ISS-01-01-estructura-previa.png)
+
+2. Creación de Angular CLI y generación de sus archivos:
+
+   ![ISS-01 — creación del workspace con Angular CLI](../trazabilidad/E-FRONT-ISS-01-02-creacion-angular-cli.png)
+
+3. Verificación de que se conservaron las carpetas y que los archivos Angular quedaron en la raíz:
+
+   ![ISS-01 — verificación de la estructura del workspace](../trazabilidad/E-FRONT-ISS-01-03-verificacion-workspace.png)
+
+4. Versiones de Angular y peers declarados por PrimeNG:
+
+   ![ISS-01 — versiones y compatibilidad de peers](../trazabilidad/E-FRONT-ISS-01-04-versiones-y-peers.png)
+
+5. Instalación y versiones resueltas de PrimeNG, Aura, PrimeIcons y Angular CDK:
+
+   ![ISS-01 — instalación de dependencias](../trazabilidad/E-FRONT-ISS-01-05-instalacion-dependencias.png)
+
+6. Imports de Tailwind y PrimeIcons y orden de capas en `src/styles.css`:
+
+   ![ISS-01 — estilos globales](../trazabilidad/E-FRONT-ISS-01-06-estilos-globales.png)
+
+Las siguientes capturas documentan la configuración, la portada y las verificaciones:
+
+7. Configuración de PrimeNG con Aura y capas en `app.config.ts`:
+
+   ![ISS-01 — configuración de PrimeNG y Aura](../trazabilidad/E-FRONT-ISS-01-07-configuracion-primeng-aura.png)
+
+8. Build de producción completado:
+
+   ![ISS-01 — build de producción](../trazabilidad/E-FRONT-ISS-01-08-build-produccion.png)
+
+9. Primera visualización de la plantilla del CLI y aviso de licencia:
+
+   ![ISS-01 — plantilla Angular inicial](../trazabilidad/E-FRONT-ISS-01-09-pantalla-inicial-cli.png)
+
+10. Console con aviso de licencia y consulta de la variable CSS del tema:
+
+   ![ISS-01 — consola, tema y aviso de licencia](../trazabilidad/E-FRONT-ISS-01-10-console-tema-y-licencia.png)
+
+11. Componente raíz `App` después de retirar la plantilla:
+
+   ![ISS-01 — componente App](../trazabilidad/E-FRONT-ISS-01-11-componente-app.png)
+
+12. Portada PedalLibre renderizada mientras se edita la plantilla:
+
+   ![ISS-01 — portada PedalLibre](../trazabilidad/E-FRONT-ISS-01-12-portada-pedallibre.png)
+
+13. Pruebas actualizadas del componente:
+
+   ![ISS-01 — prueba de App](../trazabilidad/E-FRONT-ISS-01-13-prueba-app.png)
+
+14. Runner muestra dos pruebas aprobadas:
+
+   ![ISS-01 — pruebas reportadas como aprobadas](../trazabilidad/E-FRONT-ISS-01-14-pruebas-aprobadas.png)
+
+15. Portada servida en `http://localhost:4200`:
+
+   ![ISS-01 — portada en el servidor local](../trazabilidad/E-FRONT-ISS-01-15-portada-servidor-local.png)
+
+16. `src/index.html` conserva aún idioma y título predeterminados:
+
+   ![ISS-01 — metadatos de index.html pendientes de adaptar](../trazabilidad/E-FRONT-ISS-01-16-index-html-pendiente.png)
+
+17. Terminal con la secuencia de comandos de verificación:
+
+   ![ISS-01 — ejecución de verificaciones](../trazabilidad/E-FRONT-ISS-01-17-ejecucion-verificaciones.png)
+
+18. Build y pruebas durante la verificación:
+
+   ![ISS-01 — build y pruebas](../trazabilidad/E-FRONT-ISS-01-18-build-y-pruebas.png)
+
+19. Salida de build y estado del runner:
+
+   ![ISS-01 — salida de build y pruebas](../trazabilidad/E-FRONT-ISS-01-19-salida-build-pruebas.png)
+
+20. Primer intento: el runner en modo watch reportó las pruebas y después terminó con un error de deadlock:
+
+   ![ISS-01 — deadlock del runner de pruebas](../trazabilidad/E-FRONT-ISS-01-20-deadlock-runner-pruebas.png)
+
+21. `src/index.html` ya declara `lang="es"`; build y las dos pruebas terminan correctamente. El título predeterminado aún está pendiente de cambiar:
+
+   ![ISS-01 — idioma en español, build y pruebas aprobados](../trazabilidad/E-FRONT-ISS-01-21-lang-es-build-pruebas.png)
+
+22. `src/index.html` actualizado con idioma, título y descripción de PedalLibre:
+
+   ![ISS-01 — metadatos de PedalLibre](../trazabilidad/E-FRONT-ISS-01-22-index-html-pedallibre.png)
+
+23. Build de producción y las dos pruebas finalizan correctamente después de actualizar los metadatos:
+
+   ![ISS-01 — build y pruebas finales aprobados](../trazabilidad/E-FRONT-ISS-01-23-build-pruebas-finales.png)
+
+### Resultado
+
+Generé el workspace Angular en `Frontd-2026` y comprobé que los archivos principales quedaron en la raíz y que las carpetas de documentación y trazabilidad permanecieron. La terminal muestra Angular CLI `22.2.5` y Angular `22.2.4`. Consulté PrimeNG `22.1.4`, cuyos peers requieren Angular y Angular CDK `^22.1.0`; instalé PrimeNG `22.1.4`, `@primeuix/themes` `3.1.0`, PrimeIcons `8.0.2` y Angular CDK `22.2.5`. La salida de instalación indicó cero vulnerabilidades en esa ejecución. Configuré PrimeNG con Aura y confirmé en DevTools que `--p-primary-color` devuelve un valor. La consola muestra `[PrimeUI] PrimeUI license is not configured` y la interfaz muestra `Invalid PrimeUI License`; lo registré como aviso de licencia, no como error del build. Reemplacé la pantalla de bienvenida por una portada PedalLibre que indica que la integración con la API está pendiente. Actualicé `src/index.html` con `lang="es"`, el título `PedalLibre` y una descripción del frontend. Tras ese cambio, `npm run build` completó y `npm test -- --watch=false` terminó con 1 archivo y 2 pruebas aprobadas. Con esta evidencia cerré ISS-01.
+
+### Lo que aprendí
+
+Comprobé que `--directory .` permite generar Angular en la carpeta de trabajo sin crear otra carpeta de proyecto, y que conviene verificar las carpetas existentes antes de ejecutar el CLI. También confirmé la compatibilidad de PrimeNG revisando sus peers antes de instalarlo, en lugar de suponerla por el número de versión. Aprendí además a distinguir el aviso de licencia de PrimeUI de los errores de compilación, y que `--watch=false` permite una ejecución de pruebas que termina con un resultado y código de salida verificables.
+
+### Retroalimentación personal
+
+La salida del CLI y las verificaciones de terminal me permitieron avanzar por etapas y conservar evidencia concreta. Aprendí que una comprobación final debe repetirse después de editar los metadatos para verificar el estado real de la entrega.
+
+### Estado del paso
+
+**Completado.** La portada, los metadatos, el build y las pruebas están verificados.
+
+## Paso 3 — ISS-02: Núcleo del frontend
+
+**Estado:** completado el 3 de noviembre de 2026. Adapté los servicios, modelos, Shell y componentes compartidos al contrato y la interfaz de PedalLibre. La verificación final pasó con 12 archivos y 30 pruebas; el build de producción también pasó. Las capturas muestran el menú abierto/cerrado en escritorio y móvil a 375 × 667 px. El detalle se registra en [E-FRONT-ISS-02-38](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md).
+
+### Procedimiento observado
+
+1. Generé los environments y revisé los cambios de Angular CLI en `angular.json`.
+2. Configuré `environment.ts` y `environment.development.ts` con `http://localhost:3002/api`, y confirmé el reemplazo para desarrollo.
+3. Añadí los modelos comunes `Money`/`ApiError` y los tipos de lectura/escritura iniciales de `Client`.
+4. Implementé `ClientApi` para las respuestas `{ clients }` y `{ client }`, y la utilidad `toApiMessage`.
+5. Generé con Angular CLI los scaffolds de `PageHeader`, `EmptyState` y `StatusTag`.
+6. Registré `provideHttpClient()` y `MessageService` en `app.config.ts`.
+7. Las capturas muestran `npm run build` exitoso y `npm test -- --watch=false` con 1 archivo y 2 pruebas aprobadas.
+8. Generé con Angular CLI los scaffolds de Header, Aside, Footer, Shell y HomePage para continuar el bloque 2.6. La captura confirma la generación de archivos, no su implementación funcional.
+9. Implementé Header, Aside, Footer, Shell, HomePage y las rutas del recorrido; las capturas 15–26 muestran los archivos y el código correspondiente.
+10. Recibí una ejecución en la que el build pasó, pero fallaron cuatro pruebas por la falta de Router en los TestBed y por una aserción de portada ubicada en `App` en lugar de `HomePage`. Corregí las pruebas y repetí build y suite: build correcto, 6 archivos de prueba y 7 pruebas aprobadas. El detalle está en [E-FRONT-ISS-02-27-verificacion-y-correccion-de-pruebas.md](../trazabilidad/E-FRONT-ISS-02-27-verificacion-y-correccion-de-pruebas.md).
+11. Añadí pruebas HTTP para `ClientApi` con `HttpTestingController`: verifican `GET` de lista y detalle, `POST`, `PUT`, `PATCH`, payloads y respuestas desenvueltas. `httpTestingController.verify()` comprueba al final de cada caso que no queden solicitudes pendientes. El registro está en [E-FRONT-ISS-02-28-client-api-tests.md](../trazabilidad/E-FRONT-ISS-02-28-client-api-tests.md).
+12. Revisé las capturas del Shell: en escritorio se ve el Aside expandido y contraído; en DevTools se ve abierto y cerrado con un dispositivo iPhone SE a 375 × 667 px.
+13. Implementé `NotificationService` para enviar avisos de éxito, atención y error por `MessageService`; los errores se traducen con `toApiMessage`. Añadí pruebas de severidad, resumen, detalle y duración, incluido un mensaje de error devuelto por la API. El registro está en [E-FRONT-ISS-02-37-notification-service.md](../trazabilidad/E-FRONT-ISS-02-37-notification-service.md).
+14. Reemplacé las plantillas scaffold de `PageHeader`, `EmptyState` y `StatusTag` por componentes standalone con inputs tipados, proyección de acciones y severidad PrimeNG neutral por defecto. Añadí pruebas para su contenido, proyección y severidades.
+15. Añadí pruebas de `toApiMessage` para backend inaccesible, respuestas 401/403, mensaje de error de API y error inesperado. Amplié las pruebas de Shell para toggle, estado accesible, cierre por overlay y evento de navegación.
+16. Ejecuté la suite completa: 12 archivos y 30 pruebas aprobadas. Ejecuté `npm run build`: build de producción exitoso. El resumen está en [E-FRONT-ISS-02-38-cierre-tecnico.md](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md).
+
+### Evidencia visual
+
+Guardé las capturas recibidas en `../trazabilidad/` y las enlazo aquí:
+
+1. Generación de environments y reemplazo de Angular CLI:
+
+   ![ISS-02 — generar environments](../trazabilidad/E-FRONT-ISS-02-01-generate-environments.png)
+
+2. Environment de producción con URL API:
+
+   ![ISS-02 — environment de producción](../trazabilidad/E-FRONT-ISS-02-02-environment-production.png)
+
+3. Environment de desarrollo:
+
+   ![ISS-02 — environment de desarrollo](../trazabilidad/E-FRONT-ISS-02-03-environment-development.png)
+
+4. Configuración de build en `angular.json`:
+
+   ![ISS-02 — configuración Angular](../trazabilidad/E-FRONT-ISS-02-04-angular-json-development.png)
+
+5. Reemplazo de environment de desarrollo:
+
+   ![ISS-02 — fileReplacements](../trazabilidad/E-FRONT-ISS-02-05-file-replacements.png)
+
+6. Verificación de URL y reemplazo desde terminal:
+
+   ![ISS-02 — verificar environments](../trazabilidad/E-FRONT-ISS-02-06-verify-environments.png)
+
+7. Tipos comunes `Money`, `IsoDateTime` y `ApiError`:
+
+   ![ISS-02 — modelo común de API](../trazabilidad/E-FRONT-ISS-02-07-api-model.png)
+
+8. Modelo y payloads iniciales de clientes:
+
+   ![ISS-02 — modelo Client](../trazabilidad/E-FRONT-ISS-02-08-client-model.png)
+
+9. Servicio `ClientApi` con las envolturas del backend:
+
+   ![ISS-02 — ClientApi](../trazabilidad/E-FRONT-ISS-02-09-client-api.png)
+
+10. Conversión de errores HTTP en mensajes:
+
+   ![ISS-02 — toApiMessage](../trazabilidad/E-FRONT-ISS-02-10-to-api-message.png)
+
+11. Generación de los componentes compartidos:
+
+   ![ISS-02 — scaffolds UI](../trazabilidad/E-FRONT-ISS-02-11-shared-components.png)
+
+12. Registro de HttpClient y MessageService:
+
+   ![ISS-02 — configuración de HttpClient](../trazabilidad/E-FRONT-ISS-02-12-http-client-config.png)
+
+13. Build y pruebas capturados:
+
+   ![ISS-02 — build y pruebas](../trazabilidad/E-FRONT-ISS-02-13-build-tests.png)
+
+14. Generación de scaffolds de layout y la página de inicio:
+
+   ![ISS-02 — scaffolds del Shell y la página de inicio](../trazabilidad/E-FRONT-ISS-02-14-layout-scaffolds.png)
+
+15. Componente Header y estado/evento del menú:
+
+   ![ISS-02 — Header TypeScript](../trazabilidad/E-FRONT-ISS-02-15-header-typescript.png)
+
+16. Plantilla Header con navegación y botón accesible:
+
+   ![ISS-02 — plantilla Header](../trazabilidad/E-FRONT-ISS-02-16-header-template.png)
+
+17. Componente Aside y entradas para controlar navegación:
+
+   ![ISS-02 — Aside TypeScript](../trazabilidad/E-FRONT-ISS-02-17-aside-typescript.png)
+
+18. Plantilla Aside con enlace de inicio y estados responsive:
+
+   ![ISS-02 — plantilla Aside](../trazabilidad/E-FRONT-ISS-02-18-aside-template.png)
+
+19. Componente Footer:
+
+   ![ISS-02 — Footer TypeScript](../trazabilidad/E-FRONT-ISS-02-19-footer-typescript.png)
+
+20. Plantilla Footer:
+
+   ![ISS-02 — plantilla Footer](../trazabilidad/E-FRONT-ISS-02-20-footer-template.png)
+
+21. Componente Shell y control del menú con Signals:
+
+   ![ISS-02 — Shell TypeScript](../trazabilidad/E-FRONT-ISS-02-21-shell-typescript.png)
+
+22. Plantilla Shell con Header, Aside, outlet y Footer:
+
+   ![ISS-02 — plantilla Shell](../trazabilidad/E-FRONT-ISS-02-22-shell-template.png)
+
+23. Plantilla HomePage con mensaje de integración pendiente:
+
+   ![ISS-02 — plantilla HomePage](../trazabilidad/E-FRONT-ISS-02-23-home-page-template.png)
+
+24. Componente raíz conectado al `router-outlet`:
+
+   ![ISS-02 — App router outlet](../trazabilidad/E-FRONT-ISS-02-24-app-router-outlet.png)
+
+25. Declaración standalone del componente raíz:
+
+   ![ISS-02 — componente App](../trazabilidad/E-FRONT-ISS-02-25-app-component.png)
+
+26. Rutas para Shell y HomePage:
+
+   ![ISS-02 — rutas Angular](../trazabilidad/E-FRONT-ISS-02-26-routes.png)
+
+27. Incidencia inicial de pruebas, corrección y nueva ejecución:
+
+   [Registro de build y pruebas de ISS-02](../trazabilidad/E-FRONT-ISS-02-27-verificacion-y-correccion-de-pruebas.md)
+
+28. Pruebas del contrato HTTP de `ClientApi`:
+
+   [Registro de pruebas de ClientApi](../trazabilidad/E-FRONT-ISS-02-28-client-api-tests.md)
+
+29. Shell en escritorio con el menú expandido:
+
+   ![ISS-02 — escritorio con menú expandido](../trazabilidad/E-FRONT-ISS-02-29-shell-escritorio-menu-expandido.png)
+
+30. Shell en escritorio con el menú contraído:
+
+   ![ISS-02 — escritorio con menú contraído](../trazabilidad/E-FRONT-ISS-02-30-shell-escritorio-menu-contraido.png)
+
+31. DevTools en viewport responsive de 980 px con navegación expandida:
+
+   ![ISS-02 — vista responsive con menú expandido a 980 px](../trazabilidad/E-FRONT-ISS-02-31-shell-responsive-menu-expandido.png)
+
+32. DevTools en viewport responsive de 980 px con navegación contraída:
+
+   ![ISS-02 — vista responsive con menú contraído a 980 px](../trazabilidad/E-FRONT-ISS-02-32-shell-responsive-menu-contraido.png)
+
+33. Ejecución de la prueba de `ClientApi` y la suite:
+
+   ![ISS-02 — prueba de ClientApi y suite aprobada](../trazabilidad/E-FRONT-ISS-02-33-client-api-pruebas.png)
+
+34. Build y suite de pruebas aprobados:
+
+   ![ISS-02 — build y 12 pruebas aprobadas](../trazabilidad/E-FRONT-ISS-02-34-build-y-pruebas.png)
+
+35. Shell en móvil (iPhone SE, 375 × 667 px) con el menú abierto:
+
+   ![ISS-02 — menú abierto en móvil a 375 × 667](../trazabilidad/E-FRONT-ISS-02-35-shell-movil-375-menu-abierto.png)
+
+36. Shell en móvil (iPhone SE, 375 × 667 px) con el menú cerrado:
+
+   ![ISS-02 — menú cerrado en móvil a 375 × 667](../trazabilidad/E-FRONT-ISS-02-36-shell-movil-375-menu-cerrado.png)
+
+37. Verificación de `NotificationService`:
+
+   [Registro de implementación y pruebas de NotificationService](../trazabilidad/E-FRONT-ISS-02-37-notification-service.md)
+
+38. Cierre técnico del ISS-02: lista completa, suite y build:
+
+   [Registro de verificaciones finales](../trazabilidad/E-FRONT-ISS-02-38-cierre-tecnico.md)
+
+### Resultado
+
+La evidencia registra la configuración de environments, modelos y payloads de clientes según PedalLibre; el `ClientApi` con envolturas `{ clients }`/`{ client }`; el mapper de errores; `NotificationService`; los tres componentes compartidos terminados; y el Shell con navegación en escritorio y móvil a 375 × 667 px. Las pruebas unitarias cubren los contratos HTTP simulados, errores, notificaciones, componentes compartidos y menú. La verificación final pasó con 12 archivos y 30 pruebas aprobadas y el build exitoso. Las ejecuciones previas fallidas se conservaron como historial y se corrigieron antes del cierre.
+
+### Lo que aprendí
+
+Las respuestas de la API deben convertirse en tipos útiles dentro del servicio, no propagarse como envolturas hasta la pantalla. Las pruebas simuladas del `ClientApi` verifican contratos sin debilitar la autenticación del backend. Los componentes compartidos reciben solo los datos de presentación que necesitan; el mapeo de estados de negocio corresponde a cada feature.
+
+### Retroalimentación personal
+
+Corregí los fallos detectados en las pruebas, terminé los componentes que habían quedado en scaffolding y repetí build y suite antes de cerrar ISS-02. En ese momento, el siguiente paso de implementación era ISS-03; las etapas posteriores se completaron después y se resumen a continuación.
+
+## Cierre de ISS-04 a ISS-11 — 4 de noviembre de 2026
+
+Implementé las pantallas CRUD de estaciones, anclajes, bicicletas, tarifas, reservas, mantenimiento, penalidades, pagos y administración RBAC. Añadí las operaciones de anclaje y alquiler, dashboard, login/perfil, permisos efectivos, guards y navegación autorizada, siguiendo los endpoints y las envolturas de respuesta observadas en el backend PedalLibre. El backend no se modificó.
+
+### Verificación observada
+
+- `npm test -- --watch=false`: 25 archivos aprobados y 68 pruebas aprobadas. El script `test` activa el aislamiento por archivo.
+- `npm run build`: compilación de producción exitosa. El bundle inicial es 550.02 kB y supera en 50.02 kB el presupuesto de advertencia de 500 kB; no se ocultó ni se aumentó ese límite.
+- Verifiqué el render del login y que `/stations` redirige a `/login?returnUrl=%2Fstations`.
+- La API configurada en `localhost:3002` no estaba disponible. Por eso, los tests HTTP simulados y la verificación visual no prueban credenciales, permisos, transacciones ni integración E2E contra el backend.
+
+### Pendiente para cierre completo
+
+Levantar el backend PedalLibre de prueba con credenciales conocidas por el equipo y recorrer login, permisos, flujos transaccionales y logout; confirmar CORS, datos persistidos, fallback SPA de producción y pruebas visuales/accesibilidad de todas las pantallas. No se inventaron credenciales ni se afirmó una integración no ejecutada.
