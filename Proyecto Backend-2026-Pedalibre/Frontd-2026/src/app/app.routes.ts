@@ -14,6 +14,14 @@ export const routes: Routes = [
             (module) => module.HomePage,
           ),
       },
+      {
+        path: 'clientes',
+        title: 'Clientes · PedalLibre',
+        loadComponent: () =>
+          import('./features/clients/client-list/client-list').then(
+            (module) => module.ClientList,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: '' },

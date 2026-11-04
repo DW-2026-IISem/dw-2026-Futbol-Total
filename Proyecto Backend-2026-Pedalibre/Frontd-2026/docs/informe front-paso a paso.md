@@ -13,7 +13,13 @@ Uso exclusivamente las comprobaciones y evidencias de PedalLibre y su backend. E
 | Preparación | [ISS-00 — Requisitos previos](./ISS-00-Requisitos-previos.md) | Completado |
 | Construcción inicial | [ISS-01 — Bootstrap Angular](./ISS-01-Bootstrap-Angular.md) | Completado |
 | Núcleo y esqueleto visual | [ISS-02 — Núcleo: environment, modelos, servicios y layout](./ISS-02-Nucleo-Frontend.md) | Completado; build y 30 pruebas aprobadas; Shell validado en escritorio y móvil |
-| Primer CRUD de negocio | [ISS-03 — CRUD de clientes con Signals](./ISS-03-CRUD-Clientes-Signals.md) | Listo para iniciar |
+| Primer CRUD de negocio | [ISS-03 — CRUD de clientes con Signals](./ISS-03-CRUD-Clientes-Signals.md) | Ruta visual inspeccionada; 43 pruebas aprobadas y build exitoso con advertencia de presupuesto. API responde 401 sin sesión; listado vacío/CRUD autenticado pendientes de ISS-08 |
+| Operación de estaciones y flota | [ISS-04 — Estaciones y puntos de anclaje](./ISS-04-CRUD-Estaciones-y-Anclajes.md), [ISS-05 — Bicicletas y movimientos](./ISS-05-Bicicletas-y-Movimientos-de-Anclaje.md) | Guías preparadas; implementación pendiente |
+| Tarifas y negocio | [ISS-06 — Tarifas y reservas](./ISS-06-Tarifas-y-Reservas.md), [ISS-07 — Alquileres y cierre](./ISS-07-Alquileres-y-Cierre-de-Negocio.md) | Guías preparadas; implementación pendiente |
+| Sesión y autorización | [ISS-08 — Sesión JWT](./ISS-08-Sesion-JWT-y-Permisos.md), [ISS-09 — Guards y RBAC](./ISS-09-Guards-y-RBAC-UI.md), [ISS-10 — Administración RBAC](./ISS-10-Administracion-RBAC-PedalLibre.md) | Guías preparadas; implementación pendiente |
+| Verificación final | [ISS-11 — Verificación, calidad y cierre](./ISS-11-Verificacion-Calidad-y-Cierre.md) | Procedimiento preparado; no ejecutado |
+
+Las guías ISS-03 a ISS-11 adaptan los endpoints, campos y roles al backend PedalLibre e incluyen comandos de terminal, plantillas, integración de rutas/menú y pruebas propuestas. En ISS-03, las capturas posteriores muestran lógica de formulario/listado, rutas, suite completa aprobada con 43 pruebas y build completado. El bundle inicial mide 537.39 kB frente al presupuesto de 500 kB, por lo que Angular presenta una advertencia, no un fallo de build. La ruta `/clientes` se inspeccionó en viewport móvil dentro del Shell; DevTools muestra `GET /api/clientes` con estado 401 sin sesión. La BD vacía no pudo confirmarse desde la interfaz, porque la petición no autorizada no llega al estado de lista vacía. La evidencia está en [E-FRONT-ISS-03-01](../trazabilidad/E-FRONT-ISS-03-01-estructura-y-plantillas.md). Las demás guías son instrucciones, no evidencia de pantallas implementadas.
 
 ## Paso 1 — ISS-00: Requisitos previos
 
@@ -426,4 +432,4 @@ Las respuestas de la API deben convertirse en tipos útiles dentro del servicio,
 
 ### Retroalimentación personal
 
-Corregí los fallos detectados en las pruebas, terminé los componentes que habían quedado en scaffolding y repetí build y suite antes de cerrar ISS-02. El siguiente paso del recorrido documental es ISS-03 — CRUD de clientes con Signals.
+Corregí los fallos detectados en las pruebas, terminé los componentes que habían quedado en scaffolding y repetí build y suite antes de cerrar ISS-02. El siguiente paso de implementación es ISS-03 — CRUD de clientes con Signals; las guías posteriores sirven como ruta, no como trabajo ya ejecutado.

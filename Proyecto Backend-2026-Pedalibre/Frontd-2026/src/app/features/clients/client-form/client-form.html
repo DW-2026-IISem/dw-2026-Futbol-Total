@@ -1,0 +1,50 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <label for="client-first-name">Nombres *</label>
+      <input id="client-first-name" pInputText formControlName="first_name" maxlength="100" class="w-full" />
+      @if (form.controls.first_name.touched && form.controls.first_name.invalid) {
+        <p-message severity="error" size="small" variant="simple">Escribe hasta 100 caracteres.</p-message>
+      }
+    </div>
+    <div>
+      <label for="client-last-name">Apellidos *</label>
+      <input id="client-last-name" pInputText formControlName="last_name" maxlength="100" class="w-full" />
+      @if (form.controls.last_name.touched && form.controls.last_name.invalid) {
+        <p-message severity="error" size="small" variant="simple">Escribe hasta 100 caracteres.</p-message>
+      }
+    </div>
+  </div>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <label for="client-document-type">Tipo de documento</label>
+      <p-select inputId="client-document-type" [options]="documentTypes" formControlName="document_type"
+        optionLabel="label" optionValue="value" [showClear]="true" [fluid]="true" />
+    </div>
+    <div>
+      <label for="client-document-number">Número de documento *</label>
+      <input id="client-document-number" pInputText formControlName="document_number" maxlength="50" class="w-full" />
+      @if (form.controls.document_number.touched && form.controls.document_number.invalid) {
+        <p-message severity="error" size="small" variant="simple">El documento es obligatorio (máximo 50 caracteres).</p-message>
+      }
+    </div>
+  </div>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <label for="client-phone">Teléfono</label>
+      <input id="client-phone" pInputText formControlName="phone" maxlength="30" class="w-full" />
+    </div>
+    <div>
+      <label for="client-email">Correo</label>
+      <input id="client-email" pInputText type="email" formControlName="email" maxlength="150" class="w-full" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <p-message severity="error" size="small" variant="simple">Revisa el formato del correo.</p-message>
+      }
+    </div>
+  </div>
+  @if (error()) { <p-message severity="error">{{ error() }}</p-message> }
+  <div class="flex justify-end gap-2">
+    <button pButton type="button" severity="secondary" (click)="cancelled.emit()">Cancelar</button>
+    <button pButton type="submit" [loading]="saving()">Guardar cliente</button>
+  </div>
+</form>

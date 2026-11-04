@@ -422,11 +422,11 @@ curl -s http://localhost:4000/api/permisos \
 | /api/permisos como seller | 7 permisos |
 | src/ y package.json | ausentes — listo para ISS-01 |
 
-Si el paso 3 imprime "permissions", la integración HTTP está preparada. El recorrido visual de ISS-01 a ISS-01B no depende de esta comprobación.
+Si el paso 3 imprime "permissions", la integración HTTP está preparada. El recorrido visual de ISS-01 y la construcción del Shell dentro de ISS-02 no dependen de esta comprobación.
 
 ## Cierre del ISS
 
-Entorno listo. No hay código que compilar todavía: el primer archivo de Angular se crea en ISS-01. Mantén el backend en ejecución en una terminal aparte para las ISS que consumen HTTP (03 en adelante); ISS-01, ISS-01A e ISS-01B no lo necesitan.
+Entorno listo. No hay código que compilar todavía: el primer archivo de Angular se crea en ISS-01. Mantén el backend en ejecución en una terminal aparte para las ISS que consumen HTTP (ISS-02 en adelante); ISS-01 y la construcción visual inicial de ISS-02 no lo necesitan.
 
 ## Correspondencia con el código
 

@@ -3,7 +3,7 @@
 **Estado:** completado  
 **Proyecto:** PedalLibre, carpeta `Frontd-2026`  
 **Depende de:** ISS-00 — Requisitos previos  
-**Habilita:** ISS-01A — Esqueleto de la interfaz
+**Habilita:** ISS-02 — Núcleo del frontend, incluido el Shell visual y la navegación
 
 > **Alcance:** Los pasos y criterios de la primera parte de este documento están adaptados al frontend y al backend de PedalLibre. El material original de referencia aparece al final solo para conservarlo; no se deben ejecutar sus nombres, rutas, ejemplos, credenciales ni resultados para este proyecto.
 
@@ -325,7 +325,7 @@ Las evidencias finales confirman que `src/index.html` declara `lang="es"`, el t�
 
 ## Cierre
 
-ISS-01 completado. El siguiente paso es ISS-01A, para crear el esqueleto visual.
+ISS-01 completado. El siguiente paso es ISS-02, que construye el núcleo y el esqueleto visual integrado.
 
 ---
 
